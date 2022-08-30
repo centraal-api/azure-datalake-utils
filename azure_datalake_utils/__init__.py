@@ -1,4 +1,9 @@
-"""Top-level package for azure_datalake_utils."""
+"""Interactua con el datalake.
+
+Modulos exportados por este paquete.
+
+- `Datalake`: Clase principal para interactuar con el datalake.
+"""
 
 __author__ = """centraal.studio"""
 __email__ = 'equipo@centraal.studio'

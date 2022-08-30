@@ -12,7 +12,7 @@ nav:
   - Changelog: changelog.md
 theme:
   name: material
-  language: en
+  language: es
   #logo: assets/logo.png
   palette:
     scheme: preference
@@ -47,11 +47,12 @@ markdown_extensions:
   - meta
 plugins:
   - include-markdown
-  - search:
-      lang: en
+  - search
   - mkdocstrings:
-      watch:
-        - azure_datalake_utils
+      default_handler: python
+      python:
+        options:
+          show_source: false
 extra:
   social:
     - icon: fontawesome/brands/twitter

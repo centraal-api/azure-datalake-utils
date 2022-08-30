@@ -46,6 +46,7 @@ pandas = "^1.4.0"
 adlfs = "^2022.7.0"
 azure-identity = "^1.10.0"
 ipykernel = "^6.15.2"
+Jinja2 = ">=2.11.1,<3.0"
 
 [tool.poetry.extras]
 test = [

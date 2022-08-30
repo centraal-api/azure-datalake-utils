@@ -1,7 +1,7 @@
 site_name: azure_datalake_utils
-site_url: https://centraal_api.github.io/azure_datalake_utils
-repo_url: https://github.com/centraal_api/azure_datalake_utils
-repo_name: centraal_api/azure_datalake_utils
+site_url: https://centraal_api.github.io/azure-datalake-utils
+repo_url: https://github.com/centraal_api/azure-datalake-utils
+repo_name: centraal_api/azure-datalake-utils
 #strict: true
 nav:
   - Home: index.md

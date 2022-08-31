@@ -1,32 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
-         <loc>https://centraal_api.github.io/azure-datalake-utils/</loc>
+         <loc>https://centraal-api.github.io/azure-datalake-utils/</loc>
          <lastmod>2022-08-31</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://centraal_api.github.io/azure-datalake-utils/api/</loc>
+         <loc>https://centraal-api.github.io/azure-datalake-utils/api/</loc>
          <lastmod>2022-08-31</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://centraal_api.github.io/azure-datalake-utils/changelog/</loc>
+         <loc>https://centraal-api.github.io/azure-datalake-utils/changelog/</loc>
          <lastmod>2022-08-31</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://centraal_api.github.io/azure-datalake-utils/contributing/</loc>
+         <loc>https://centraal-api.github.io/azure-datalake-utils/contributing/</loc>
          <lastmod>2022-08-31</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://centraal_api.github.io/azure-datalake-utils/installation/</loc>
+         <loc>https://centraal-api.github.io/azure-datalake-utils/installation/</loc>
          <lastmod>2022-08-31</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://centraal_api.github.io/azure-datalake-utils/usage/</loc>
+         <loc>https://centraal-api.github.io/azure-datalake-utils/usage/</loc>
          <lastmod>2022-08-31</lastmod>
          <changefreq>daily</changefreq>
     </url>

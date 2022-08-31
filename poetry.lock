@@ -412,11 +412,11 @@ python-versions = ">=3.7"
 
 [[package]]
 name = "fsspec"
-version = "2022.8.1"
+version = "2021.10.1"
 description = "File-system specification"
 category = "main"
 optional = false
-python-versions = ">=3.7"
+python-versions = ">=3.6"
 
 [package.extras]
 abfs = ["adlfs"]
@@ -432,14 +432,13 @@ github = ["requests"]
 gs = ["gcsfs"]
 gui = ["panel"]
 hdfs = ["pyarrow (>=1)"]
-http = ["aiohttp (!=4.0.0a0,!=4.0.0a1)", "requests"]
+http = ["aiohttp", "requests"]
 libarchive = ["libarchive-c"]
 oci = ["ocifs"]
 s3 = ["s3fs"]
 sftp = ["paramiko"]
 smb = ["smbprotocol"]
 ssh = ["paramiko"]
-tqdm = ["tqdm"]
 
 [[package]]
 name = "ghp-import"
@@ -1636,7 +1635,7 @@ test = ["pytest", "black", "isort", "flake8", "flake8-docstrings", "pytest-cov",
 [metadata]
 lock-version = "1.1"
 python-versions = ">3.8,<4.0"
-content-hash = "80bdc59eaee26831b6f82a014480ef4a01689f8e9475a06adaf5ca3fa00de201"
+content-hash = "32b2cdd82fdb15e889ae378119741ed9ae9396f8079d4fb8e0767bfd979844f9"
 
 [metadata.files]
 adal = [
@@ -2077,8 +2076,8 @@ frozenlist = [
     {file = "frozenlist-1.3.1.tar.gz", hash = "sha256:3a735e4211a04ccfa3f4833547acdf5d2f863bfeb01cfd3edaffbc251f15cec8"},
 ]
 fsspec = [
-    {file = "fsspec-2022.8.1-py3-none-any.whl", hash = "sha256:9f5f054754a65752f13780dd6cc4c1f83b5e3ab08ca11b4fca9ee6119f99f0cb"},
-    {file = "fsspec-2022.8.1.tar.gz", hash = "sha256:bf51782983c38cd434f713a07e101318f79725dbd9339f93708aeeed1d60f078"},
+    {file = "fsspec-2021.10.1-py3-none-any.whl", hash = "sha256:7164a488f3f5bf6a0fb39674978b756dda84e011a5db411a79791b7c38a36ff7"},
+    {file = "fsspec-2021.10.1.tar.gz", hash = "sha256:c245626e3cb8de5cd91485840b215a385fa6f2b0f6ab87978305e99e2d842753"},
 ]
 ghp-import = [
     {file = "ghp-import-2.1.0.tar.gz", hash = "sha256:9c535c4c61193c2df8871222567d7fd7e5014d835f97dc7b7439069e2413d343"},

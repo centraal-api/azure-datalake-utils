@@ -1,4 +1,5 @@
 """Main module."""
+from typing import Any, Optional
 
 import pandas as pd
 from azure.identity import InteractiveBrowserCredential
@@ -26,7 +27,7 @@ class Datalake(object):
         self._credentials = credentials
         self.storage_options = {'account_name': self.datalake_name, 'anon': False}
 
-    def read_csv(self, ruta: str, **kwargs) -> pd.DataFrame:
+    def read_csv(self, ruta: str, **kwargs: Optional[Any]) -> pd.DataFrame:
         """Leer un archivo CSV desde la cuenta de datalake.
 
         Esta función hace una envoltura de [pd.read_csv].
@@ -59,7 +60,7 @@ class Datalake(object):
 
         return df
 
-    def read_excel(self, ruta: str, **kwargs) -> pd.DataFrame:
+    def read_excel(self, ruta: str, **kwargs: Optional[Any]) -> pd.DataFrame:
         """Leer un archivo CSV desde la cuenta de datalake.
 
         # noqa: E501

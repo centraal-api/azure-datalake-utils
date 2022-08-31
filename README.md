@@ -8,8 +8,11 @@
 
 
 
-Utilidades para interactuar con Azure Datalake
+Utilidades para interactuar con Azure Datalake.
 
+El objetivo es evitar que personas denominadas cientificos ciuidanos tengan que interactuar con librerias, que no son, totalmente relacionadas con el analisis de datos.
+
+La hipotesis detras de este pensamiento es que se puede lograr incrementar la adopción de estas herramientas si se facilitan y simplifica la interacción de pandas con la lectura del datalake.
 
 * Documentation: <https://centraal-api.github.io/azure-datalake-utils>
 * GitHub: <https://github.com/centraal-api/azure-datalake-utils>
@@ -19,8 +22,19 @@ Utilidades para interactuar con Azure Datalake
 
 ## Features
 
-* TODO
+* Control de autenticación directamente con el Directorio activo de Azure.
+* Lectura de archivos csv y excel, de una forma más concisa.
 
 ## Credits
+
+La librería es creada y mantenida por [Centraal Studio](https://centraal.studio/).
+ 
+Centraal Studio Agredece la alianza con [Haceb](https://www.haceb.com/), cuyos retos internos  de democratizar el acceso a información han motivado la creación de esta librería.
+
+//
+
+This package is created and mantained by [Centraal Studio](https://centraal.studio/).
+
+Centraal Studio appreciate the alliance with [Haceb](https://www.haceb.com/), whicn internal efforts to democratize the access of compnay data has motivated the creation of the library.
 
 This package was created with [Cookiecutter](https://github.com/audreyr/cookiecutter) and the [waynerv/cookiecutter-pypackage](https://github.com/waynerv/cookiecutter-pypackage) project template.

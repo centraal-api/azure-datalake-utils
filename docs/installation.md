@@ -22,13 +22,13 @@ the [Github repo][].
 You can either clone the public repository:
 
 ``` console
-$ git clone git://github.com/centraal_api/azure-datalake-utils
+$ git clone git://github.com/centraal-api/azure-datalake-utils
 ```
 
 Or download the [tarball][]:
 
 ``` console
-$ curl -OJL https://github.com/centraal_api/azure-datalake-utils/tarball/master
+$ curl -OJL https://github.com/centraal-api/azure-datalake-utils/tarball/master
 ```
 
 Once you have a copy of the source, you can install it with:

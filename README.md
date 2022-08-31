@@ -1,19 +1,19 @@
 # Azure Datalake Utils
 
 
-[![pypi](https://img.shields.io/pypi/v/azure_datalake_utils.svg)](https://pypi.org/project/azure_datalake_utils/)
-[![python](https://img.shields.io/pypi/pyversions/azure_datalake_utils.svg)](https://pypi.org/project/azure_datalake_utils/)
-[![Build Status](https://github.com/centraal_api/azure_datalake_utils/actions/workflows/dev.yml/badge.svg)](https://github.com/centraal_api/azure_datalake_utils/actions/workflows/dev.yml)
-[![codecov](https://codecov.io/gh/centraal_api/azure_datalake_utils/branch/main/graphs/badge.svg)](https://codecov.io/github/centraal_api/azure_datalake_utils)
+[![pypi](https://img.shields.io/pypi/v/azure-datalake-utils.svg)](https://pypi.org/project/azure-datalake-utils/)
+[![python](https://img.shields.io/pypi/pyversions/azure-datalake-utils.svg)](https://pypi.org/project/azure-datalake-utils/)
+[![Build Status](https://github.com/centraal-api/azure-datalake-utils/actions/workflows/dev.yml/badge.svg)](https://github.com/centraal-api/azure-datalake-utils/actions/workflows/dev.yml)
+[![codecov](https://codecov.io/gh/centraal-api/azure-datalake-utils/branch/main/graphs/badge.svg)](https://codecov.io/github/centraal-api/azure-datalake-utils)
 
 
 
 Utilidades para interactuar con Azure Datalake
 
 
-* Documentation: <https://centraal_api.github.io/azure_datalake_utils>
-* GitHub: <https://github.com/centraal_api/azure_datalake_utils>
-* PyPI: <https://pypi.org/project/azure_datalake_utils/>
+* Documentation: <https://centraal-api.github.io/azure-datalake-utils>
+* GitHub: <https://github.com/centraal-api/azure-datalake-utils>
+* PyPI: <https://pypi.org/project/azure-datalake-utils/>
 * Free software: Apache-2.0
 
 

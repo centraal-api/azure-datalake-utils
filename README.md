@@ -35,6 +35,6 @@ Centraal Studio Agredece la alianza con [Haceb](https://www.haceb.com/), cuyos r
 
 This package is created and mantained by [Centraal Studio](https://centraal.studio/).
 
-Centraal Studio appreciate the alliance with [Haceb](https://www.haceb.com/), whicn internal efforts to democratize the access of compnay data has motivated the creation of the library.
+Centraal Studio appreciate the alliance with [Haceb](https://www.haceb.com/), which internal efforts to democratize the access of company information has motivated the creation of the library.
 
 This package was created with [Cookiecutter](https://github.com/audreyr/cookiecutter) and the [waynerv/cookiecutter-pypackage](https://github.com/waynerv/cookiecutter-pypackage) project template.

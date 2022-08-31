@@ -50,9 +50,10 @@ plugins:
   - search
   - mkdocstrings:
       default_handler: python
-      python:
-        options:
-          show_source: false
+      handlers:
+          python:
+            options:
+              show_source: false
 extra:
   social:
     - icon: fontawesome/brands/twitter

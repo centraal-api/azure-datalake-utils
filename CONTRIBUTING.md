@@ -9,7 +9,7 @@ You can contribute in many ways:
 
 ### Report Bugs
 
-Report bugs at https://github.com/centraal_api/azure-datalake-utils/issues.
+Report bugs at https://github.com/centraal-api/azure-datalake-utils/issues.
 
 If you are reporting a bug, please include:
 
@@ -35,7 +35,7 @@ articles, and such.
 
 ### Submit Feedback
 
-The best way to send feedback is to file an issue at https://github.com/centraal_api/azure_datalake_utils/issues.
+The best way to send feedback is to file an issue at https://github.com/centraal-api/azure_datalake_utils/issues.
 
 If you are proposing a feature:
 
@@ -52,7 +52,7 @@ Ready to contribute? Here's how to set up `azure_datalake_utils` for local devel
 2. Clone your fork locally
 
     ```
-    $ git clone git@github.com:your_name_here/azure_datalake_utils.git
+    $ git clone git@github.com:your_name_here/azure-datalake-utils.git
     ```
 
 3. Ensure [poetry](https://python-poetry.org/docs/) is installed.
@@ -96,7 +96,7 @@ Before you submit a pull request, check that it meets these guidelines:
    your new functionality into a function with a docstring, and add the
    feature to the list in README.md.
 3. The pull request should work for Python 3.8 and 3.9. Check
-   https://github.com/centraal_api/azure-datalake-utils/actions
+   https://github.com/centraal-api/azure-datalake-utils/actions
    and make sure that the tests pass for all supported Python versions.
 
 ## Tips

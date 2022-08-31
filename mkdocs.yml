@@ -1,7 +1,7 @@
 site_name: azure_datalake_utils
-site_url: https://centraal_api.github.io/azure-datalake-utils
-repo_url: https://github.com/centraal_api/azure-datalake-utils
-repo_name: centraal_api/azure-datalake-utils
+site_url: https://centraal-api.github.io/azure-datalake-utils
+repo_url: https://github.com/centraal-api/azure-datalake-utils
+repo_name: centraal-api/azure-datalake-utils
 #strict: true
 nav:
   - Home: index.md
@@ -64,7 +64,7 @@ extra:
       link: https://github.com/waynerv/cookiecutter-pypackage
       name: Facebook
     - icon: fontawesome/brands/github
-      link: https://github.com/centraal_api/azure_datalake_utils
+      link: https://github.com/centraal-api/azure_datalake_utils
       name: Github
     - icon: material/email
       link: "mailto:equipo@centraal.studio"

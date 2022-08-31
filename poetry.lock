@@ -14,11 +14,11 @@ requests = ">=2.0.0,<3"
 
 [[package]]
 name = "adlfs"
-version = "2022.7.0"
+version = "2022.2.0"
 description = "Access Azure Datalake Gen1 with fsspec and dask"
 category = "main"
 optional = false
-python-versions = ">3.8"
+python-versions = ">3.6"
 
 [package.dependencies]
 aiohttp = "*"
@@ -27,9 +27,6 @@ azure-datalake-store = ">=0.0.46,<0.1"
 azure-identity = "*"
 azure-storage-blob = ">=12.5.0"
 fsspec = ">=2021.10.1"
-
-[package.extras]
-docs = ["furo", "myst-parser", "numpydoc", "sphinx"]
 
 [[package]]
 name = "aiohttp"
@@ -1634,8 +1631,8 @@ test = ["pytest", "black", "isort", "flake8", "flake8-docstrings", "pytest-cov",
 
 [metadata]
 lock-version = "1.1"
-python-versions = ">3.8,<4.0"
-content-hash = "32b2cdd82fdb15e889ae378119741ed9ae9396f8079d4fb8e0767bfd979844f9"
+python-versions = ">=3.8,<4.0"
+content-hash = "d0ad07b6a526e348ccc100aa0e3e8e2cf27b119a82ff7e281a9827866a4284cb"
 
 [metadata.files]
 adal = [
@@ -1643,8 +1640,7 @@ adal = [
     {file = "adal-1.2.7.tar.gz", hash = "sha256:d74f45b81317454d96e982fd1c50e6fb5c99ac2223728aea8764433a39f566f1"},
 ]
 adlfs = [
-    {file = "adlfs-2022.7.0-py3-none-any.whl", hash = "sha256:4dda53627b77aeacf555138c7ddfdbc8dbda9111eb0d3d29bdb43ce189062724"},
-    {file = "adlfs-2022.7.0.tar.gz", hash = "sha256:33d2584eb173f7a05f122dac36c00eb1a65efa9b01de4c3ef65b3fa6a81a71df"},
+    {file = "adlfs-2022.2.0.tar.gz", hash = "sha256:8543d29ce5b994d49831ad5f86b76b90809a540302b4f24e027591b740127942"},
 ]
 aiohttp = [
     {file = "aiohttp-3.8.1-cp310-cp310-macosx_10_9_universal2.whl", hash = "sha256:1ed0b6477896559f17b9eaeb6d38e07f7f9ffe40b9f0f9627ae8b9926ae260a8"},

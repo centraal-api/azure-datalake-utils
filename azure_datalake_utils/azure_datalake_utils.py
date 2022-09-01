@@ -74,14 +74,17 @@ class Datalake(object):
     def read_excel(self, ruta: str, **kwargs: Optional[Any]) -> pd.DataFrame:
         """Leer un archivo CSV desde la cuenta de datalake.
 
-        # noqa: E501
-        Esta función hace una envoltura de [pandas.read_excel](https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.read_excel.html).
+        Esta función hace una envoltura de [pd.read_excel].
         Por favor usar la documentación de la función para determinar parametros adicionales.
+
+        [[pd.read_excel]]:(https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.read_excel.html)
+
         Args:
             ruta: Ruta a leeder el archivo, debe contener una referencia a un archivo
                 `.xlsx` o `.xls`. Recordar que la ruta debe contener esta estructura:
                 `{NOMBRE_CONTENEDOR}/{RUTA}/{nombre o patron}.xlsx`.
             **kwargs: argumentos a pasar a pd.read_csv.
+
 
         Returns:
             Dataframe con la informacion del la ruta.
@@ -101,6 +104,18 @@ class Datalake(object):
             raise ArchivoNoEncontrado(ruta)
 
         return df
+
+    def write_csv(self, df: pd.DataFrame, ruta, **kwargs: Optional[Any]) -> None:
+        """Escribir al archivo."""
+        if not self._verificar_extension(ruta, '.csv', '.txt', '.tsv'):
+            raise ExtensionIncorrecta(ruta)
+        df.to_csv(f"az://{ruta}", storage_options=self.storage_options, **kwargs)
+
+    def write_excel(self, df: pd.DataFrame, ruta, **kwargs: Optional[Any]) -> None:
+        """Escribir al archivo al datalake."""
+        if not self._verificar_extension(ruta, '.xlsx', '.xls'):
+            raise ExtensionIncorrecta(ruta)
+        df.to_excel(f"az://{ruta}", storage_options=self.storage_options, **kwargs)
 
     def _verificar_extension(self, ruta: str, *extensiones):
         """Metodo para verificar extensiones."""

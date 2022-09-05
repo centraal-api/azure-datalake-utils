@@ -1,7 +1,9 @@
 """Main module."""
 import platform
+import re
 from typing import Any, Optional
 
+import numpy as np
 import pandas as pd
 from azure.identity import InteractiveBrowserCredential
 from azure.identity.aio import DefaultAzureCredential as AIODefaultAzureCredential
@@ -152,7 +154,10 @@ class Datalake(object):
         """Escribir al archivo."""
         if not self._verificar_extension(ruta, '.csv', '.txt', '.tsv'):
             raise ExtensionIncorrecta(ruta)
-        df.to_csv(f"az://{ruta}", storage_options=self.storage_options, **kwargs)
+
+        sep = kwargs.get('sep', ',')
+        df_to_write = self._limpiar_df_cols_str(df, sep)
+        df_to_write.to_csv(f"az://{ruta}", storage_options=self.storage_options, **kwargs)
 
     def write_excel(self, df: pd.DataFrame, ruta, **kwargs: Optional[Any]) -> None:
         """Escribir al archivo al datalake."""
@@ -175,3 +180,17 @@ class Datalake(object):
                 return verificar
 
         return verificar
+
+    def _limpiar_df_cols_str(self, df: pd.DataFrame, sep: str = ",") -> pd.DataFrame:
+        """Limpia las columnas string del dataframe."""
+        types = df.dtypes
+        string_columns = list(types[types == np.array([object()]).dtype].index)
+        esc_sep = re.escape(sep)
+        df_res = df.copy()
+        df_res[string_columns] = (
+            df[string_columns]
+            .replace(esc_sep, " ", regex=True)
+            .replace("\r", " ", regex=True)
+            .replace("\n", " ", regex=True)
+        )
+        return df_res

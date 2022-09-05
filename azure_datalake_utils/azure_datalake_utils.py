@@ -12,7 +12,7 @@ from azure_datalake_utils.exepctions import ArchivoNoEncontrado, ExtensionIncorr
 class Datalake(object):
     """Clase para representar operaciones de Datalake."""
 
-    def __init__(self, datalake_name: str, tenant_id: str) -> None:
+    def __init__(self, datalake_name: str, tenant_id: str, account_key: Optional[str] = None) -> None:
         """Clase para interactuar con Azure Dalake.
 
         Args:
@@ -20,23 +20,35 @@ class Datalake(object):
             tenant_id: Identificador del tenant, es valor es proporcionado
                 por arquitectura de datos, debe conservarse para un
                 correcto funcionamiento.
+            account_key: key de la cuenta. Por defecto es None y es ignorado
 
         """
         self.datalake_name = datalake_name
-        self.tenant_id = tenant_id
-        credentials = InteractiveBrowserCredential(tenant_id=self.tenant_id)
-        credentials.authenticate()
-        self._credentials = credentials
-        # TODO: verificar https://github.com/fsspec/adlfs/issues/270
-        # para ver como evoluciona y evitar este condicional.
-        if platform.system().lower() != 'windows':
-            self.storage_options = {'account_name': self.datalake_name, 'anon': False}
+
+        if account_key is None:
+
+            self.tenant_id = tenant_id
+            credentials = InteractiveBrowserCredential(tenant_id=self.tenant_id)
+            credentials.authenticate()
+            self._credentials = credentials
+            # TODO: verificar https://github.com/fsspec/adlfs/issues/270
+            # para ver como evoluciona y evitar este condicional.
+            if platform.system().lower() != 'windows':
+                self.storage_options = {'account_name': self.datalake_name, 'anon': False}
+            else:
+                self.storage_options = {
+                    'account_name': self.datalake_name,
+                    'anon': False,
+                    'credential': AIODefaultAzureCredential(),
+                }
+
         else:
-            self.storage_options = {
-                'account_name': self.datalake_name,
-                'anon': False,
-                'credential': AIODefaultAzureCredential(),
-            }
+            self.storage_options = {'account_name': self.datalake_name, 'account_key': account_key}
+
+    @classmethod
+    def from_account_key(cls, datalake_name: str, account_key: str):
+        """Opcion de inicializar con account key."""
+        return cls(datalake_name=datalake_name, account_key=account_key, tenant_id=None)
 
     def read_csv(self, ruta: str, **kwargs: Optional[Any]) -> pd.DataFrame:
         """Leer un archivo CSV desde la cuenta de datalake.

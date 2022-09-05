@@ -1,8 +1,9 @@
 """Suite de test para clase principal."""
 import platform
-from unittest.mock import patch
+from unittest.mock import Mock, patch
 
 import pytest
+import pandas as pd
 from azure.identity import AuthenticationRecord
 from azure.identity.aio import DefaultAzureCredential
 
@@ -10,6 +11,18 @@ from azure_datalake_utils import Datalake
 from azure_datalake_utils.exepctions import ExtensionIncorrecta
 
 fake_record = AuthenticationRecord("tenant-id", "client-id", "localhost", "object.tenant", "username")
+
+
+@pytest.fixture
+def dl_account() -> Datalake:
+    """DL instancia incilizada."""
+    return Datalake.from_account_key('name', 'key')
+
+
+@pytest.fixture
+def test_df() -> pd.DataFrame:
+    """DF para test."""
+    return pd.DataFrame({"foo_id": [1, 2, 3]})
 
 
 def test_Datalake():
@@ -45,3 +58,30 @@ def test_Datalake_read_csv_extension_incorrecta():
         dl = Datalake('name', 'tenant')
         with pytest.raises(ExtensionIncorrecta):
             dl.read_csv('contenedor/foo/bar.text')
+
+
+@patch("azure_datalake_utils.azure_datalake_utils.pd.read_csv")
+def test_read_cv(read_mock: Mock, dl_account: Datalake, test_df: pd.DataFrame):
+    """Test read_csv."""
+    read_mock.return_value = test_df
+    df = dl_account.read_csv("path/to/file.csv")
+    read_mock.assert_called_once()
+    pd.testing.assert_frame_equal(df, test_df)
+
+
+@patch("azure_datalake_utils.azure_datalake_utils.pd.read_json")
+def test_read_json(read_mock: Mock, dl_account: Datalake, test_df: pd.DataFrame):
+    """Test read_json."""
+    read_mock.return_value = test_df
+    df = dl_account.read_json("path/to/file.json")
+    read_mock.assert_called_once()
+    pd.testing.assert_frame_equal(df, test_df)
+
+
+@patch("azure_datalake_utils.azure_datalake_utils.pd.read_excel")
+def test_read_excel(read_mock: Mock, dl_account: Datalake, test_df: pd.DataFrame):
+    """Test read_json."""
+    read_mock.return_value = test_df
+    df = dl_account.read_excel("path/to/file.xlsx")
+    read_mock.assert_called_once()
+    pd.testing.assert_frame_equal(df, test_df)

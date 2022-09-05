@@ -25,6 +25,12 @@ La hipotesis detras de este pensamiento es que se puede lograr incrementar la ad
 * Control de autenticación directamente con el Directorio activo de Azure.
 * Lectura de archivos csv y excel, de una forma más concisa.
 
+
+## Publicar nueva version
+
+Seguir [checklist del template orginal](https://waynerv.github.io/cookiecutter-pypackage/pypi_release_checklist/).
+
+
 ## Credits
 
 La librería es creada y mantenida por [Centraal Studio](https://centraal.studio/).

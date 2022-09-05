@@ -317,6 +317,13 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#azure_datalake_utils.azure_datalake_utils.Datalake.from_account_key" class="md-nav__link">
+    from_account_key()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#azure_datalake_utils.azure_datalake_utils.Datalake.read_csv" class="md-nav__link">
     read_csv()
   </a>
@@ -328,18 +335,33 @@
     read_excel()
   </a>
   
-    <nav class="md-nav" aria-label="read_excel()">
-      <ul class="md-nav__list">
+</li>
         
           <li class="md-nav__item">
-  <a href="#azure_datalake_utils.azure_datalake_utils.Datalake.read_excel--noqa-e501" class="md-nav__link">
-    noqa: E501
+  <a href="#azure_datalake_utils.azure_datalake_utils.Datalake.read_json" class="md-nav__link">
+    read_json()
   </a>
   
 </li>
         
-      </ul>
-    </nav>
+          <li class="md-nav__item">
+  <a href="#azure_datalake_utils.azure_datalake_utils.Datalake.write_csv" class="md-nav__link">
+    write_csv()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#azure_datalake_utils.azure_datalake_utils.Datalake.write_excel" class="md-nav__link">
+    write_excel()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#azure_datalake_utils.azure_datalake_utils.Datalake.write_json" class="md-nav__link">
+    write_json()
+  </a>
   
 </li>
         
@@ -440,6 +462,13 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#azure_datalake_utils.azure_datalake_utils.Datalake.from_account_key" class="md-nav__link">
+    from_account_key()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#azure_datalake_utils.azure_datalake_utils.Datalake.read_csv" class="md-nav__link">
     read_csv()
   </a>
@@ -451,18 +480,33 @@
     read_excel()
   </a>
   
-    <nav class="md-nav" aria-label="read_excel()">
-      <ul class="md-nav__list">
+</li>
         
           <li class="md-nav__item">
-  <a href="#azure_datalake_utils.azure_datalake_utils.Datalake.read_excel--noqa-e501" class="md-nav__link">
-    noqa: E501
+  <a href="#azure_datalake_utils.azure_datalake_utils.Datalake.read_json" class="md-nav__link">
+    read_json()
   </a>
   
 </li>
         
-      </ul>
-    </nav>
+          <li class="md-nav__item">
+  <a href="#azure_datalake_utils.azure_datalake_utils.Datalake.write_csv" class="md-nav__link">
+    write_csv()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#azure_datalake_utils.azure_datalake_utils.Datalake.write_excel" class="md-nav__link">
+    write_excel()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#azure_datalake_utils.azure_datalake_utils.Datalake.write_json" class="md-nav__link">
+    write_json()
+  </a>
   
 </li>
         
@@ -579,7 +623,7 @@
 
 
 <h3 id="azure_datalake_utils.azure_datalake_utils.Datalake.__init__" class="doc doc-heading">
-<code class="highlight language-python"><span class="fm">__init__</span><span class="p">(</span><span class="n">datalake_name</span><span class="p">,</span> <span class="n">tenant_id</span><span class="p">)</span></code>
+<code class="highlight language-python"><span class="fm">__init__</span><span class="p">(</span><span class="n">datalake_name</span><span class="p">,</span> <span class="n">tenant_id</span><span class="p">,</span> <span class="n">account_key</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
 
 <a href="#azure_datalake_utils.azure_datalake_utils.Datalake.__init__" class="headerlink" title="Permanent link">&para;</a></h3>
 
@@ -621,8 +665,40 @@ correcto funcionamiento.</p></td>
               <em>required</em>
           </td>
         </tr>
+        <tr>
+          <td><code>account_key</code></td>
+          <td>
+                <code><span title="typing.Optional">Optional</span>[str]</code>
+          </td>
+          <td><p>key de la cuenta. Por defecto es None y es ignorado</p></td>
+          <td>
+                <code>None</code>
+          </td>
+        </tr>
     </tbody>
   </table>
+
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="azure_datalake_utils.azure_datalake_utils.Datalake.from_account_key" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">from_account_key</span><span class="p">(</span><span class="n">datalake_name</span><span class="p">,</span> <span class="n">account_key</span><span class="p">)</span></code>
+  
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-classmethod"><code>classmethod</code></small>
+  </span>
+
+<a href="#azure_datalake_utils.azure_datalake_utils.Datalake.from_account_key" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Opcion de inicializar con account key.</p>
 
   </div>
 
@@ -715,10 +791,10 @@ es storage_options.</p></td>
 
   <div class="doc doc-contents ">
   
-      <p>Leer un archivo CSV desde la cuenta de datalake.</p>
-<h5 id="azure_datalake_utils.azure_datalake_utils.Datalake.read_excel--noqa-e501">noqa: E501<a class="headerlink" href="#azure_datalake_utils.azure_datalake_utils.Datalake.read_excel--noqa-e501" title="Permanent link">&para;</a></h5>
-<p>Esta función hace una envoltura de <a href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.read_excel.html">pandas.read_excel</a>.
+      <p>Leer un archivo Excel desde la cuenta de datalake.</p>
+<p>Esta función hace una envoltura de [pd.read_excel].
 Por favor usar la documentación de la función para determinar parametros adicionales.</p>
+<p>[[pd.read_excel]]:(https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.read_excel.html)</p>
 
   <p><strong>Parameters:</strong></p>
   <table>
@@ -748,7 +824,7 @@ Por favor usar la documentación de la función para determinar parametros adici
           <td>
                 <code><span title="typing.Optional">Optional</span>[<span title="typing.Any">Any</span>]</code>
           </td>
-          <td><p>argumentos a pasar a pd.read_csv.</p></td>
+          <td><p>argumentos a pasar a pd.read_excel.</p></td>
           <td>
                 <code>{}</code>
           </td>
@@ -773,6 +849,135 @@ Por favor usar la documentación de la función para determinar parametros adici
         </tr>
     </tbody>
   </table>
+
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="azure_datalake_utils.azure_datalake_utils.Datalake.read_json" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">read_json</span><span class="p">(</span><span class="n">ruta</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></code>
+
+<a href="#azure_datalake_utils.azure_datalake_utils.Datalake.read_json" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Leer un archivo Json desde la cuenta de datalake.</p>
+<p>Esta función hace una envoltura de [pd.read_json].
+Por favor usar la documentación de la función para determinar parametros adicionales.</p>
+<p>[[pd.read_json]]:(https://pandas.pydata.org/docs/reference/api/pandas.read_json.html)</p>
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>ruta</code></td>
+          <td>
+                <code>str</code>
+          </td>
+          <td><p>Ruta a leeder el archivo, debe contener una referencia a un archivo
+<code>.json</code> . Recordar que la ruta debe contener esta estructura:
+<code>{NOMBRE_CONTENEDOR}/{RUTA}/{nombre o patron}.json</code>.</p></td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+        <tr>
+          <td><code>**kwargs</code></td>
+          <td>
+                <code><span title="typing.Optional">Optional</span>[<span title="typing.Any">Any</span>]</code>
+          </td>
+          <td><p>argumentos a pasar a pd.read_json.</p></td>
+          <td>
+                <code>{}</code>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  <p><strong>Returns:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td>
+                <code><span title="pandas">pd</span>.<span title="pandas.DataFrame">DataFrame</span></code>
+          </td>
+          <td><p>Dataframe con la informacion del la ruta.</p></td>
+        </tr>
+    </tbody>
+  </table>
+
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="azure_datalake_utils.azure_datalake_utils.Datalake.write_csv" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">write_csv</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">ruta</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></code>
+
+<a href="#azure_datalake_utils.azure_datalake_utils.Datalake.write_csv" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Escribir al archivo.</p>
+
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="azure_datalake_utils.azure_datalake_utils.Datalake.write_excel" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">write_excel</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">ruta</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></code>
+
+<a href="#azure_datalake_utils.azure_datalake_utils.Datalake.write_excel" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Escribir al archivo al datalake.</p>
+
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="azure_datalake_utils.azure_datalake_utils.Datalake.write_json" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">write_json</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">ruta</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></code>
+
+<a href="#azure_datalake_utils.azure_datalake_utils.Datalake.write_json" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Escribir al archivo al datalake.</p>
 
   </div>
 

@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.3.0 - 2022-09-05
+
+### Added
+
+- Soporte python 3.10
+- Fix para credenciales en Windows
+- Escritura y lectura de Json
+
 ## 0.2.0 - 2022-08-31
 
 ### Added

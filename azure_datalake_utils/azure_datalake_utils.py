@@ -84,7 +84,7 @@ class Datalake(object):
         return df
 
     def read_excel(self, ruta: str, **kwargs: Optional[Any]) -> pd.DataFrame:
-        """Leer un archivo CSV desde la cuenta de datalake.
+        """Leer un archivo Excel desde la cuenta de datalake.
 
         Esta función hace una envoltura de [pd.read_excel].
         Por favor usar la documentación de la función para determinar parametros adicionales.
@@ -95,7 +95,7 @@ class Datalake(object):
             ruta: Ruta a leeder el archivo, debe contener una referencia a un archivo
                 `.xlsx` o `.xls`. Recordar que la ruta debe contener esta estructura:
                 `{NOMBRE_CONTENEDOR}/{RUTA}/{nombre o patron}.xlsx`.
-            **kwargs: argumentos a pasar a pd.read_csv.
+            **kwargs: argumentos a pasar a pd.read_excel.
 
 
         Returns:
@@ -117,6 +117,37 @@ class Datalake(object):
 
         return df
 
+    def read_json(self, ruta: str, **kwargs: Optional[Any]) -> pd.DataFrame:
+        """Leer un archivo Json desde la cuenta de datalake.
+
+        Esta función hace una envoltura de [pd.read_json].
+        Por favor usar la documentación de la función para determinar parametros adicionales.
+
+        [[pd.read_json]]:(https://pandas.pydata.org/docs/reference/api/pandas.read_json.html)
+
+        Args:
+            ruta: Ruta a leeder el archivo, debe contener una referencia a un archivo
+                `.json` . Recordar que la ruta debe contener esta estructura:
+                `{NOMBRE_CONTENEDOR}/{RUTA}/{nombre o patron}.json`.
+            **kwargs: argumentos a pasar a pd.read_json.
+
+
+        Returns:
+            Dataframe con la informacion del la ruta.
+        """
+        if 'storage_options' in kwargs:
+            kwargs.pop('storage_options')
+
+        if not self._verificar_extension(ruta, '.json'):
+            raise ExtensionIncorrecta(ruta)
+
+        try:
+            df = pd.read_json(f"az://{ruta}", storage_options=self.storage_options, **kwargs)
+        except IndexError:
+            raise ArchivoNoEncontrado(ruta)
+
+        return df
+
     def write_csv(self, df: pd.DataFrame, ruta, **kwargs: Optional[Any]) -> None:
         """Escribir al archivo."""
         if not self._verificar_extension(ruta, '.csv', '.txt', '.tsv'):
@@ -128,6 +159,12 @@ class Datalake(object):
         if not self._verificar_extension(ruta, '.xlsx', '.xls'):
             raise ExtensionIncorrecta(ruta)
         df.to_excel(f"az://{ruta}", storage_options=self.storage_options, **kwargs)
+
+    def write_json(self, df: pd.DataFrame, ruta, **kwargs: Optional[Any]) -> None:
+        """Escribir al archivo al datalake."""
+        if not self._verificar_extension(ruta, '.json'):
+            raise ExtensionIncorrecta(ruta)
+        df.to_json(f"az://{ruta}", storage_options=self.storage_options, **kwargs)
 
     def _verificar_extension(self, ruta: str, *extensiones):
         """Metodo para verificar extensiones."""

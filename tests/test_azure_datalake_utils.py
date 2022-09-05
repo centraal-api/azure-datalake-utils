@@ -1,8 +1,10 @@
 """Suite de test para clase principal."""
+import platform
 from unittest.mock import patch
 
 import pytest
 from azure.identity import AuthenticationRecord
+from azure.identity.aio import DefaultAzureCredential
 
 from azure_datalake_utils import Datalake
 from azure_datalake_utils.exepctions import ExtensionIncorrecta
@@ -14,7 +16,18 @@ def test_Datalake():
     """Test de inicializacion de Datalake."""
     with patch('azure.identity.InteractiveBrowserCredential.authenticate', return_value=fake_record):
         dl = Datalake('name', 'tenant')
-        assert dl.storage_options == {'account_name': 'name', 'anon': False}
+        if platform.system().lower() != 'windows':
+            assert dl.storage_options == {'account_name': 'name', 'anon': False}
+        else:
+            assert dl.storage_options['account_name'] == 'name'
+            assert not dl.storage_options['anon']
+            assert isinstance(dl.storage_options['credential'], DefaultAzureCredential)
+
+
+def test_Datalake_from_account_key():
+    """Test para inicializacion del datalake con key account."""
+    dl = Datalake.from_account_key('name', 'key')
+    assert dl.storage_options == {'account_name': 'name', 'account_key': 'key'}
 
 
 def test_Datalake_verificar_extension():

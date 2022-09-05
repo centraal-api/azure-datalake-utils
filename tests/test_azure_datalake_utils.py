@@ -2,8 +2,8 @@
 import platform
 from unittest.mock import Mock, patch
 
-import pytest
 import pandas as pd
+import pytest
 from azure.identity import AuthenticationRecord
 from azure.identity.aio import DefaultAzureCredential
 
@@ -23,6 +23,12 @@ def dl_account() -> Datalake:
 def test_df() -> pd.DataFrame:
     """DF para test."""
     return pd.DataFrame({"foo_id": [1, 2, 3]})
+
+
+@pytest.fixture
+def test_str_df() -> pd.DataFrame:
+    """DF para test."""
+    return pd.DataFrame({"foo_str": ['bar\n', 'foo,', 'bar|'], "bar_str": ["bar", "foo|", "bar\r"], "foo": [1, 2, 3]})
 
 
 def test_Datalake():
@@ -85,3 +91,24 @@ def test_read_excel(read_mock: Mock, dl_account: Datalake, test_df: pd.DataFrame
     df = dl_account.read_excel("path/to/file.xlsx")
     read_mock.assert_called_once()
     pd.testing.assert_frame_equal(df, test_df)
+
+
+def test_limpiar_df_cols_str_no_special(dl_account: Datalake, test_str_df: pd.DataFrame):
+    """Test para limpiar el DF."""
+    # valores originales:
+    # "foo_str": ['bar\n', 'foo,', 'bar|']
+    # "bar_str": ["bar", "foo|", "bar\r"]
+    # Test con `,`
+    df_clean = dl_account._limpiar_df_cols_str(test_str_df, ',')
+    assert df_clean['foo_str'].values.tolist() == ['bar ', 'foo ', 'bar|']
+    assert df_clean['bar_str'].values.tolist() == ['bar', 'foo|', 'bar ']
+    assert df_clean['foo'].values.tolist() == [1, 2, 3]
+
+
+def test_limpiar_df_cols_str_special(dl_account: Datalake, test_str_df: pd.DataFrame):
+    """Test para limpiar el DF."""
+    # Test con `|`
+    df_clean = dl_account._limpiar_df_cols_str(test_str_df, '|')
+    assert df_clean['foo_str'].values.tolist() == ['bar ', 'foo,', 'bar ']
+    assert df_clean['bar_str'].values.tolist() == ['bar', 'foo ', 'bar ']
+    assert df_clean['foo'].values.tolist() == [1, 2, 3]

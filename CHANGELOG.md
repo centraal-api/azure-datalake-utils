@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.3.1 - 2022-09-05
+
+### Added
+
+- Limpieza de columnas antes de escribir csv.
+
+
 ## 0.3.0 - 2022-09-05
 
 ### Added

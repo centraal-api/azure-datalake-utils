@@ -107,7 +107,7 @@ class Datalake(object):
             kwargs.pop('storage_options')
 
         if 'engine' in kwargs:
-            kwargs.pop('storage_options')
+            kwargs.pop('engine')
 
         if not self._verificar_extension(ruta, '.xlsx', '.xls'):
             raise ExtensionIncorrecta(ruta)

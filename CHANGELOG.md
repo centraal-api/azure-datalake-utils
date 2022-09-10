@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.3.2 - 2022-09-10
+
+### Fixed
+
+- Bug en la lectura de excel.
+
+
 ## 0.3.1 - 2022-09-05
 
 ### Added

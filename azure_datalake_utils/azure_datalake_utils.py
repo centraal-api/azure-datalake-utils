@@ -1,4 +1,20 @@
 """Main module."""
+# Licensed to the Apache Software Foundation (ASF) under one
+# or more contributor license agreements.  See the NOTICE file
+# distributed with this work for additional information
+# regarding copyright ownership.  The ASF licenses this file
+# to you under the Apache License, Version 2.0 (the
+# "License"); you may not use this file except in compliance
+# with the License.  You may obtain a copy of the License at
+#
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing,
+# software distributed under the License is distributed on an
+# "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+# KIND, either express or implied.  See the License for the
+# specific language governing permissions and limitations
+# under the License.
 import platform
 import re
 from typing import Any, Optional
@@ -6,9 +22,11 @@ from typing import Any, Optional
 import numpy as np
 import pandas as pd
 from azure.identity import InteractiveBrowserCredential
+from adlfs import AzureBlobFileSystem
 from azure.identity.aio import DefaultAzureCredential as AIODefaultAzureCredential
 
-from azure_datalake_utils.exepctions import ArchivoNoEncontrado, ExtensionIncorrecta
+from azure_datalake_utils.exepctions import ArchivoNoEncontrado, ExtensionIncorrecta, raiseArchivoNoEncontrado
+from azure_datalake_utils.partitions import HivePartitiion
 
 
 class Datalake(object):
@@ -46,12 +64,14 @@ class Datalake(object):
 
         else:
             self.storage_options = {'account_name': self.datalake_name, 'account_key': account_key}
+            self.fs = AzureBlobFileSystem(account_name=self.datalake_name, account_key=account_key)
 
     @classmethod
     def from_account_key(cls, datalake_name: str, account_key: str):
         """Opcion de inicializar con account key."""
         return cls(datalake_name=datalake_name, account_key=account_key, tenant_id=None)
 
+    @raiseArchivoNoEncontrado
     def read_csv(self, ruta: str, **kwargs: Optional[Any]) -> pd.DataFrame:
         """Leer un archivo CSV desde la cuenta de datalake.
 
@@ -78,13 +98,11 @@ class Datalake(object):
         if not self._verificar_extension(ruta, '.csv', '.txt', '.tsv'):
             raise ExtensionIncorrecta(ruta)
 
-        try:
-            df = pd.read_csv(f"az://{ruta}", storage_options=self.storage_options, **kwargs)
-        except IndexError:
-            raise ArchivoNoEncontrado(ruta)
+        df = pd.read_csv(f"az://{ruta}", storage_options=self.storage_options, **kwargs)
 
         return df
 
+    @raiseArchivoNoEncontrado
     def read_excel(self, ruta: str, **kwargs: Optional[Any]) -> pd.DataFrame:
         """Leer un archivo Excel desde la cuenta de datalake.
 
@@ -112,10 +130,7 @@ class Datalake(object):
         if not self._verificar_extension(ruta, '.xlsx', '.xls'):
             raise ExtensionIncorrecta(ruta)
 
-        try:
-            df = pd.read_excel(f"az://{ruta}", engine='openpyxl', storage_options=self.storage_options, **kwargs)
-        except IndexError:
-            raise ArchivoNoEncontrado(ruta)
+        df = pd.read_excel(f"az://{ruta}", engine='openpyxl', storage_options=self.storage_options, **kwargs)
 
         return df
 
@@ -194,3 +209,6 @@ class Datalake(object):
             .replace("\n", " ", regex=True)
         )
         return df_res
+
+    def _read_csv_partitioned() -> pd.DataFrame:
+        pass

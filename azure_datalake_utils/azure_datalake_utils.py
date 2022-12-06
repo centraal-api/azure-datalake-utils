@@ -5,10 +5,11 @@ from typing import Any, Optional
 
 import numpy as np
 import pandas as pd
+import azure_datalake_utils.experimental as exp
 from azure.identity import InteractiveBrowserCredential
 from azure.identity.aio import DefaultAzureCredential as AIODefaultAzureCredential
 
-from azure_datalake_utils.exepctions import ArchivoNoEncontrado, ExtensionIncorrecta
+from azure_datalake_utils.exepctions import ArchivoNoEncontrado, ExtensionIncorrecta, raiseArchivoNoEncontrado
 
 
 class Datalake(object):
@@ -52,6 +53,7 @@ class Datalake(object):
         """Opcion de inicializar con account key."""
         return cls(datalake_name=datalake_name, account_key=account_key, tenant_id=None)
 
+    @raiseArchivoNoEncontrado
     def read_csv(self, ruta: str, **kwargs: Optional[Any]) -> pd.DataFrame:
         """Leer un archivo CSV desde la cuenta de datalake.
 
@@ -78,14 +80,12 @@ class Datalake(object):
         if not self._verificar_extension(ruta, '.csv', '.txt', '.tsv'):
             raise ExtensionIncorrecta(ruta)
 
-        try:
-            df = pd.read_csv(f"az://{ruta}", storage_options=self.storage_options, **kwargs)
-        except IndexError:
-            raise ArchivoNoEncontrado(ruta)
+        df = pd.read_csv(f"az://{ruta}", storage_options=self.storage_options, **kwargs)
 
         return df
 
-    def read_excel(self, ruta: str, **kwargs: Optional[Any]) -> pd.DataFrame:
+    @raiseArchivoNoEncontrado
+    def read_excel(self, ruta: str, experimental: bool = False, **kwargs: Optional[Any]) -> pd.DataFrame:
         """Leer un archivo Excel desde la cuenta de datalake.
 
         Esta función hace una envoltura de [pd.read_excel].
@@ -97,6 +97,8 @@ class Datalake(object):
             ruta: Ruta a leeder el archivo, debe contener una referencia a un archivo
                 `.xlsx` o `.xls`. Recordar que la ruta debe contener esta estructura:
                 `{NOMBRE_CONTENEDOR}/{RUTA}/{nombre o patron}.xlsx`.
+            force_client: Bandera para forzar el uso del cliente. Es flag todavia es experimental
+                Y en futuras versiones se va ha eliminar. Solo funciona con un solo archivo de excel.
             **kwargs: argumentos a pasar a pd.read_excel.
 
 
@@ -112,10 +114,16 @@ class Datalake(object):
         if not self._verificar_extension(ruta, '.xlsx', '.xls'):
             raise ExtensionIncorrecta(ruta)
 
-        try:
-            df = pd.read_excel(f"az://{ruta}", engine='openpyxl', storage_options=self.storage_options, **kwargs)
-        except IndexError:
-            raise ArchivoNoEncontrado(ruta)
+        # TODO: esto es algo temporal y se debe analizar si se puede remover. Esta bandera fue necesario debido a:
+        # 1. Si no se usa el cliente para descargar el excel cuando se modifica el archivo de excel y no se ha reiniciado
+        # el runtime se provoca el error: `BadZipFile("File is not a zip file")`.
+        # 2. Se debe analizar como integrar en windows donde se usa credenciales asociadas al Active directory.
+        if experimental:
+            df = exp.read_excel_with_client(ruta, self.datalake_name, self.storage_options['account_key'], **kwargs)
+            return df
+        ###############
+
+        df = pd.read_excel(f"az://{ruta}", engine='openpyxl', storage_options=self.storage_options, **kwargs)
 
         return df
 

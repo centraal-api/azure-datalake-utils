@@ -14,7 +14,7 @@ unittest:
 	pytest
 
 coverage:
-	pytest --cov=$(sources) --cov-branch --cov-report=term-missing tests
+	pytest --cov=$(sources) --cov-branch --ommit=azure_datalake_utils/experimental.py --cov-report=term-missing tests
 
 pre-commit:
 	pre-commit run --all-files

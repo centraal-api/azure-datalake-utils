@@ -10,7 +10,7 @@
 
 Utilidades para interactuar con Azure Datalake.
 
-El objetivo es evitar que personas denominadas cientificos ciuidanos tengan que interactuar con librerias, que no son, totalmente relacionadas con el analisis de datos.
+El objetivo es evitar que personas denominadas cientificos ciudadanos tengan que interactuar con librerias, que no son, totalmente relacionadas con el analisis de datos.
 
 La hipotesis detras de este pensamiento es que se puede lograr incrementar la adopción de estas herramientas si se facilitan y simplifica la interacción de pandas con la lectura del datalake.
 

@@ -64,13 +64,12 @@ jobs:
       - name: create github release
         id: create_release
         uses: softprops/action-gh-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           body: ${{ steps.changelog_reader.outputs.changes }}
           files: dist/*.whl
           draft: false
           prerelease: false
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: publish to PyPI
         uses: pypa/gh-action-pypi-publish@v1.6.3

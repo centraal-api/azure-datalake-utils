@@ -784,7 +784,7 @@ es storage_options.</p></td>
 
 
 <h3 id="azure_datalake_utils.azure_datalake_utils.Datalake.read_excel" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">read_excel</span><span class="p">(</span><span class="n">ruta</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></code>
+<code class="highlight language-python"><span class="n">read_excel</span><span class="p">(</span><span class="n">ruta</span><span class="p">,</span> <span class="n">experimental</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></code>
 
 <a href="#azure_datalake_utils.azure_datalake_utils.Datalake.read_excel" class="headerlink" title="Permanent link">&para;</a></h3>
 
@@ -815,6 +815,16 @@ Por favor usar la documentación de la función para determinar parametros adici
           <td><p>Ruta a leeder el archivo, debe contener una referencia a un archivo
 <code>.xlsx</code> o <code>.xls</code>. Recordar que la ruta debe contener esta estructura:
 <code>{NOMBRE_CONTENEDOR}/{RUTA}/{nombre o patron}.xlsx</code>.</p></td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+        <tr>
+          <td><code>force_client</code></td>
+          <td>
+          </td>
+          <td><p>Bandera para forzar el uso del cliente. Es flag todavia es experimental
+Y en futuras versiones se va ha eliminar. Solo funciona con un solo archivo de excel.</p></td>
           <td>
               <em>required</em>
           </td>

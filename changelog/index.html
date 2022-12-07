@@ -326,6 +326,26 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#033---2022-12-06" class="md-nav__link">
+    0.3.3 - 2022-12-06
+  </a>
+  
+    <nav class="md-nav" aria-label="0.3.3 - 2022-12-06">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#added" class="md-nav__link">
+    Added
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#032---2022-09-10" class="md-nav__link">
     0.3.2 - 2022-09-10
   </a>
@@ -354,7 +374,7 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#added" class="md-nav__link">
+  <a href="#added_1" class="md-nav__link">
     Added
   </a>
   
@@ -374,7 +394,7 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#added_1" class="md-nav__link">
+  <a href="#added_2" class="md-nav__link">
     Added
   </a>
   
@@ -394,7 +414,7 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#added_2" class="md-nav__link">
+  <a href="#added_3" class="md-nav__link">
     Added
   </a>
   
@@ -414,7 +434,7 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#added_3" class="md-nav__link">
+  <a href="#added_4" class="md-nav__link">
     Added
   </a>
   
@@ -478,6 +498,26 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#033---2022-12-06" class="md-nav__link">
+    0.3.3 - 2022-12-06
+  </a>
+  
+    <nav class="md-nav" aria-label="0.3.3 - 2022-12-06">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#added" class="md-nav__link">
+    Added
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#032---2022-09-10" class="md-nav__link">
     0.3.2 - 2022-09-10
   </a>
@@ -506,7 +546,7 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#added" class="md-nav__link">
+  <a href="#added_1" class="md-nav__link">
     Added
   </a>
   
@@ -526,7 +566,7 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#added_1" class="md-nav__link">
+  <a href="#added_2" class="md-nav__link">
     Added
   </a>
   
@@ -546,7 +586,7 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#added_2" class="md-nav__link">
+  <a href="#added_3" class="md-nav__link">
     Added
   </a>
   
@@ -566,7 +606,7 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#added_3" class="md-nav__link">
+  <a href="#added_4" class="md-nav__link">
     Added
   </a>
   
@@ -611,31 +651,44 @@
 
 <!-- BEGIN INCLUDE ../CHANGELOG.md   -->
 <h2 id="changelog">Changelog<a class="headerlink" href="#changelog" title="Permanent link">&para;</a></h2>
+<h3 id="033---2022-12-06">0.3.3 - 2022-12-06<a class="headerlink" href="#033---2022-12-06" title="Permanent link">&para;</a></h3>
+<h4 id="added">Added<a class="headerlink" href="#added" title="Permanent link">&para;</a></h4>
+<ul>
+<li><code>flag=True</code> en <code>dl.read_excel</code> Para dar un workaround para la siguiente situación:<ul>
+<li>Se observa un comportamiento extraño bajo estas condiciones:</li>
+<li>Se importa la libreria en un sesion de python.</li>
+<li>Se abre el archivo de excel y se reemplaza en el datalake.</li>
+<li>Usando la misma sesión de python, se trata de leer el archivo con <code>dl.read_excel("hacebanalitica-user-servicio/configuracion_valores_salesforce.xlsx")</code></li>
+<li>Una exepción <code>BadZipFile: File is not a zip file</code> es disparada.</li>
+<li>Este flag es experimental y es una solución rapida (esperamos que temporal) para entornos donde reiniciar python de manera periodica no es una opción (ejemplo en Azure Functions). Se espera explorar más y incorporar una mejor solución.</li>
+</ul>
+</li>
+</ul>
 <h3 id="032---2022-09-10">0.3.2 - 2022-09-10<a class="headerlink" href="#032---2022-09-10" title="Permanent link">&para;</a></h3>
 <h4 id="fixed">Fixed<a class="headerlink" href="#fixed" title="Permanent link">&para;</a></h4>
 <ul>
 <li>Bug en la lectura de excel.</li>
 </ul>
 <h3 id="031---2022-09-05">0.3.1 - 2022-09-05<a class="headerlink" href="#031---2022-09-05" title="Permanent link">&para;</a></h3>
-<h4 id="added">Added<a class="headerlink" href="#added" title="Permanent link">&para;</a></h4>
+<h4 id="added_1">Added<a class="headerlink" href="#added_1" title="Permanent link">&para;</a></h4>
 <ul>
 <li>Limpieza de columnas antes de escribir csv.</li>
 </ul>
 <h3 id="030---2022-09-05">0.3.0 - 2022-09-05<a class="headerlink" href="#030---2022-09-05" title="Permanent link">&para;</a></h3>
-<h4 id="added_1">Added<a class="headerlink" href="#added_1" title="Permanent link">&para;</a></h4>
+<h4 id="added_2">Added<a class="headerlink" href="#added_2" title="Permanent link">&para;</a></h4>
 <ul>
 <li>Soporte python 3.10</li>
 <li>Fix para credenciales en Windows</li>
 <li>Escritura y lectura de Json</li>
 </ul>
 <h3 id="020---2022-08-31">0.2.0 - 2022-08-31<a class="headerlink" href="#020---2022-08-31" title="Permanent link">&para;</a></h3>
-<h4 id="added_2">Added<a class="headerlink" href="#added_2" title="Permanent link">&para;</a></h4>
+<h4 id="added_3">Added<a class="headerlink" href="#added_3" title="Permanent link">&para;</a></h4>
 <ul>
 <li>Primera version util con lectura de excel y csv</li>
 <li>Adicionar ejemplos de como hacer testing</li>
 </ul>
 <h3 id="011---2022-08-30">0.1.1 - 2022-08-30<a class="headerlink" href="#011---2022-08-30" title="Permanent link">&para;</a></h3>
-<h4 id="added_3">Added<a class="headerlink" href="#added_3" title="Permanent link">&para;</a></h4>
+<h4 id="added_4">Added<a class="headerlink" href="#added_4" title="Permanent link">&para;</a></h4>
 <ul>
 <li>inlcuir primera utilidad</li>
 </ul>

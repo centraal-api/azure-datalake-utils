@@ -1,9 +1,11 @@
-"""Funciones experimentales. 
+"""Funciones experimentales.
 
 Estos metodos no son testeados y se esperan en futuras veriones incorporar esta funcionalidad o
 removerla del todo.
 
 """
+import tempfile
+
 # Licensed to the Apache Software Foundation (ASF) under one
 # or more contributor license agreements.  See the NOTICE file
 # distributed with this work for additional information
@@ -21,19 +23,14 @@ removerla del todo.
 # specific language governing permissions and limitations
 # under the License.
 import uuid
-import tempfile
-
 from typing import Any, Optional
 
-import tempfile
 import pandas as pd
-
 from adlfs import AzureBlobFileSystem
 
 
 def read_excel_with_client(ruta: str, account_name: str, account_key: str, **kwargs: Optional[Any]):
     """Metodo para leer Excel descargado el archivo a un temporal."""
-
     fs = AzureBlobFileSystem(account_name=account_name, account_key=account_key)
     # TODO: en el futuro si de verdad se necesita el nombre del archivo, hay usa otro metodo
     # que se mas agnostico que asumir que se puede hacer sin un split.

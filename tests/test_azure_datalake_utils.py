@@ -23,7 +23,6 @@ import pytest
 from azure.identity import AuthenticationRecord
 from azure.identity.aio import DefaultAzureCredential
 from azure.core.exceptions import ResourceNotFoundError
-from adlfs import AzureBlobFileSystem
 
 from azure_datalake_utils import Datalake
 from azure_datalake_utils.exepctions import ExtensionIncorrecta

@@ -5,10 +5,10 @@ from typing import Any, Optional
 
 import numpy as np
 import pandas as pd
-import azure_datalake_utils.experimental as exp
 from azure.identity import InteractiveBrowserCredential
 from azure.identity.aio import DefaultAzureCredential as AIODefaultAzureCredential
 
+import azure_datalake_utils.experimental as exp
 from azure_datalake_utils.exepctions import ArchivoNoEncontrado, ExtensionIncorrecta, raiseArchivoNoEncontrado
 
 
@@ -115,7 +115,8 @@ class Datalake(object):
             raise ExtensionIncorrecta(ruta)
 
         # TODO: esto es algo temporal y se debe analizar si se puede remover. Esta bandera fue necesario debido a:
-        # 1. Si no se usa el cliente para descargar el excel cuando se modifica el archivo de excel y no se ha reiniciado
+        # 1. Si no se usa el cliente para descargar el excel cuando se modifica el archivo de
+        # excel y no se ha reiniciado
         # el runtime se provoca el error: `BadZipFile("File is not a zip file")`.
         # 2. Se debe analizar como integrar en windows donde se usa credenciales asociadas al Active directory.
         if experimental:

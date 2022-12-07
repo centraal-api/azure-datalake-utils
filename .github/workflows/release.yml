@@ -73,7 +73,7 @@ jobs:
           prerelease: false
 
       - name: publish to PyPI
-        uses: pypa/gh-action-pypi-publish@release/v1.6
+        uses: uses: pypa/gh-action-pypi-publish@v1.6.3
         with:
           user: __token__
           password: ${{ secrets.PYPI_API_TOKEN }}

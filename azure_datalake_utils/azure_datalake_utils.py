@@ -7,6 +7,7 @@ import numpy as np
 import pandas as pd
 from azure.identity import InteractiveBrowserCredential
 from azure.identity.aio import DefaultAzureCredential as AIODefaultAzureCredential
+from adlfs import AzureBlobFileSystem
 
 import azure_datalake_utils.experimental as exp
 from azure_datalake_utils.exepctions import ArchivoNoEncontrado, ExtensionIncorrecta, raiseArchivoNoEncontrado
@@ -47,6 +48,7 @@ class Datalake(object):
 
         else:
             self.storage_options = {'account_name': self.datalake_name, 'account_key': account_key}
+            self.fs = AzureBlobFileSystem(account_name=self.datalake_name, account_key=account_key)
 
     @classmethod
     def from_account_key(cls, datalake_name: str, account_key: str):

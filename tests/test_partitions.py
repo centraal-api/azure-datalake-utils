@@ -15,10 +15,11 @@
 # KIND, either express or implied.  See the License for the
 # specific language governing permissions and limitations
 # under the License.
-from unittest.mock import patch, create_autospec
+import datetime
+
+from unittest.mock import patch
 from typing import List, Dict
 from azure_datalake_utils.partitions import HivePartitiion
-from azure.storage import blob
 
 
 def list_side_effect_to_test(*args) -> List[Dict]:
@@ -63,9 +64,19 @@ def list_side_effect_to_test_deeper_level(*args) -> List[Dict]:
 
     """
     if args[0] == "contenedor/ruta/al/archivo/year=2022/month=10/load_date=2022-01-01/archivo.csv":
-        return [{"name": "contenedor/ruta/al/archivo/year=2022/month=10/load_date=2022-01-01/archivo.csv"}]
+        return [
+            {
+                "name": "contenedor/ruta/al/archivo/year=2022/month=10/load_date=2022-01-01/archivo.csv",
+                'last_modified': datetime.datetime(2022, 1, 1, 12, 30, 00, tzinfo=datetime.timezone.utc),
+            }
+        ]
     elif args[0] == "contenedor/ruta/al/archivo/year=2022/month=10/load_date=2022-01-02/archivo.csv":
-        return [{"name": "contenedor/ruta/al/archivo/year=2022/month=10/load_date=2022-01-02/archivo.csv"}]
+        return [
+            {
+                "name": "contenedor/ruta/al/archivo/year=2022/month=10/load_date=2022-01-02/archivo.csv",
+                'last_modified': datetime.datetime(2022, 1, 2, 12, 30, 00, tzinfo=datetime.timezone.utc),
+            }
+        ]
     elif args[0] == "contenedor/ruta/al/archivo/year=2022/month=11/":
         return [{"name": "contenedor/ruta/al/archivo/year=2022/month=11/load_date=2022-01-01/archivo.csv"}]
     else:
@@ -89,7 +100,7 @@ def test__make_partitions_using_partition_cols_no_filter_deeper_level_return_cor
 
 
 @patch("azure_datalake_utils.partitions.AzureBlobFileSystem", autospec=True)
-def test__make_partitions_using_partition_cols_no_filter_deeper_level_return_valid_files(fs_mock):
+def test__make_partitions_using_partition_cols_no_last_modified_last_level_return_valid_files(fs_mock):
     """Test para verificar discover."""
     fs_mock.listdir.side_effect = list_side_effect_to_test
     hive = HivePartitiion(
@@ -103,7 +114,7 @@ def test__make_partitions_using_partition_cols_no_filter_deeper_level_return_val
 
 
 @patch("azure_datalake_utils.partitions.AzureBlobFileSystem", autospec=True)
-def test__make_partitions_using_partition_cols_no_filter_deeper_level_return_existing_files(fs_mock):
+def test__make_partitions_using_partition_cols_no_last_modified_last_level_return_existing_files(fs_mock):
     """Test para verificar discover."""
     fs_mock.listdir.side_effect = list_side_effect_to_test
     hive = HivePartitiion(
@@ -116,18 +127,18 @@ def test__make_partitions_using_partition_cols_no_filter_deeper_level_return_exi
 
 
 @patch("azure_datalake_utils.partitions.AzureBlobFileSystem", autospec=True)
-def test__get_last_modified_should_return_last_modified(fs_mock):
+def test__make_partitions_using_partition_cols_filter_last_modified_last_level_return_valid_files(fs_mock):
     """Test para verificar discover."""
     fs_mock.listdir.side_effect = list_side_effect_to_test_deeper_level
 
-    mock_blob = create_autospec(blob)
-    mock_client = mock_blob.BlobServiceClient("https://fake", "key")
-    mock_container = mock_blob.ContainerClient("https://fake", "key")
-    mock_container.list_blobs.return_value = 
-    mock_client.get_container_client.return_value = mock_container
-
     hive = HivePartitiion(
-        ruta="contenedor/ruta/al/archivo/", partition_cols={'year': [2022, 2024], 'month': [10, 11]}, fs=fs_mock
+        ruta="contenedor/ruta/al/archivo/",
+        partition_cols={'year': [2022, 2024], 'month': [10, 11]},
+        fs=fs_mock,
+        last_modified_last_level=True,
     )
 
-    hive._get_last_modified('', mock_client)
+    assert hive.partition_files == [
+        ("archivo.csv", {'year': 2022, 'month': 10, 'load_date': '2022-01-02'}),
+        ("archivo.csv", {'year': 2022, 'month': 11, 'load_date': '2022-01-01'}),
+    ]

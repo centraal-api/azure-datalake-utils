@@ -20,7 +20,6 @@ import logging
 
 from typing import Any, Dict, List, Tuple
 from adlfs import AzureBlobFileSystem
-from azure.storage.blob import BlobServiceClient
 
 
 class HivePartitiion:
@@ -89,31 +88,23 @@ class HivePartitiion:
             # delimitadores.
             partition_path = "/".join([f"{k}={v}" for k, v in part.items()])
 
-            try:
-                details = self.fs.listdir(f"{self.ruta}{partition_path}/")
-            except FileNotFoundError:
-                logging.debug(f"{part} No tiene archivos")
-                continue
-
-            if self.last_modified_last_level is not None:
-
-                if len(details) > 0:
-                    file_name = details[0]['name'].split("/")[-1]
-                    partitions.append((file_name, part))
-
+            if self.last_modified_last_level:
+                files = self.fs.find(f"{self.ruta}{partition_path}/", detail=True)
+                files = {k: v['last_modified'] for k, v in files.items()}
+                logging.debug(f"archivos encontrados {files}")
+                selected = sorted(files.items(), key=lambda x: x[1], reverse=True)[0][0]
+                logging.debug(f"archivo seleccionado {selected}")
+                partitions.append((selected, part))
             else:
-
-                if len(details) > 0:
-                    file_name = details[0]['name'].split("/")[-1]
-                    last_folder = self._get_last_modified(file_name)
-                    partitions.append((last_folder, part))
+                try:
+                    details = self.fs.listdir(f"{self.ruta}{partition_path}/")
+                except FileNotFoundError:
+                    logging.debug(f"{part} No tiene archivos")
+                    continue
+                if len(details) < 1:
+                    logging.debug(f"{part} No tiene archivos")
+                    continue
+                file_name = details[0]['name'].split("/")[-1]
+                partitions.append((file_name, part))
 
         self.partition_files = partitions
-
-    def _get_last_modified(self, blob_prefix: str, blobService: BlobServiceClient) -> str:
-        """Obtiene el archivo mas reciente."""
-        blob_container = blobService.get_container_client(self.container)
-        blob_list = blob_container.list_blobs(name_starts_with=blob_prefix)
-        files_sorted = sorted(list(blob_list), key=lambda a: a.last_modified, reverse=False)
-
-        return files_sorted[-1].name

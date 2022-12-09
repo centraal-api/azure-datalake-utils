@@ -54,7 +54,7 @@ def list_side_effect_to_test(*args) -> List[Dict]:
         raise FileNotFoundError
 
 
-def list_side_effect_to_test_deeper_level(*args) -> List[Dict]:
+def list_side_effect_to_test_last_level(*args, **kwargs) -> Dict:
     """Funcion para controlar los side effects de fs.
 
     Simula una estructura de archivos de la siguiente manera:
@@ -63,24 +63,23 @@ def list_side_effect_to_test_deeper_level(*args) -> List[Dict]:
     - contenedor/ruta/al/archivo/year=2022/month=11/load_date=2022-01-01/archivo.csv
 
     """
-    if args[0] == "contenedor/ruta/al/archivo/year=2022/month=10/load_date=2022-01-01/archivo.csv":
-        return [
-            {
-                "name": "contenedor/ruta/al/archivo/year=2022/month=10/load_date=2022-01-01/archivo.csv",
-                'last_modified': datetime.datetime(2022, 1, 1, 12, 30, 00, tzinfo=datetime.timezone.utc),
-            }
-        ]
-    elif args[0] == "contenedor/ruta/al/archivo/year=2022/month=10/load_date=2022-01-02/archivo.csv":
-        return [
-            {
-                "name": "contenedor/ruta/al/archivo/year=2022/month=10/load_date=2022-01-02/archivo.csv",
-                'last_modified': datetime.datetime(2022, 1, 2, 12, 30, 00, tzinfo=datetime.timezone.utc),
-            }
-        ]
+    if args[0] == "contenedor/ruta/al/archivo/year=2022/month=10/":
+        return {
+            'contenedor/ruta/al/archivo/year=2022/month=10/load_date=2022-01-01/archivo.csv': {
+                'last_modified': datetime.datetime(2022, 1, 1, 12, 30, 00, tzinfo=datetime.timezone.utc)
+            },
+            'contenedor/ruta/al/archivo/year=2022/month=10/load_date=2022-01-02/archivo.csv': {
+                'last_modified': datetime.datetime(2022, 1, 2, 12, 30, 00, tzinfo=datetime.timezone.utc)
+            },
+        }
     elif args[0] == "contenedor/ruta/al/archivo/year=2022/month=11/":
-        return [{"name": "contenedor/ruta/al/archivo/year=2022/month=11/load_date=2022-01-01/archivo.csv"}]
+        return {
+            'contenedor/ruta/al/archivo/year=2022/month=11/load_date=2022-01-01/archivo.csv': {
+                'last_modified': datetime.datetime(2022, 1, 1, 12, 30, 00, tzinfo=datetime.timezone.utc)
+            },
+        }
     else:
-        raise FileNotFoundError
+        return {}
 
 
 @patch("azure_datalake_utils.partitions.AzureBlobFileSystem", autospec=True)
@@ -129,16 +128,71 @@ def test__make_partitions_using_partition_cols_no_last_modified_last_level_retur
 @patch("azure_datalake_utils.partitions.AzureBlobFileSystem", autospec=True)
 def test__make_partitions_using_partition_cols_filter_last_modified_last_level_return_valid_files(fs_mock):
     """Test para verificar discover."""
-    fs_mock.listdir.side_effect = list_side_effect_to_test_deeper_level
+    fs_mock.find.side_effect = list_side_effect_to_test_last_level
 
     hive = HivePartitiion(
         ruta="contenedor/ruta/al/archivo/",
-        partition_cols={'year': [2022, 2024], 'month': [10, 11]},
+        partition_cols={'year': [2022], 'month': [10, 11]},
         fs=fs_mock,
         last_modified_last_level=True,
     )
 
     assert hive.partition_files == [
-        ("archivo.csv", {'year': 2022, 'month': 10, 'load_date': '2022-01-02'}),
-        ("archivo.csv", {'year': 2022, 'month': 11, 'load_date': '2022-01-01'}),
+        ("load_date=2022-01-02/archivo.csv", {'year': 2022, 'month': 10}),
+        ("load_date=2022-01-01/archivo.csv", {'year': 2022, 'month': 11}),
+    ]
+
+
+@patch("azure_datalake_utils.partitions.AzureBlobFileSystem", autospec=True)
+def test___discover_should_discover_partitions(fs_mock):
+    """Test para verificar discover."""
+    fs_mock.find.return_value = {
+        'contenedor/ruta/al/archivo/year=2022/month=10/load_date=2022-01-01/archivo.csv': {
+            'last_modified': datetime.datetime(2022, 1, 1, 12, 30, 00, tzinfo=datetime.timezone.utc)
+        },
+        'contenedor/ruta/al/archivo/year=2022/month=10/load_date=2022-01-02/archivo.csv': {
+            'last_modified': datetime.datetime(2022, 1, 2, 12, 30, 00, tzinfo=datetime.timezone.utc)
+        },
+        'contenedor/ruta/al/archivo/year=2022/month=11/load_date=2022-01-01/archivo.csv': {
+            'last_modified': datetime.datetime(2022, 1, 1, 12, 30, 00, tzinfo=datetime.timezone.utc)
+        },
+    }
+
+    hive = HivePartitiion(
+        ruta="contenedor/ruta/al/archivo/",
+        fs=fs_mock,
+        last_modified_last_level=False,
+    )
+
+    assert hive.partition_files == [
+        ("archivo.csv", {'year': '2022', 'month': '10', 'load_date': '2022-01-02'}),
+        ("archivo.csv", {'year': '2022', 'month': '10', 'load_date': '2022-01-01'}),
+        ("archivo.csv", {'year': '2022', 'month': '11', 'load_date': '2022-01-01'}),
+    ]
+
+
+@patch("azure_datalake_utils.partitions.AzureBlobFileSystem", autospec=True)
+def test___discover_with_filter_last_modified_last_level_should_discover_partitions(fs_mock):
+    """Test para verificar discover."""
+    fs_mock.find.return_value = {
+        'contenedor/ruta/al/archivo/year=2022/month=10/load_date=2022-01-01/archivo.csv': {
+            'last_modified': datetime.datetime(2022, 1, 1, 12, 30, 00, tzinfo=datetime.timezone.utc)
+        },
+        'contenedor/ruta/al/archivo/year=2022/month=10/load_date=2022-01-02/archivo.csv': {
+            'last_modified': datetime.datetime(2022, 1, 2, 12, 30, 00, tzinfo=datetime.timezone.utc)
+        },
+        'contenedor/ruta/al/archivo/year=2022/month=11/load_date=2022-01-01/archivo.csv': {
+            'last_modified': datetime.datetime(2022, 1, 1, 12, 30, 00, tzinfo=datetime.timezone.utc)
+        },
+    }
+
+    hive = HivePartitiion(
+        ruta="contenedor/ruta/al/archivo/",
+        fs=fs_mock,
+        last_modified_last_level=True,
+    )
+
+    assert hive.partition_files == [
+        ("load_date=2022-01-02/archivo.csv", {'year': '2022', 'month': '10'}),
+        ("load_date=2022-01-01/archivo.csv", {'year': '2022', 'month': '11'}),
     ]

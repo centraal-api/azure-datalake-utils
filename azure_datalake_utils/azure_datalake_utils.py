@@ -1,7 +1,7 @@
 """Main module."""
 import platform
 import re
-from typing import Any, Optional
+from typing import Any, Optional, Union, List
 
 import numpy as np
 import pandas as pd
@@ -10,7 +10,7 @@ from azure.identity.aio import DefaultAzureCredential as AIODefaultAzureCredenti
 from adlfs import AzureBlobFileSystem
 
 import azure_datalake_utils.experimental as exp
-from azure_datalake_utils.exepctions import ArchivoNoEncontrado, ExtensionIncorrecta, raiseArchivoNoEncontrado
+from azure_datalake_utils.exepctions import ExtensionIncorrecta, raiseArchivoNoEncontrado
 
 
 class Datalake(object):
@@ -56,7 +56,7 @@ class Datalake(object):
         return cls(datalake_name=datalake_name, account_key=account_key, tenant_id=None)
 
     @raiseArchivoNoEncontrado
-    def read_csv(self, ruta: str, **kwargs: Optional[Any]) -> pd.DataFrame:
+    def read_csv(self, ruta: Union[str, List[str]], **kwargs: Optional[Any]) -> pd.DataFrame:
         """Leer un archivo CSV desde la cuenta de datalake.
 
         Esta función hace una envoltura de [pd.read_csv].
@@ -69,6 +69,12 @@ class Datalake(object):
             ruta: Ruta a leeder el archivo, debe contener una referencia a un archivo
                 `.csv` o `.txt`. Recordar que la ruta debe contener esta estructura:
                 `{NOMBRE_CONTENEDOR}/{RUTA}/{nombre o patron}.csv`.
+                NUEVO en version 0.5:
+                Tambien acepta una lista de archivos terminados en csv. ejemplo:
+                ```
+                [{NOMBRE_CONTENEDOR}/{RUTA}/{nombre o patron}.csv,
+                {NOMBRE_CONTENEDOR}/{RUTA2}/{nombre o patron}.csv]
+                ```
 
             **kwargs: argumentos a pasar a pd.read_csv. El unico argumento que es ignorado
                 es storage_options.
@@ -79,10 +85,13 @@ class Datalake(object):
         if 'storage_options' in kwargs:
             kwargs.pop('storage_options')
 
-        if not self._verificar_extension(ruta, '.csv', '.txt', '.tsv'):
-            raise ExtensionIncorrecta(ruta)
-
-        df = pd.read_csv(f"az://{ruta}", storage_options=self.storage_options, **kwargs)
+        if type(ruta) == str:
+            self._verificar_extension(ruta, '.csv', '.txt', '.tsv')
+            df = pd.read_csv(f"az://{ruta}", storage_options=self.storage_options, **kwargs)
+        else:
+            [self._verificar_extension(r, '.csv', '.txt', '.tsv') for r in ruta]
+            rutas = [pd.read_csv(f"az://{r}", storage_options=self.storage_options, **kwargs) for r in ruta]
+            df = pd.concat(rutas, ignore_index=True)
 
         return df
 
@@ -113,8 +122,7 @@ class Datalake(object):
         if 'engine' in kwargs:
             kwargs.pop('engine')
 
-        if not self._verificar_extension(ruta, '.xlsx', '.xls'):
-            raise ExtensionIncorrecta(ruta)
+        self._verificar_extension(ruta, '.xlsx', '.xls')
 
         # TODO: esto es algo temporal y se debe analizar si se puede remover. Esta bandera fue necesario debido a:
         # 1. Si no se usa el cliente para descargar el excel cuando se modifica el archivo de
@@ -130,6 +138,7 @@ class Datalake(object):
 
         return df
 
+    @raiseArchivoNoEncontrado
     def read_json(self, ruta: str, **kwargs: Optional[Any]) -> pd.DataFrame:
         """Leer un archivo Json desde la cuenta de datalake.
 
@@ -151,13 +160,9 @@ class Datalake(object):
         if 'storage_options' in kwargs:
             kwargs.pop('storage_options')
 
-        if not self._verificar_extension(ruta, '.json'):
-            raise ExtensionIncorrecta(ruta)
+        self._verificar_extension(ruta, '.json')
 
-        try:
-            df = pd.read_json(f"az://{ruta}", storage_options=self.storage_options, **kwargs)
-        except IndexError:
-            raise ArchivoNoEncontrado(ruta)
+        df = pd.read_json(f"az://{ruta}", storage_options=self.storage_options, **kwargs)
 
         return df
 
@@ -186,11 +191,9 @@ class Datalake(object):
         """Metodo para verificar extensiones."""
         for ext in extensiones:
             verificar = ruta.endswith(ext)
-
             if verificar:
-                return verificar
-
-        return verificar
+                return True
+        raise ExtensionIncorrecta(ruta)
 
     def _limpiar_df_cols_str(self, df: pd.DataFrame, sep: str = ",") -> pd.DataFrame:
         """Limpia las columnas string del dataframe."""

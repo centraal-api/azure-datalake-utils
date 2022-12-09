@@ -72,7 +72,9 @@ def test_verificar_extension_should_check_extensions():
         dl = Datalake('name', 'tenant')
         assert dl._verificar_extension('a/b/c/foo.csv', '.csv', '.tsv')
         assert dl._verificar_extension('a/b/c/foo.tsv', '.csv', '.tsv', '.txt')
-        assert not dl._verificar_extension('a/b/c/foo.xlsx', '.csv', '.tsv', '.txt')
+
+        with pytest.raises(ExtensionIncorrecta):
+            dl._verificar_extension('a/b/c/foo.xlsx', '.csv', '.tsv', '.txt')
 
 
 def test_read_csv_should_raise_extension_incorrecta(dl_account: Datalake):
@@ -88,6 +90,18 @@ def test_read_csv_should_return_dataframe(read_mock: Mock, dl_account: Datalake,
     df = dl_account.read_csv("path/to/file.csv")
     read_mock.assert_called_once()
     pd.testing.assert_frame_equal(df, test_df)
+
+
+@patch("azure_datalake_utils.azure_datalake_utils.pd.read_csv")
+def test_read_csv_with_list_of_path_should_return_dataframe(
+    read_mock: Mock, dl_account: Datalake, test_df: pd.DataFrame
+):
+    """Test read_csv."""
+    read_mock.return_value = test_df
+    files = ["path/to/file.csv", "path/to/file.csv"]
+    df = dl_account.read_csv(files)
+    assert read_mock.call_count == len(files)
+    pd.testing.assert_frame_equal(df, pd.concat([test_df, test_df], ignore_index=True))
 
 
 @patch("azure_datalake_utils.azure_datalake_utils.pd.read_json")

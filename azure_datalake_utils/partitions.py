@@ -54,7 +54,7 @@ class HivePartitiion:
     def __init__(
         self,
         ruta: str,
-        partition_cols: Dict[str, Any],
+        partition_cols: Dict[str, Any] = None,
         partition_filter: Dict[str, Any] = {},
         last_modified_last_level: bool = False,
         fs: AzureBlobFileSystem = None,
@@ -69,12 +69,14 @@ class HivePartitiion:
         self.last_modified_last_level = last_modified_last_level
 
         self.fs = fs
-        self._discover()
+        self._make_partitions()
 
-    def _discover(self) -> None:
+    def _make_partitions(self) -> None:
         """Metodo para descubrir las paritciones."""
         if self.partition_cols is not None:
             self._make_partitions_using_partition_cols()
+        else:
+            self._discover()
 
     def _make_partitions_using_partition_cols(self) -> None:
         """Metodo para constuir particiones con la partition_cols y asi evitar descubrirlas."""
@@ -94,7 +96,8 @@ class HivePartitiion:
                 logging.debug(f"archivos encontrados {files}")
                 selected = sorted(files.items(), key=lambda x: x[1], reverse=True)[0][0]
                 logging.debug(f"archivo seleccionado {selected}")
-                partitions.append((selected, part))
+                file_name = "/".join(selected.split("/")[-2:])
+                partitions.append((file_name, part))
             else:
                 try:
                     details = self.fs.listdir(f"{self.ruta}{partition_path}/")
@@ -108,3 +111,48 @@ class HivePartitiion:
                 partitions.append((file_name, part))
 
         self.partition_files = partitions
+
+    def _discover(self) -> None:
+        """Inferir particiones a partir del esquema.
+
+        NOTA: El metodo al descubrir particiones, todas las dejas en string.
+        #TODO: verificar si vale la pena tratar de inferir formatos.
+        """
+        partition_files_ = []
+        partition_files_as_dict = {}
+        list_of_files = self.fs.find(self.ruta, detail=True)
+        list_of_files = {k: v['last_modified'] for k, v in list_of_files.items()}
+        list_of_files = dict(sorted(list_of_files.items(), key=lambda x: x[1], reverse=True))
+
+        for completepath, last_modified_loop in list_of_files.items():
+            path_to_discover = completepath.split(self.ruta)[-1]
+            split_path = path_to_discover.split("/")
+            file_name = split_path[-1]
+
+            if self.last_modified_last_level:
+                partitions = tuple(split_path[0 : len(split_path) - 2])
+                last_level = split_path[-2]
+
+                if partitions in partition_files_as_dict:
+                    last_modified_current = list_of_files[completepath]
+                    # si la fecha es mayor, la particion es mas reciente, entonces se reemplaza.
+                    if last_modified_loop > last_modified_current:
+                        partition_files_as_dict[partitions] = f"{last_level}/{file_name}"
+
+                else:
+                    partition_files_as_dict[partitions] = f"{last_level}/{file_name}"
+
+            else:
+
+                partitions = split_path[0 : len(split_path) - 1]
+                parts = {part.split("=")[0]: part.split("=")[1] for part in partitions if "=" in part}
+                partition_files_.append((file_name, parts))
+
+        if self.last_modified_last_level:
+            # Ajustar el formato.
+            partition_files_ = [
+                (name, {part.split("=")[0]: part.split("=")[1] for part in parts if "=" in part})
+                for parts, name in partition_files_as_dict.items()
+            ]
+
+        self.partition_files = partition_files_

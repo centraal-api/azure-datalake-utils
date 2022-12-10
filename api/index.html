@@ -331,6 +331,13 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#azure_datalake_utils.azure_datalake_utils.Datalake.read_csv_with_partition" class="md-nav__link">
+    read_csv_with_partition()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#azure_datalake_utils.azure_datalake_utils.Datalake.read_excel" class="md-nav__link">
     read_excel()
   </a>
@@ -471,6 +478,13 @@
           <li class="md-nav__item">
   <a href="#azure_datalake_utils.azure_datalake_utils.Datalake.read_csv" class="md-nav__link">
     read_csv()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#azure_datalake_utils.azure_datalake_utils.Datalake.read_csv_with_partition" class="md-nav__link">
+    read_csv_with_partition()
   </a>
   
 </li>
@@ -734,13 +748,149 @@ usar la documentación de la función para determinar parametros adicionales.</p
         <tr>
           <td><code>ruta</code></td>
           <td>
-                <code>str</code>
+                <code><span title="typing.Union">Union</span>[str, <span title="typing.List">List</span>[str]]</code>
           </td>
           <td><p>Ruta a leeder el archivo, debe contener una referencia a un archivo
 <code>.csv</code> o <code>.txt</code>. Recordar que la ruta debe contener esta estructura:
-<code>{NOMBRE_CONTENEDOR}/{RUTA}/{nombre o patron}.csv</code>.</p></td>
+<code>{NOMBRE_CONTENEDOR}/{RUTA}/{nombre o patron}.csv</code>.
+NUEVO en version 0.5:
+Tambien acepta una lista de archivos terminados en csv. ejemplo:
+<div class="highlight"><pre><span></span><code>[{NOMBRE_CONTENEDOR}/{RUTA}/{nombre o patron}.csv,
+{NOMBRE_CONTENEDOR}/{RUTA2}/{nombre o patron}.csv]
+</code></pre></div></p></td>
           <td>
               <em>required</em>
+          </td>
+        </tr>
+        <tr>
+          <td><code>**kwargs</code></td>
+          <td>
+                <code><span title="typing.Optional">Optional</span>[<span title="typing.Any">Any</span>]</code>
+          </td>
+          <td><p>argumentos a pasar a pd.read_csv. El unico argumento que es ignorado
+es storage_options.</p></td>
+          <td>
+                <code>{}</code>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  <p><strong>Returns:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td>
+                <code><span title="pandas">pd</span>.<span title="pandas.DataFrame">DataFrame</span></code>
+          </td>
+          <td><p>Dataframe con la informacion del la ruta.</p></td>
+        </tr>
+    </tbody>
+  </table>
+
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="azure_datalake_utils.azure_datalake_utils.Datalake.read_csv_with_partition" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">read_csv_with_partition</span><span class="p">(</span><span class="n">ruta</span><span class="p">,</span> <span class="n">partition_cols</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">partition_exclusion</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">partition_inclusion</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">last_modified_last_level</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></code>
+
+<a href="#azure_datalake_utils.azure_datalake_utils.Datalake.read_csv_with_partition" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Leer un archivo CSV desde la cuenta de datalake con particiones Hive.</p>
+<p>Una partición tipo Hive son archivos almacenados de la forma
+/ruta/to/archivo/particion_1=1/particion2=2/archivo_con_info.extension.</p>
+<p><strong>IMPORTANTE</strong>: por el momento el funcionamiento de esta función es solo soportada
+si el objeto fue creado mediante <code>from_account_key</code>.</p>
+<p>Esta función hace una envoltura de <code>read_csv</code> que asu vez usa <a href="https://pandas.pydata.org/docs/reference/api/pandas.read_csv.html">pd.read_csv</a>.
+usar la documentación de la función para determinar parametros adicionales.</p>
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>ruta</code></td>
+          <td>
+                <code>str</code>
+          </td>
+          <td><p>Ruta a leeder el archivo, esta ruta debe contener archivos guardados siguiendo</p></td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+        <tr>
+          <td><code>la</code></td>
+          <td>
+                <code>convección de la partición Hive. Ejemplo si la estructura de los archivos es</code>
+          </td>
+          <td></td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+        <tr>
+          <td><code>partition_cols</code></td>
+          <td>
+                <code><span title="typing.Dict">Dict</span>[str, <span title="typing.List">List</span>[str]]</code>
+          </td>
+          <td><p>Definir que particionews incluir, se asume que se sabe a priori la
+estructura. Si se pasa <code>None</code>, se activa el descubrimiento automatico de las particiones.</p></td>
+          <td>
+                <code>None</code>
+          </td>
+        </tr>
+        <tr>
+          <td><code>partition_exclusion</code></td>
+          <td>
+                <code><span title="typing.Dict">Dict</span>[str, <span title="typing.List">List</span>[str]]</code>
+          </td>
+          <td><p>Definir que particiones excluir, es más util cuando no se ha definido
+<code>partition_cols=None</code>.</p></td>
+          <td>
+                <code>None</code>
+          </td>
+        </tr>
+        <tr>
+          <td><code>partition_inclusion</code></td>
+          <td>
+                <code><span title="typing.Dict">Dict</span>[str, <span title="typing.List">List</span>[str]]</code>
+          </td>
+          <td><p>Definir la particiones a incluir, es más util cuando no se ha definido
+<code>partition_cols=None</code>.</p></td>
+          <td>
+                <code>None</code>
+          </td>
+        </tr>
+        <tr>
+          <td><code>last_modified_last_level</code></td>
+          <td>
+                <code>bool</code>
+          </td>
+          <td><p>Define si el ultimo nivel no se tiene en cuenta para particiones y
+se carga el archivo que fue modificado de manera más reciente.</p></td>
+          <td>
+                <code>True</code>
           </td>
         </tr>
         <tr>

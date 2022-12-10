@@ -23,6 +23,7 @@ import pytest
 from azure.identity import AuthenticationRecord
 from azure.identity.aio import DefaultAzureCredential
 from azure.core.exceptions import ResourceNotFoundError
+from adlfs import AzureBlobFileSystem
 
 from azure_datalake_utils import Datalake
 from azure_datalake_utils.exepctions import ExtensionIncorrecta
@@ -72,7 +73,9 @@ def test_verificar_extension_should_check_extensions():
         dl = Datalake('name', 'tenant')
         assert dl._verificar_extension('a/b/c/foo.csv', '.csv', '.tsv')
         assert dl._verificar_extension('a/b/c/foo.tsv', '.csv', '.tsv', '.txt')
-        assert not dl._verificar_extension('a/b/c/foo.xlsx', '.csv', '.tsv', '.txt')
+
+        with pytest.raises(ExtensionIncorrecta):
+            dl._verificar_extension('a/b/c/foo.xlsx', '.csv', '.tsv', '.txt')
 
 
 def test_read_csv_should_raise_extension_incorrecta(dl_account: Datalake):
@@ -88,6 +91,18 @@ def test_read_csv_should_return_dataframe(read_mock: Mock, dl_account: Datalake,
     df = dl_account.read_csv("path/to/file.csv")
     read_mock.assert_called_once()
     pd.testing.assert_frame_equal(df, test_df)
+
+
+@patch("azure_datalake_utils.azure_datalake_utils.pd.read_csv")
+def test_read_csv_with_list_of_path_should_return_dataframe(
+    read_mock: Mock, dl_account: Datalake, test_df: pd.DataFrame
+):
+    """Test read_csv."""
+    read_mock.return_value = test_df
+    files = ["path/to/file.csv", "path/to/file.csv"]
+    df = dl_account.read_csv(files)
+    assert read_mock.call_count == len(files)
+    pd.testing.assert_frame_equal(df, pd.concat([test_df, test_df], ignore_index=True))
 
 
 @patch("azure_datalake_utils.azure_datalake_utils.pd.read_json")
@@ -143,3 +158,31 @@ def test_read_excel_should_raise_ArchivNoEncontrado_with_azure_error(read_mock: 
     read_mock.side_effect = ResourceNotFoundError
     with pytest.raises(ExtensionIncorrecta):
         dl_account.read_csv('contenedor/foo/bar.text')
+
+
+@patch("azure_datalake_utils.azure_datalake_utils.pd.read_csv")
+@patch("azure_datalake_utils.azure_datalake_utils.AzureBlobFileSystem", autospec=True)
+@patch("azure_datalake_utils.partitions.HivePartitiion.get_partition_list")
+def test_read_csv_with_partition_should_return_df_read_from_partitions(
+    get_partition_list_mock: Mock,
+    fs_mock: AzureBlobFileSystem,
+    read_mock,
+    dl_account: Datalake,
+    test_df: pd.DataFrame,
+):
+    """Test para read_csv_with_partition."""
+    get_partition_list_mock.return_value = [
+        'contenedor/file/path/part=1/file.csv',
+        'contenedor/file/path/part=2/file.csv',
+    ]
+    read_mock.return_value = test_df
+    dl_account.fs = fs_mock
+    with patch(
+        "azure_datalake_utils.azure_datalake_utils.HivePartitiion.get_partition_files",
+        return_value=[('file.csv', {'part': '1'}), ('file.csv', {'part': '2'})],
+        create=True,
+    ):
+        df = dl_account.read_csv_with_partition("contenedor/file/path/")
+
+    assert read_mock.call_count == 2
+    assert df['part'].to_list() == ['1', '1', '1', '2', '2', '2']

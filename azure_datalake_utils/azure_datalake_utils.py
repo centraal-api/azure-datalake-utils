@@ -1,15 +1,17 @@
 """Main module."""
 import platform
 import re
-from typing import Any, Optional
+from typing import Any, Dict, Optional, Union, List
 
 import numpy as np
 import pandas as pd
+import azure_datalake_utils.experimental as exp
+
 from azure.identity import InteractiveBrowserCredential
 from azure.identity.aio import DefaultAzureCredential as AIODefaultAzureCredential
-
-import azure_datalake_utils.experimental as exp
-from azure_datalake_utils.exepctions import ArchivoNoEncontrado, ExtensionIncorrecta, raiseArchivoNoEncontrado
+from adlfs import AzureBlobFileSystem
+from azure_datalake_utils.exepctions import ExtensionIncorrecta, raiseArchivoNoEncontrado
+from azure_datalake_utils.partitions import HivePartitiion
 
 
 class Datalake(object):
@@ -47,6 +49,7 @@ class Datalake(object):
 
         else:
             self.storage_options = {'account_name': self.datalake_name, 'account_key': account_key}
+            self.fs = AzureBlobFileSystem(account_name=self.datalake_name, account_key=account_key)
 
     @classmethod
     def from_account_key(cls, datalake_name: str, account_key: str):
@@ -54,7 +57,7 @@ class Datalake(object):
         return cls(datalake_name=datalake_name, account_key=account_key, tenant_id=None)
 
     @raiseArchivoNoEncontrado
-    def read_csv(self, ruta: str, **kwargs: Optional[Any]) -> pd.DataFrame:
+    def read_csv(self, ruta: Union[str, List[str]], **kwargs: Optional[Any]) -> pd.DataFrame:
         """Leer un archivo CSV desde la cuenta de datalake.
 
         Esta función hace una envoltura de [pd.read_csv].
@@ -67,6 +70,12 @@ class Datalake(object):
             ruta: Ruta a leeder el archivo, debe contener una referencia a un archivo
                 `.csv` o `.txt`. Recordar que la ruta debe contener esta estructura:
                 `{NOMBRE_CONTENEDOR}/{RUTA}/{nombre o patron}.csv`.
+                NUEVO en version 0.5:
+                Tambien acepta una lista de archivos terminados en csv. ejemplo:
+                ```
+                [{NOMBRE_CONTENEDOR}/{RUTA}/{nombre o patron}.csv,
+                {NOMBRE_CONTENEDOR}/{RUTA2}/{nombre o patron}.csv]
+                ```
 
             **kwargs: argumentos a pasar a pd.read_csv. El unico argumento que es ignorado
                 es storage_options.
@@ -77,10 +86,13 @@ class Datalake(object):
         if 'storage_options' in kwargs:
             kwargs.pop('storage_options')
 
-        if not self._verificar_extension(ruta, '.csv', '.txt', '.tsv'):
-            raise ExtensionIncorrecta(ruta)
-
-        df = pd.read_csv(f"az://{ruta}", storage_options=self.storage_options, **kwargs)
+        if type(ruta) == str:
+            self._verificar_extension(ruta, '.csv', '.txt', '.tsv')
+            df = pd.read_csv(f"az://{ruta}", storage_options=self.storage_options, **kwargs)
+        else:
+            [self._verificar_extension(r, '.csv', '.txt', '.tsv') for r in ruta]
+            rutas = [pd.read_csv(f"az://{r}", storage_options=self.storage_options, **kwargs) for r in ruta]
+            df = pd.concat(rutas, ignore_index=True)
 
         return df
 
@@ -111,8 +123,7 @@ class Datalake(object):
         if 'engine' in kwargs:
             kwargs.pop('engine')
 
-        if not self._verificar_extension(ruta, '.xlsx', '.xls'):
-            raise ExtensionIncorrecta(ruta)
+        self._verificar_extension(ruta, '.xlsx', '.xls')
 
         # TODO: esto es algo temporal y se debe analizar si se puede remover. Esta bandera fue necesario debido a:
         # 1. Si no se usa el cliente para descargar el excel cuando se modifica el archivo de
@@ -128,6 +139,7 @@ class Datalake(object):
 
         return df
 
+    @raiseArchivoNoEncontrado
     def read_json(self, ruta: str, **kwargs: Optional[Any]) -> pd.DataFrame:
         """Leer un archivo Json desde la cuenta de datalake.
 
@@ -149,15 +161,78 @@ class Datalake(object):
         if 'storage_options' in kwargs:
             kwargs.pop('storage_options')
 
-        if not self._verificar_extension(ruta, '.json'):
-            raise ExtensionIncorrecta(ruta)
+        self._verificar_extension(ruta, '.json')
 
-        try:
-            df = pd.read_json(f"az://{ruta}", storage_options=self.storage_options, **kwargs)
-        except IndexError:
-            raise ArchivoNoEncontrado(ruta)
+        df = pd.read_json(f"az://{ruta}", storage_options=self.storage_options, **kwargs)
 
         return df
+
+    def read_csv_with_partition(
+        self,
+        ruta: str,
+        partition_cols: Dict[str, List[str]] = None,
+        partition_exclusion: Dict[str, List[str]] = None,
+        partition_inclusion: Dict[str, List[str]] = None,
+        last_modified_last_level: bool = True,
+        **kwargs: Optional[Any],
+    ) -> pd.DataFrame:
+        """Leer un archivo CSV desde la cuenta de datalake con particiones Hive.
+
+        Una partición tipo Hive son archivos almacenados de la forma
+        /ruta/to/archivo/particion_1=1/particion2=2/archivo_con_info.extension.
+
+        **IMPORTANTE**: por el momento el funcionamiento de esta función es solo soportada
+        si el objeto fue creado mediante `from_account_key`.
+
+        Esta función hace una envoltura de `read_csv` que asu vez usa [pd.read_csv].
+        usar la documentación de la función para determinar parametros adicionales.
+
+        [pd.read_csv]: https://pandas.pydata.org/docs/reference/api/pandas.read_csv.html
+
+        Args:
+
+            ruta: Ruta a leeder el archivo, esta ruta debe contener archivos guardados siguiendo
+            la convección de la partición Hive. Ejemplo si la estructura de los archivos es:
+
+            - contenedor/ruta/al/archivo/year=2022/month=10/load_date=2022-01-01/archivo.csv
+            - contenedor/ruta/al/archivo/year=2022/month=10/load_date=2022-01-02/archivo.csv
+            - contenedor/ruta/al/archivo/year=2022/month=11/load_date=2022-01-01/archivo.csv
+
+            `ruta` debe ser `contenedor/ruta/al/archivo/`.
+
+            partition_cols: Definir que particionews incluir, se asume que se sabe a priori la
+                estructura. Si se pasa `None`, se activa el descubrimiento automatico de las particiones.
+            partition_exclusion: Definir que particiones excluir, es más util cuando no se ha definido
+                `partition_cols=None`.
+            partition_inclusion: Definir la particiones a incluir, es más util cuando no se ha definido
+                `partition_cols=None`.
+            last_modified_last_level: Define si el ultimo nivel no se tiene en cuenta para particiones y
+                se carga el archivo que fue modificado de manera más reciente.
+            **kwargs: argumentos a pasar a pd.read_csv. El unico argumento que es ignorado
+                es storage_options.
+
+        Returns:
+            Dataframe con la informacion del la ruta.
+        """
+        if not ruta.endswith("/"):
+            raise ValueError("ruta debe finalizar en /")
+
+        particiones = HivePartitiion(
+            ruta=ruta,
+            partition_cols=partition_cols,
+            partition_exclusion=partition_exclusion,
+            partition_inclusion=partition_inclusion,
+            last_modified_last_level=last_modified_last_level,
+            fs=self.fs,
+        )
+        list_of_files = particiones.get_partition_list()
+        list_of_dfs = []
+        for path_, particion in zip(list_of_files, particiones.get_partition_files()):
+            particiones_cols = particion[1]
+            df = self.read_csv(path_, **kwargs).assign(**particiones_cols)
+            list_of_dfs.append(df)
+
+        return pd.concat(list_of_dfs, ignore_index=True)
 
     def write_csv(self, df: pd.DataFrame, ruta, **kwargs: Optional[Any]) -> None:
         """Escribir al archivo."""
@@ -184,11 +259,9 @@ class Datalake(object):
         """Metodo para verificar extensiones."""
         for ext in extensiones:
             verificar = ruta.endswith(ext)
-
             if verificar:
-                return verificar
-
-        return verificar
+                return True
+        raise ExtensionIncorrecta(ruta)
 
     def _limpiar_df_cols_str(self, df: pd.DataFrame, sep: str = ",") -> pd.DataFrame:
         """Limpia las columnas string del dataframe."""

@@ -18,7 +18,7 @@
 import itertools
 import logging
 
-from typing import Any, Dict, List, Tuple
+from typing import Dict, List, Tuple
 from adlfs import AzureBlobFileSystem
 
 
@@ -54,8 +54,8 @@ class HivePartitiion:
     def __init__(
         self,
         ruta: str,
-        partition_cols: Dict[str, Any] = None,
-        partition_filter: Dict[str, Any] = {},
+        partition_cols: Dict[str, List[str]] = None,
+        partition_filter: Dict[str, List[str]] = None,
         last_modified_last_level: bool = False,
         fs: AzureBlobFileSystem = None,
     ) -> None:
@@ -77,6 +77,9 @@ class HivePartitiion:
             self._make_partitions_using_partition_cols()
         else:
             self._discover()
+
+        if self.partition_filter is not None:
+            logging.debug("filtrando particiones")
 
     def _make_partitions_using_partition_cols(self) -> None:
         """Metodo para constuir particiones con la partition_cols y asi evitar descubrirlas."""

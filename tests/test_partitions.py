@@ -87,11 +87,11 @@ def test__make_partitions_using_partition_cols_no_filter_deeper_level_return_cor
     """Test para verificar discover."""
     fs_mock.listdir.side_effect = list_side_effect_to_test
     hive = HivePartitiion(
-        ruta="contenedor/ruta/al/archivo/", partition_cols={'year': [2022, 2023], 'month': [10]}, fs=fs_mock
+        ruta="contenedor/ruta/al/archivo/", partition_cols={'year': ['2022', '2023'], 'month': ['10']}, fs=fs_mock
     )
     assert hive.partition_files == [
-        ("archivo.csv", {'year': 2022, 'month': 10}),
-        ("archivo.csv", {'year': 2023, 'month': 10}),
+        ("archivo.csv", {'year': '2022', 'month': '10'}),
+        ("archivo.csv", {'year': '2023', 'month': '10'}),
     ]
 
     assert hive.container == "contenedor"
@@ -103,12 +103,12 @@ def test__make_partitions_using_partition_cols_no_last_modified_last_level_retur
     """Test para verificar discover."""
     fs_mock.listdir.side_effect = list_side_effect_to_test
     hive = HivePartitiion(
-        ruta="contenedor/ruta/al/archivo/", partition_cols={'year': [2022], 'month': [10, 11, 1]}, fs=fs_mock
+        ruta="contenedor/ruta/al/archivo/", partition_cols={'year': ['2022'], 'month': ['10', '11', '1']}, fs=fs_mock
     )
     assert hive.partition_files == [
-        ("archivo.csv", {'year': 2022, 'month': 10}),
-        ("archivo.csv", {'year': 2022, 'month': 11}),
-        ("archivo1.csv", {'year': 2022, 'month': 1}),
+        ("archivo.csv", {'year': '2022', 'month': '10'}),
+        ("archivo.csv", {'year': '2022', 'month': '11'}),
+        ("archivo1.csv", {'year': '2022', 'month': '1'}),
     ]
 
 
@@ -117,11 +117,11 @@ def test__make_partitions_using_partition_cols_no_last_modified_last_level_retur
     """Test para verificar discover."""
     fs_mock.listdir.side_effect = list_side_effect_to_test
     hive = HivePartitiion(
-        ruta="contenedor/ruta/al/archivo/", partition_cols={'year': [2022, 2024], 'month': [10, 11]}, fs=fs_mock
+        ruta="contenedor/ruta/al/archivo/", partition_cols={'year': ['2022', '2024'], 'month': ['10', '11']}, fs=fs_mock
     )
     assert hive.partition_files == [
-        ("archivo.csv", {'year': 2022, 'month': 10}),
-        ("archivo.csv", {'year': 2022, 'month': 11}),
+        ("archivo.csv", {'year': '2022', 'month': '10'}),
+        ("archivo.csv", {'year': '2022', 'month': '11'}),
     ]
 
 
@@ -132,14 +132,14 @@ def test__make_partitions_using_partition_cols_filter_last_modified_last_level_r
 
     hive = HivePartitiion(
         ruta="contenedor/ruta/al/archivo/",
-        partition_cols={'year': [2022], 'month': [10, 11]},
+        partition_cols={'year': ['2022'], 'month': ['10', '11']},
         fs=fs_mock,
         last_modified_last_level=True,
     )
 
     assert hive.partition_files == [
-        ("load_date=2022-01-02/archivo.csv", {'year': 2022, 'month': 10}),
-        ("load_date=2022-01-01/archivo.csv", {'year': 2022, 'month': 11}),
+        ("load_date=2022-01-02/archivo.csv", {'year': '2022', 'month': '10'}),
+        ("load_date=2022-01-01/archivo.csv", {'year': '2022', 'month': '11'}),
     ]
 
 

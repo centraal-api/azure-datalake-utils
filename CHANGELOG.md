@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.5.0 - 2022-12-10
+
+### Added
+- `read_csv_with_partition` para inferir y leer archivos con particiones tipo `hive`. Solo se habilita cuando se usa el account key.
+- `read_csv` ahora soporta listas de archivos como inputs.
+
 ## 0.4.0 - 2022-12-06
 
 ### Added

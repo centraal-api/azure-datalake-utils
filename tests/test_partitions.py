@@ -17,6 +17,8 @@
 # under the License.
 import datetime
 
+import pytest
+
 from unittest.mock import patch
 from typing import List, Dict
 from azure_datalake_utils.partitions import HivePartitiion
@@ -96,6 +98,36 @@ def test__make_partitions_using_partition_cols_no_filter_deeper_level_return_cor
 
     assert hive.container == "contenedor"
     assert hive.path_blob == "ruta/al/archivo/"
+
+
+@patch("azure_datalake_utils.partitions.AzureBlobFileSystem", autospec=True)
+def test__make_partitions_using_partition_cols_and_partition_exclusion_should_return_filtered_partition(fs_mock):
+    """Test para verificar discover con exlcusion de particiones."""
+    fs_mock.listdir.side_effect = list_side_effect_to_test
+    hive = HivePartitiion(
+        ruta="contenedor/ruta/al/archivo/",
+        partition_cols={'year': ['2022'], 'month': ['10', '11', '1']},
+        fs=fs_mock,
+        partition_exclusion={'month': ['11', '1']},
+    )
+    assert hive.partition_files == [
+        ("archivo.csv", {'year': '2022', 'month': '10'}),
+    ]
+
+
+@patch("azure_datalake_utils.partitions.AzureBlobFileSystem", autospec=True)
+def test__make_partitions_using_partition_cols_and_partition_exclusion_should_rasie_expection(fs_mock):
+    """Test para verificar discover con exlcusion de particiones."""
+    fs_mock.listdir.side_effect = list_side_effect_to_test
+
+    with pytest.raises(KeyError):
+
+        HivePartitiion(
+            ruta="contenedor/ruta/al/archivo/",
+            partition_cols={'year': ['2022'], 'month': ['10', '11', '1']},
+            fs=fs_mock,
+            partition_exclusion={'month': ['11', '1'], 'product': ['foo']},
+        )
 
 
 @patch("azure_datalake_utils.partitions.AzureBlobFileSystem", autospec=True)
@@ -195,4 +227,74 @@ def test___discover_with_filter_last_modified_last_level_should_discover_partiti
     assert hive.partition_files == [
         ("load_date=2022-01-02/archivo.csv", {'year': '2022', 'month': '10'}),
         ("load_date=2022-01-01/archivo.csv", {'year': '2022', 'month': '11'}),
+    ]
+
+
+@patch("azure_datalake_utils.partitions.AzureBlobFileSystem", autospec=True)
+def test___discover_with_filter_last_modified_last_level_and_partition_exclusion_should_discover_partitions(fs_mock):
+    """Test para verificar discover."""
+    fs_mock.find.return_value = {
+        'contenedor/ruta/al/archivo/year=2022/month=10/load_date=2022-01-01/archivo.csv': {
+            'last_modified': datetime.datetime(2022, 1, 1, 12, 30, 00, tzinfo=datetime.timezone.utc)
+        },
+        'contenedor/ruta/al/archivo/year=2022/month=10/load_date=2022-01-02/archivo.csv': {
+            'last_modified': datetime.datetime(2022, 1, 2, 12, 30, 00, tzinfo=datetime.timezone.utc)
+        },
+        'contenedor/ruta/al/archivo/year=2022/month=11/load_date=2022-01-01/archivo.csv': {
+            'last_modified': datetime.datetime(2022, 1, 1, 12, 30, 00, tzinfo=datetime.timezone.utc)
+        },
+    }
+
+    hive = HivePartitiion(
+        ruta="contenedor/ruta/al/archivo/",
+        fs=fs_mock,
+        last_modified_last_level=True,
+        partition_exclusion={'month': ['10']},
+    )
+
+    assert hive.partition_files == [
+        ("load_date=2022-01-01/archivo.csv", {'year': '2022', 'month': '11'}),
+    ]
+
+
+@patch("azure_datalake_utils.partitions.AzureBlobFileSystem", autospec=True)
+def test___discover_with_filter_last_modified_last_level_and_partition_inclusion_should_discover_partitions(fs_mock):
+    """Test para verificar discover."""
+    fs_mock.find.return_value = {
+        'contenedor/ruta/al/archivo/year=2022/month=10/load_date=2022-01-01/archivo.csv': {
+            'last_modified': datetime.datetime(2022, 1, 1, 12, 30, 00, tzinfo=datetime.timezone.utc)
+        },
+        'contenedor/ruta/al/archivo/year=2022/month=10/load_date=2022-01-02/archivo.csv': {
+            'last_modified': datetime.datetime(2022, 1, 2, 12, 30, 00, tzinfo=datetime.timezone.utc)
+        },
+        'contenedor/ruta/al/archivo/year=2022/month=11/load_date=2022-01-01/archivo.csv': {
+            'last_modified': datetime.datetime(2022, 1, 1, 12, 30, 00, tzinfo=datetime.timezone.utc)
+        },
+    }
+
+    hive = HivePartitiion(
+        ruta="contenedor/ruta/al/archivo/",
+        fs=fs_mock,
+        last_modified_last_level=True,
+        partition_inclusion={'month': ['10']},
+    )
+
+    assert hive.partition_files == [
+        ("load_date=2022-01-02/archivo.csv", {'year': '2022', 'month': '10'}),
+    ]
+
+
+@patch("azure_datalake_utils.partitions.AzureBlobFileSystem", autospec=True)
+def test_get_partitiion_list_should_return_list_files(fs_mock):
+    """Test para verificar get_partition_list."""
+    fs_mock.listdir.side_effect = list_side_effect_to_test
+    hive = HivePartitiion(
+        ruta="contenedor/ruta/al/archivo/", partition_cols={'year': ['2022', '2024'], 'month': ['10', '11']}, fs=fs_mock
+    )
+
+    partition_list = hive.get_partition_list()
+
+    assert partition_list == [
+        'contenedor/ruta/al/archivo/year=2022/month=10/archivo.csv',
+        'contenedor/ruta/al/archivo/year=2022/month=11/archivo.csv',
     ]

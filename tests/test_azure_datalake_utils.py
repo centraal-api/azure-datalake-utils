@@ -23,6 +23,7 @@ import pytest
 from azure.identity import AuthenticationRecord
 from azure.identity.aio import DefaultAzureCredential
 from azure.core.exceptions import ResourceNotFoundError
+from adlfs import AzureBlobFileSystem
 
 from azure_datalake_utils import Datalake
 from azure_datalake_utils.exepctions import ExtensionIncorrecta
@@ -157,3 +158,31 @@ def test_read_excel_should_raise_ArchivNoEncontrado_with_azure_error(read_mock: 
     read_mock.side_effect = ResourceNotFoundError
     with pytest.raises(ExtensionIncorrecta):
         dl_account.read_csv('contenedor/foo/bar.text')
+
+
+@patch("azure_datalake_utils.azure_datalake_utils.pd.read_csv")
+@patch("azure_datalake_utils.azure_datalake_utils.AzureBlobFileSystem", autospec=True)
+@patch("azure_datalake_utils.partitions.HivePartitiion.get_partition_list")
+def test_read_csv_with_partition_should_return_df_read_from_partitions(
+    get_partition_list_mock: Mock,
+    fs_mock: AzureBlobFileSystem,
+    read_mock,
+    dl_account: Datalake,
+    test_df: pd.DataFrame,
+):
+    """Test para read_csv_with_partition."""
+    get_partition_list_mock.return_value = [
+        'contenedor/file/path/part=1/file.csv',
+        'contenedor/file/path/part=2/file.csv',
+    ]
+    read_mock.return_value = test_df
+    dl_account.fs = fs_mock
+    with patch(
+        "azure_datalake_utils.azure_datalake_utils.HivePartitiion.get_partition_files",
+        return_value=[('file.csv', {'part': '1'}), ('file.csv', {'part': '2'})],
+        create=True,
+    ):
+        df = dl_account.read_csv_with_partition("contenedor/file/path/")
+
+    assert read_mock.call_count == 2
+    assert df['part'].to_list() == ['1', '1', '1', '2', '2', '2']

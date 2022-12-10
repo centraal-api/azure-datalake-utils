@@ -46,7 +46,8 @@ class HivePartitiion:
         ruta: atributo con la ruta a descubir.
         partition_cols: dict con las particiones a leer de manera especifica.
             Al pasar esta opción implica que hay NO hay inferencia de columnas.
-        partition_filter: diccionarios con valores a filtrar en la partición
+        partition_exclusion: diccionarios con valores a filtrar en la particiónes.
+        partition_inclusion: diccionarios con valores a incluir en la particiónes.
         last_modidfied_deeper_level: si se debe filtrar para obtener el mas reciente
             en el nivel más profundo.
     """
@@ -55,7 +56,8 @@ class HivePartitiion:
         self,
         ruta: str,
         partition_cols: Dict[str, List[str]] = None,
-        partition_filter: Dict[str, List[str]] = None,
+        partition_exclusion: Dict[str, List[str]] = None,
+        partition_inclusion: Dict[str, List[str]] = None,
         last_modified_last_level: bool = False,
         fs: AzureBlobFileSystem = None,
     ) -> None:
@@ -65,11 +67,26 @@ class HivePartitiion:
         self.path_blob = ruta.replace(f"{self.container}/", "")
         self.partition_files: List[Tuple[str, Dict[str, str]]] = [{}]
         self.partition_cols = partition_cols
-        self.partition_filter = partition_filter
+        self.partition_exclusion = partition_exclusion
+        self.partition_inclusion = partition_inclusion
         self.last_modified_last_level = last_modified_last_level
 
         self.fs = fs
         self._make_partitions()
+
+    def get_partition_files(self):
+        """Getter para partition_files."""
+        return self.partition_files
+
+    def get_partition_list(self) -> List[str]:
+        """Convierte a una lista de archivos a leer."""
+        path_and_file = [(file_path_[0], self.dict_to_path(file_path_[1])) for file_path_ in self.partition_files]
+
+        return [f'{self.ruta}{file_path_[1]}/{file_path_[0]}' for file_path_ in path_and_file]
+
+    def dict_to_path(self, dict_) -> str:
+        """Convierte diccionario a path."""
+        return '/'.join('{}={}'.format(*p) for p in dict_.items())
 
     def _make_partitions(self) -> None:
         """Metodo para descubrir las paritciones."""
@@ -78,8 +95,25 @@ class HivePartitiion:
         else:
             self._discover()
 
-        if self.partition_filter is not None:
-            logging.debug("filtrando particiones")
+        if self.partition_exclusion is not None:
+            logging.debug("filtrando particiones por exclusion.")
+            for name, value_to_exclude in self.partition_exclusion.items():
+                try:
+                    self.partition_files = [
+                        partition for partition in self.partition_files if partition[1][name] not in value_to_exclude
+                    ]
+                except KeyError:
+                    raise KeyError(f'{name} NO existe en las particiones!.')
+
+        if self.partition_inclusion is not None:
+            logging.debug("filtrando particiones por inclusion.")
+            for name, value_to_exclude in self.partition_inclusion.items():
+                try:
+                    self.partition_files = [
+                        partition for partition in self.partition_files if partition[1][name] in value_to_exclude
+                    ]
+                except KeyError:
+                    raise KeyError(f'{name} NO existe en las particiones!.')
 
     def _make_partitions_using_partition_cols(self) -> None:
         """Metodo para constuir particiones con la partition_cols y asi evitar descubrirlas."""

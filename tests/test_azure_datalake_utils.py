@@ -60,11 +60,32 @@ def test_datalake_should_init_properly():
             assert not dl.storage_options['anon']
             assert isinstance(dl.storage_options['credential'], DefaultAzureCredential)
 
+    with patch('azure.identity.InteractiveBrowserCredential.authenticate', return_value=fake_record):
+        dl = Datalake('name', 'tenant', fsspec_cache=False)
+        if platform.system().lower() != 'windows':
+            assert dl.storage_options == {
+                'account_name': 'name',
+                'anon': False,
+                'default_cache_type': None,
+            }
+        else:
+            assert dl.storage_options['account_name'] == 'name'
+            assert dl.storage_options['default_cache_type'] is None, "no se esta invalidando el cache."
+            assert not dl.storage_options['anon']
+            assert isinstance(dl.storage_options['credential'], DefaultAzureCredential)
+
 
 def test_datalake_should_init_from_account_key():
     """Test para inicializacion del datalake con key account."""
     dl = Datalake.from_account_key('name', 'key')
     assert dl.storage_options == {'account_name': 'name', 'account_key': 'key'}
+
+    dl = Datalake.from_account_key('name', 'key', False)
+    assert dl.storage_options == {
+        'account_name': 'name',
+        'account_key': 'key',
+        'default_cache_type': None,
+    }, "no se esta invalidando el cache."
 
 
 def test_verificar_extension_should_check_extensions():

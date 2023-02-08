@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.5.1 - 2023-02-08
+
+### Added
+
+- se adiciona el parametro `fsspec_cache`. Se recomienda usar `fsspec_cache=False` cuando se encuentran en ambientes serverless. Para mas detalles:
+    - https://github.com/fsspec/adlfs/issues/391
+    - https://github.com/Azure/azure-sdk-for-python/issues/28312
+
+
 ## 0.5.0 - 2022-12-10
 
 ### Added

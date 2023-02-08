@@ -17,7 +17,9 @@ from azure_datalake_utils.partitions import HivePartitiion
 class Datalake(object):
     """Clase para representar operaciones de Datalake."""
 
-    def __init__(self, datalake_name: str, tenant_id: str, account_key: Optional[str] = None) -> None:
+    def __init__(
+        self, datalake_name: str, tenant_id: str, account_key: Optional[str] = None, fsspec_cache: bool = True
+    ) -> None:
         """Clase para interactuar con Azure Dalake.
 
         Args:
@@ -25,8 +27,16 @@ class Datalake(object):
             tenant_id: Identificador del tenant, es valor es proporcionado
                 por arquitectura de datos, debe conservarse para un
                 correcto funcionamiento.
-            account_key: key de la cuenta. Por defecto es None y es ignorado
+            account_key: key de la cuenta. Por defecto es None y es ignorado.
+            fsspec_cache: indica si se va usar la funcionalidad de cache de fsspec.
+                **NOTA**: se recomienda usar `fsspec_cache=False` cuando se encuentran en ambientes
+                serverless, donde no se tiene control escricto de la `vida` de la instancias, de esta manera
+                la libreria siempre verifica la información con Azure y no reusar instancias en cache que pueden
+                tener valores desactualizados.
 
+                Para ver los efectos, ver los siguientes issues:
+                - https://github.com/fsspec/adlfs/issues/391
+                - https://github.com/Azure/azure-sdk-for-python/issues/28312
         """
         self.datalake_name = datalake_name
 
@@ -39,22 +49,27 @@ class Datalake(object):
             # TODO: verificar https://github.com/fsspec/adlfs/issues/270
             # para ver como evoluciona y evitar este condicional.
             if platform.system().lower() != 'windows':
-                self.storage_options = {'account_name': self.datalake_name, 'anon': False}
+                storage_options = {'account_name': self.datalake_name, 'anon': False}
             else:
-                self.storage_options = {
+                storage_options = {
                     'account_name': self.datalake_name,
                     'anon': False,
                     'credential': AIODefaultAzureCredential(),
                 }
 
         else:
-            self.storage_options = {'account_name': self.datalake_name, 'account_key': account_key}
+            storage_options = {'account_name': self.datalake_name, 'account_key': account_key}
             self.fs = AzureBlobFileSystem(account_name=self.datalake_name, account_key=account_key)
 
+        if not fsspec_cache:
+            storage_options['default_cache_type'] = None
+
+        self.storage_options = storage_options
+
     @classmethod
-    def from_account_key(cls, datalake_name: str, account_key: str):
+    def from_account_key(cls, datalake_name: str, account_key: str, fsspec_cache: bool = True):
         """Opcion de inicializar con account key."""
-        return cls(datalake_name=datalake_name, account_key=account_key, tenant_id=None)
+        return cls(datalake_name=datalake_name, account_key=account_key, tenant_id=None, fsspec_cache=fsspec_cache)
 
     @raiseArchivoNoEncontrado
     def read_csv(self, ruta: Union[str, List[str]], **kwargs: Optional[Any]) -> pd.DataFrame:

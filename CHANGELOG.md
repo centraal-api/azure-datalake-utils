@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.5.2 - 2023-02-08
+
+### Fixed
+
+- version pip en poetry lock
+
 ## 0.5.1 - 2023-02-08
 
 ### Added

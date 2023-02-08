@@ -7,6 +7,6 @@ Modulos exportados por este paquete.
 
 __author__ = """centraal.studio"""
 __email__ = 'equipo@centraal.studio'
-__version__ = '0.5.2'
+__version__ = '0.5.3'
 
 from azure_datalake_utils.azure_datalake_utils import Datalake

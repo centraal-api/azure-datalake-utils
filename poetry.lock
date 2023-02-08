@@ -1676,7 +1676,7 @@ test = ["pytest", "black", "isort", "flake8", "flake8-docstrings", "pytest-cov",
 [metadata]
 lock-version = "1.1"
 python-versions = ">=3.8,<4.0"
-content-hash = "dc6a39c4feb1454d43027da7be6db52566aafabab58a07848856804cd2490ccb"
+content-hash = "1753f86d63ebc098d391ecd84bd616d55dc5371655a307c60f3cb95bbd31ab24"
 
 [metadata.files]
 adal = [

@@ -67,6 +67,7 @@ def test_datalake_should_init_properly():
                 'account_name': 'name',
                 'anon': False,
                 'default_cache_type': None,
+                'default_fill_cache': False,
             }
         else:
             assert dl.storage_options['account_name'] == 'name'
@@ -85,6 +86,7 @@ def test_datalake_should_init_from_account_key():
         'account_name': 'name',
         'account_key': 'key',
         'default_cache_type': None,
+        'default_fill_cache': False,
     }, "no se esta invalidando el cache."
 
 

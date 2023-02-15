@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.5.4 - 2023-02-15
+
+### Fixed
+
+- Adicionar `storage_options["default_fill_cache"] = False` para asegurar no usar el cache, cuando la opción   `fsspec_cache=False` es usada.
+
 ## 0.5.3 - 2023-02-08
 
 ### Fixed

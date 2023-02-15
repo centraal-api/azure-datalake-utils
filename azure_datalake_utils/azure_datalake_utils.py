@@ -63,6 +63,7 @@ class Datalake(object):
 
         if not fsspec_cache:
             storage_options['default_cache_type'] = None
+            storage_options["default_fill_cache"] = False
 
         self.storage_options = storage_options
 

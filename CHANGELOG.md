@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.5.6 - 2023-05-16
+
+### Fixed
+
+- Inclusión de `skip_instance_cache` para asegurar no usar cache, cuando se incializa con `fsspec_cache=False`.
+
 ## 0.5.5 - 2023-02-15
 
 ### Fixed
@@ -10,7 +16,7 @@
 
 ### Fixed
 
-- Adicionar `storage_options["default_fill_cache"] = False` para asegurar no usar el cache, cuando la opción   `fsspec_cache=False` es usada.
+- Adicionar `storage_options["default_fill_cache"] = False` para asegurar no usar el cache, cuando la opción `fsspec_cache=False` es usada.
 
 ## 0.5.3 - 2023-02-08
 

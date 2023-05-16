@@ -2,32 +2,32 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://centraal-api.github.io/azure-datalake-utils/</loc>
-         <lastmod>2023-02-15</lastmod>
+         <lastmod>2023-05-16</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://centraal-api.github.io/azure-datalake-utils/api/</loc>
-         <lastmod>2023-02-15</lastmod>
+         <lastmod>2023-05-16</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://centraal-api.github.io/azure-datalake-utils/changelog/</loc>
-         <lastmod>2023-02-15</lastmod>
+         <lastmod>2023-05-16</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://centraal-api.github.io/azure-datalake-utils/contributing/</loc>
-         <lastmod>2023-02-15</lastmod>
+         <lastmod>2023-05-16</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://centraal-api.github.io/azure-datalake-utils/installation/</loc>
-         <lastmod>2023-02-15</lastmod>
+         <lastmod>2023-05-16</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://centraal-api.github.io/azure-datalake-utils/usage/</loc>
-         <lastmod>2023-02-15</lastmod>
+         <lastmod>2023-05-16</lastmod>
          <changefreq>daily</changefreq>
     </url>
 </urlset>

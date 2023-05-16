@@ -41,7 +41,6 @@ class Datalake(object):
         self.datalake_name = datalake_name
 
         if account_key is None:
-
             self.tenant_id = tenant_id
             credentials = InteractiveBrowserCredential(tenant_id=self.tenant_id)
             credentials.authenticate()
@@ -62,8 +61,9 @@ class Datalake(object):
             self.fs = AzureBlobFileSystem(account_name=self.datalake_name, account_key=account_key)
 
         if not fsspec_cache:
-            storage_options['default_cache_type'] = None
+            storage_options["default_cache_type"] = None
             storage_options["default_fill_cache"] = False
+            storage_options["skip_instance_cache"] = True
 
         self.storage_options = storage_options
 

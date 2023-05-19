@@ -8,7 +8,6 @@ import pandas as pd
 import azure_datalake_utils.experimental as exp
 
 from azure.identity import InteractiveBrowserCredential
-from azure.identity.aio import DefaultAzureCredential as AIODefaultAzureCredential
 from adlfs import AzureBlobFileSystem
 from azure_datalake_utils.exepctions import ExtensionIncorrecta, raiseArchivoNoEncontrado
 from azure_datalake_utils.partitions import HivePartitiion
@@ -42,9 +41,7 @@ class Datalake(object):
 
         if account_key is None:
             self.tenant_id = tenant_id
-            credentials = InteractiveBrowserCredential(tenant_id=self.tenant_id)
-            credentials.authenticate()
-            self._credentials = credentials
+            credential = exp.AioCredentialWrapper(InteractiveBrowserCredential(tenant_id=self.tenant_id))
             # TODO: verificar https://github.com/fsspec/adlfs/issues/270
             # para ver como evoluciona y evitar este condicional.
             if platform.system().lower() != 'windows':
@@ -53,7 +50,7 @@ class Datalake(object):
                 storage_options = {
                     'account_name': self.datalake_name,
                     'anon': False,
-                    'credential': AIODefaultAzureCredential(),
+                    'credential': credential,
                 }
 
         else:

@@ -22,11 +22,13 @@ import tempfile
 # KIND, either express or implied.  See the License for the
 # specific language governing permissions and limitations
 # under the License.
+import asyncio
 import uuid
 from typing import Any, Optional
 
 import pandas as pd
 from adlfs import AzureBlobFileSystem
+from azure.identity import InteractiveBrowserCredential
 
 
 def read_excel_with_client(ruta: str, account_name: str, account_key: str, **kwargs: Optional[Any]):
@@ -39,3 +41,24 @@ def read_excel_with_client(ruta: str, account_name: str, account_key: str, **kwa
     fs.download(ruta, tempfilename)
 
     return pd.read_excel(tempfilename, **kwargs)
+
+
+class AioCredentialWrapper:
+    """Clase para envolver cualquier credencial de Azure-sdk-for-python.
+
+    Esto se hace mientras en el futuro esta funcionalidad se integra al SDK.
+
+    TODO: verificar como evoluciona este issue: https://github.com/Azure/azure-sdk-for-python/issues/19943.
+    """
+
+    def __init__(self, credential: InteractiveBrowserCredential):
+        """Constructor de la clase."""
+        self._credential = credential
+
+    async def get_token(self, *scopes: str, **kwargs):
+        """Metodo para obtener el token."""
+        loop = asyncio.get_event_loop()
+        return await loop.run_in_executor(
+            None,
+            lambda: self._credential.get_token(*scopes, **kwargs),
+        )

@@ -27,6 +27,7 @@ from adlfs import AzureBlobFileSystem
 
 from azure_datalake_utils import Datalake
 from azure_datalake_utils.exepctions import ExtensionIncorrecta
+from azure_datalake_utils.experimental import AioCredentialWrapper
 
 fake_record = AuthenticationRecord("tenant-id", "client-id", "localhost", "object.tenant", "username")
 
@@ -58,7 +59,7 @@ def test_datalake_should_init_properly():
         else:
             assert dl.storage_options['account_name'] == 'name'
             assert not dl.storage_options['anon']
-            assert isinstance(dl.storage_options['credential'], DefaultAzureCredential)
+            assert isinstance(dl.storage_options['credential'], AioCredentialWrapper)
 
     with patch('azure.identity.InteractiveBrowserCredential.authenticate', return_value=fake_record):
         dl = Datalake('name', 'tenant', fsspec_cache=False)

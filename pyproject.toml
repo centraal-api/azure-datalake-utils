@@ -1,7 +1,7 @@
 [tool]
 [tool.poetry]
 name = "azure_datalake_utils"
-version = "0.5.6"
+version = "0.5.7"
 homepage = "https://github.com/centraal-api/azure-datalake-utils"
 description = "Utilidades para interactuar con Azure Datalake."
 authors = ["centraal.studio <equipo@centraal.studio>"]

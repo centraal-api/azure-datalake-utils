@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.5.7 - 2023-06-01
+
+### Fixed
+
+- Inclusión de la clase `AioCredentialWrapper` para realizar implementación no sincronica de autenticación interactiva.
+
+
 ## 0.5.6 - 2023-05-16
 
 ### Fixed

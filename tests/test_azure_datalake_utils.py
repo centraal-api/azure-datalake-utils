@@ -21,7 +21,6 @@ from unittest.mock import Mock, patch
 import pandas as pd
 import pytest
 from azure.identity import AuthenticationRecord
-from azure.identity.aio import DefaultAzureCredential
 from azure.core.exceptions import ResourceNotFoundError
 from adlfs import AzureBlobFileSystem
 
@@ -75,7 +74,7 @@ def test_datalake_should_init_properly():
             assert dl.storage_options['account_name'] == 'name'
             assert dl.storage_options['default_cache_type'] is None, "no se esta invalidando el cache."
             assert not dl.storage_options['anon']
-            assert isinstance(dl.storage_options['credential'], DefaultAzureCredential)
+            assert isinstance(dl.storage_options['credential'], AioCredentialWrapper)
 
 
 def test_datalake_should_init_from_account_key():

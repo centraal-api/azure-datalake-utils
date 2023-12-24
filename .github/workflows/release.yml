@@ -21,7 +21,11 @@ jobs:
 
     strategy:
       matrix:
-        python-versions: [3.8]
+        python-versions: [3.8, 3.9]
+    environment: release
+    permissions:
+      id-token: write
+      contents: write
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -36,6 +40,8 @@ jobs:
       - uses: actions/setup-python@v2
         with:
           python-version: ${{ matrix.python-versions }}
+
+
 
       - name: Install dependencies
         run: |
@@ -72,8 +78,6 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: publish to PyPI
-        uses: pypa/gh-action-pypi-publish@release/v1.5
+        uses: pypa/gh-action-pypi-publish@release/v1
         with:
-          user: __token__
-          password: ${{ secrets.PYPI_API_TOKEN }}
-          skip_existing: true
+          skip-existing: true

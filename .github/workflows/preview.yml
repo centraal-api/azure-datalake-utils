@@ -19,6 +19,10 @@ jobs:
     strategy:
       matrix:
         python-versions: [ 3.8, '3.10']
+    environment: release-test
+    permissions:
+      id-token: write
+
 
     steps:
       - uses: actions/checkout@v2
@@ -42,9 +46,8 @@ jobs:
           poetry build
 
       - name: publish to Test PyPI
-        uses: pypa/gh-action-pypi-publish@master
+        uses: pypa/gh-action-pypi-publish@release/v1
         with:
-          user: __token__
-          password: ${{ secrets.TEST_PYPI_API_TOKEN}}
-          repository_url: https://test.pypi.org/legacy/
-          skip_existing: true
+          repository-url: https://test.pypi.org/legacy/
+          skip-existing: true
+  

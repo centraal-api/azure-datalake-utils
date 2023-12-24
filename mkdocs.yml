@@ -49,8 +49,6 @@ plugins:
   - include-markdown
   - search
   - mkdocstrings:
-      watch:
-        - azure_datalake_utils
       default_handler: python
       handlers:
           python:

@@ -23,7 +23,8 @@ La hipotesis detras de este pensamiento es que se puede lograr incrementar la ad
 ## Features
 
 * Control de autenticación directamente con el Directorio activo de Azure.
-* Lectura de archivos csv y excel, de una forma más concisa.
+* Lectura de archivos csv, excel, json y parquet de una forma más concisa.
+* Creación de token SAS para generar URL a un path especifico.
 
 
 ## Publicar nueva version

@@ -49,12 +49,14 @@ plugins:
   - include-markdown
   - search
   - mkdocstrings:
+      watch:
+        - azure_datalake_utils
       default_handler: python
       handlers:
           python:
             paths: [azure_datalake_utils]
             options:
-              show_source: false
+              show_source: true
 extra:
   social:
     - icon: fontawesome/brands/twitter

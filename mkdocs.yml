@@ -52,8 +52,8 @@ plugins:
       default_handler: python
       handlers:
           python:
+            paths: [azure_datalake_utils]
             options:
-              paths: [azure_datalake_utils]
               show_source: false
 extra:
   social:

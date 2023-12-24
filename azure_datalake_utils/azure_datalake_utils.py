@@ -7,10 +7,12 @@ import numpy as np
 import pandas as pd
 from adlfs import AzureBlobFileSystem
 from azure.identity import InteractiveBrowserCredential
+from typing_extensions import Literal
 
 import azure_datalake_utils.experimental as exp
 from azure_datalake_utils.exepctions import ExtensionIncorrecta, raiseArchivoNoEncontrado
 from azure_datalake_utils.partitions import HivePartitiion
+from azure_datalake_utils.storage_account_utils import create_url_sas_token
 
 
 class Datalake(object):
@@ -180,6 +182,34 @@ class Datalake(object):
 
         return df
 
+    @raiseArchivoNoEncontrado
+    def read_parquet(self, ruta: str, **kwargs: Optional[Any]) -> pd.DataFrame:
+        """Leer un archivo parquet desde la cuenta de datalake.
+
+        Esta función hace una envoltura de [pd.read_parquet].
+        Por favor usar la documentación de la función para determinar parametros adicionales.
+
+        [[pd.read_parquet]]:(https://pandas.pydata.org/pandas-docs/version/1.5/reference/api/pandas.read_parquet.html)
+
+        Args:
+            ruta: Ruta a leeder el archivo, debe contener una referencia a un archivo
+                `.json` . Recordar que la ruta debe contener esta estructura:
+                `{NOMBRE_CONTENEDOR}/{RUTA}/{nombre o patron}.json`.
+            **kwargs: argumentos a pasar a pd.read_parquet.
+
+
+        Returns:
+            dataframe con la ruta
+        """
+        if 'storage_options' in kwargs:
+            kwargs.pop('storage_options')
+        # TODO: quizas se util verificar que la carpeta contiene json.
+        self._es_carpeta(ruta)
+
+        df = pd.read_parquet(f"az://{ruta}", storage_options=self.storage_options, **kwargs)
+
+        return df
+
     def read_csv_with_partition(
         self,
         ruta: str,
@@ -268,6 +298,18 @@ class Datalake(object):
             raise ExtensionIncorrecta(ruta)
         df.to_json(f"az://{ruta}", storage_options=self.storage_options, **kwargs)
 
+    def write_parquet(self, df: pd.DataFrame, ruta, **kwargs: Optional[Any]) -> None:
+        """Escribir al archivo al datalake."""
+        if not self._es_carpeta(ruta):
+            raise ExtensionIncorrecta(f"{ruta} la ruta debe ser una carpeta para archivos parquet")
+        df.to_parquet(f"az://{ruta}", storage_options=self.storage_options, **kwargs)
+
+    def generar_url_con_sas_token(
+        self, path: str, duration: int, unit: Literal["day", "hour", "minute", 'second'] = "hour", ip: str = None
+    ) -> str:
+        """Genera un link sas."""
+        return create_url_sas_token(path, self.fs, duration, unit, ip)
+
     def _verificar_extension(self, ruta: str, *extensiones):
         """Metodo para verificar extensiones."""
         for ext in extensiones:
@@ -275,6 +317,12 @@ class Datalake(object):
             if verificar:
                 return True
         raise ExtensionIncorrecta(ruta)
+
+    def _es_carpeta(self, ruta: str):
+        """Metodo para verificar si es una carpeta."""
+        if ruta.endswith("/"):
+            return True
+        raise ExtensionIncorrecta(f"{ruta} No termina en /")
 
     def _limpiar_df_cols_str(self, df: pd.DataFrame, sep: str = ",") -> pd.DataFrame:
         """Limpia las columnas string del dataframe."""

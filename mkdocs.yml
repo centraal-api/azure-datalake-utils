@@ -53,6 +53,7 @@ plugins:
       handlers:
           python:
             options:
+              paths: [azure_datalake_utils]
               show_source: false
 extra:
   social:

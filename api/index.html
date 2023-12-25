@@ -324,6 +324,13 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#azure_datalake_utils.azure_datalake_utils.Datalake.generar_url_con_sas_token" class="md-nav__link">
+    generar_url_con_sas_token()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#azure_datalake_utils.azure_datalake_utils.Datalake.read_csv" class="md-nav__link">
     read_csv()
   </a>
@@ -352,6 +359,13 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#azure_datalake_utils.azure_datalake_utils.Datalake.read_parquet" class="md-nav__link">
+    read_parquet()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#azure_datalake_utils.azure_datalake_utils.Datalake.write_csv" class="md-nav__link">
     write_csv()
   </a>
@@ -368,6 +382,13 @@
           <li class="md-nav__item">
   <a href="#azure_datalake_utils.azure_datalake_utils.Datalake.write_json" class="md-nav__link">
     write_json()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#azure_datalake_utils.azure_datalake_utils.Datalake.write_parquet" class="md-nav__link">
+    write_parquet()
   </a>
   
 </li>
@@ -476,6 +497,13 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#azure_datalake_utils.azure_datalake_utils.Datalake.generar_url_con_sas_token" class="md-nav__link">
+    generar_url_con_sas_token()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#azure_datalake_utils.azure_datalake_utils.Datalake.read_csv" class="md-nav__link">
     read_csv()
   </a>
@@ -504,6 +532,13 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#azure_datalake_utils.azure_datalake_utils.Datalake.read_parquet" class="md-nav__link">
+    read_parquet()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#azure_datalake_utils.azure_datalake_utils.Datalake.write_csv" class="md-nav__link">
     write_csv()
   </a>
@@ -520,6 +555,13 @@
           <li class="md-nav__item">
   <a href="#azure_datalake_utils.azure_datalake_utils.Datalake.write_json" class="md-nav__link">
     write_json()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#azure_datalake_utils.azure_datalake_utils.Datalake.write_parquet" class="md-nav__link">
+    write_parquet()
   </a>
   
 </li>
@@ -619,6 +661,653 @@
       <p>Clase para representar operaciones de Datalake.</p>
 
 
+        <details class="quote">
+          <summary>Source code in <code>azure_datalake_utils/azure_datalake_utils.py</code></summary>
+          <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 18</span>
+<span class="normal"> 19</span>
+<span class="normal"> 20</span>
+<span class="normal"> 21</span>
+<span class="normal"> 22</span>
+<span class="normal"> 23</span>
+<span class="normal"> 24</span>
+<span class="normal"> 25</span>
+<span class="normal"> 26</span>
+<span class="normal"> 27</span>
+<span class="normal"> 28</span>
+<span class="normal"> 29</span>
+<span class="normal"> 30</span>
+<span class="normal"> 31</span>
+<span class="normal"> 32</span>
+<span class="normal"> 33</span>
+<span class="normal"> 34</span>
+<span class="normal"> 35</span>
+<span class="normal"> 36</span>
+<span class="normal"> 37</span>
+<span class="normal"> 38</span>
+<span class="normal"> 39</span>
+<span class="normal"> 40</span>
+<span class="normal"> 41</span>
+<span class="normal"> 42</span>
+<span class="normal"> 43</span>
+<span class="normal"> 44</span>
+<span class="normal"> 45</span>
+<span class="normal"> 46</span>
+<span class="normal"> 47</span>
+<span class="normal"> 48</span>
+<span class="normal"> 49</span>
+<span class="normal"> 50</span>
+<span class="normal"> 51</span>
+<span class="normal"> 52</span>
+<span class="normal"> 53</span>
+<span class="normal"> 54</span>
+<span class="normal"> 55</span>
+<span class="normal"> 56</span>
+<span class="normal"> 57</span>
+<span class="normal"> 58</span>
+<span class="normal"> 59</span>
+<span class="normal"> 60</span>
+<span class="normal"> 61</span>
+<span class="normal"> 62</span>
+<span class="normal"> 63</span>
+<span class="normal"> 64</span>
+<span class="normal"> 65</span>
+<span class="normal"> 66</span>
+<span class="normal"> 67</span>
+<span class="normal"> 68</span>
+<span class="normal"> 69</span>
+<span class="normal"> 70</span>
+<span class="normal"> 71</span>
+<span class="normal"> 72</span>
+<span class="normal"> 73</span>
+<span class="normal"> 74</span>
+<span class="normal"> 75</span>
+<span class="normal"> 76</span>
+<span class="normal"> 77</span>
+<span class="normal"> 78</span>
+<span class="normal"> 79</span>
+<span class="normal"> 80</span>
+<span class="normal"> 81</span>
+<span class="normal"> 82</span>
+<span class="normal"> 83</span>
+<span class="normal"> 84</span>
+<span class="normal"> 85</span>
+<span class="normal"> 86</span>
+<span class="normal"> 87</span>
+<span class="normal"> 88</span>
+<span class="normal"> 89</span>
+<span class="normal"> 90</span>
+<span class="normal"> 91</span>
+<span class="normal"> 92</span>
+<span class="normal"> 93</span>
+<span class="normal"> 94</span>
+<span class="normal"> 95</span>
+<span class="normal"> 96</span>
+<span class="normal"> 97</span>
+<span class="normal"> 98</span>
+<span class="normal"> 99</span>
+<span class="normal">100</span>
+<span class="normal">101</span>
+<span class="normal">102</span>
+<span class="normal">103</span>
+<span class="normal">104</span>
+<span class="normal">105</span>
+<span class="normal">106</span>
+<span class="normal">107</span>
+<span class="normal">108</span>
+<span class="normal">109</span>
+<span class="normal">110</span>
+<span class="normal">111</span>
+<span class="normal">112</span>
+<span class="normal">113</span>
+<span class="normal">114</span>
+<span class="normal">115</span>
+<span class="normal">116</span>
+<span class="normal">117</span>
+<span class="normal">118</span>
+<span class="normal">119</span>
+<span class="normal">120</span>
+<span class="normal">121</span>
+<span class="normal">122</span>
+<span class="normal">123</span>
+<span class="normal">124</span>
+<span class="normal">125</span>
+<span class="normal">126</span>
+<span class="normal">127</span>
+<span class="normal">128</span>
+<span class="normal">129</span>
+<span class="normal">130</span>
+<span class="normal">131</span>
+<span class="normal">132</span>
+<span class="normal">133</span>
+<span class="normal">134</span>
+<span class="normal">135</span>
+<span class="normal">136</span>
+<span class="normal">137</span>
+<span class="normal">138</span>
+<span class="normal">139</span>
+<span class="normal">140</span>
+<span class="normal">141</span>
+<span class="normal">142</span>
+<span class="normal">143</span>
+<span class="normal">144</span>
+<span class="normal">145</span>
+<span class="normal">146</span>
+<span class="normal">147</span>
+<span class="normal">148</span>
+<span class="normal">149</span>
+<span class="normal">150</span>
+<span class="normal">151</span>
+<span class="normal">152</span>
+<span class="normal">153</span>
+<span class="normal">154</span>
+<span class="normal">155</span>
+<span class="normal">156</span>
+<span class="normal">157</span>
+<span class="normal">158</span>
+<span class="normal">159</span>
+<span class="normal">160</span>
+<span class="normal">161</span>
+<span class="normal">162</span>
+<span class="normal">163</span>
+<span class="normal">164</span>
+<span class="normal">165</span>
+<span class="normal">166</span>
+<span class="normal">167</span>
+<span class="normal">168</span>
+<span class="normal">169</span>
+<span class="normal">170</span>
+<span class="normal">171</span>
+<span class="normal">172</span>
+<span class="normal">173</span>
+<span class="normal">174</span>
+<span class="normal">175</span>
+<span class="normal">176</span>
+<span class="normal">177</span>
+<span class="normal">178</span>
+<span class="normal">179</span>
+<span class="normal">180</span>
+<span class="normal">181</span>
+<span class="normal">182</span>
+<span class="normal">183</span>
+<span class="normal">184</span>
+<span class="normal">185</span>
+<span class="normal">186</span>
+<span class="normal">187</span>
+<span class="normal">188</span>
+<span class="normal">189</span>
+<span class="normal">190</span>
+<span class="normal">191</span>
+<span class="normal">192</span>
+<span class="normal">193</span>
+<span class="normal">194</span>
+<span class="normal">195</span>
+<span class="normal">196</span>
+<span class="normal">197</span>
+<span class="normal">198</span>
+<span class="normal">199</span>
+<span class="normal">200</span>
+<span class="normal">201</span>
+<span class="normal">202</span>
+<span class="normal">203</span>
+<span class="normal">204</span>
+<span class="normal">205</span>
+<span class="normal">206</span>
+<span class="normal">207</span>
+<span class="normal">208</span>
+<span class="normal">209</span>
+<span class="normal">210</span>
+<span class="normal">211</span>
+<span class="normal">212</span>
+<span class="normal">213</span>
+<span class="normal">214</span>
+<span class="normal">215</span>
+<span class="normal">216</span>
+<span class="normal">217</span>
+<span class="normal">218</span>
+<span class="normal">219</span>
+<span class="normal">220</span>
+<span class="normal">221</span>
+<span class="normal">222</span>
+<span class="normal">223</span>
+<span class="normal">224</span>
+<span class="normal">225</span>
+<span class="normal">226</span>
+<span class="normal">227</span>
+<span class="normal">228</span>
+<span class="normal">229</span>
+<span class="normal">230</span>
+<span class="normal">231</span>
+<span class="normal">232</span>
+<span class="normal">233</span>
+<span class="normal">234</span>
+<span class="normal">235</span>
+<span class="normal">236</span>
+<span class="normal">237</span>
+<span class="normal">238</span>
+<span class="normal">239</span>
+<span class="normal">240</span>
+<span class="normal">241</span>
+<span class="normal">242</span>
+<span class="normal">243</span>
+<span class="normal">244</span>
+<span class="normal">245</span>
+<span class="normal">246</span>
+<span class="normal">247</span>
+<span class="normal">248</span>
+<span class="normal">249</span>
+<span class="normal">250</span>
+<span class="normal">251</span>
+<span class="normal">252</span>
+<span class="normal">253</span>
+<span class="normal">254</span>
+<span class="normal">255</span>
+<span class="normal">256</span>
+<span class="normal">257</span>
+<span class="normal">258</span>
+<span class="normal">259</span>
+<span class="normal">260</span>
+<span class="normal">261</span>
+<span class="normal">262</span>
+<span class="normal">263</span>
+<span class="normal">264</span>
+<span class="normal">265</span>
+<span class="normal">266</span>
+<span class="normal">267</span>
+<span class="normal">268</span>
+<span class="normal">269</span>
+<span class="normal">270</span>
+<span class="normal">271</span>
+<span class="normal">272</span>
+<span class="normal">273</span>
+<span class="normal">274</span>
+<span class="normal">275</span>
+<span class="normal">276</span>
+<span class="normal">277</span>
+<span class="normal">278</span>
+<span class="normal">279</span>
+<span class="normal">280</span>
+<span class="normal">281</span>
+<span class="normal">282</span>
+<span class="normal">283</span>
+<span class="normal">284</span>
+<span class="normal">285</span>
+<span class="normal">286</span>
+<span class="normal">287</span>
+<span class="normal">288</span>
+<span class="normal">289</span>
+<span class="normal">290</span>
+<span class="normal">291</span>
+<span class="normal">292</span>
+<span class="normal">293</span>
+<span class="normal">294</span>
+<span class="normal">295</span>
+<span class="normal">296</span>
+<span class="normal">297</span>
+<span class="normal">298</span>
+<span class="normal">299</span>
+<span class="normal">300</span>
+<span class="normal">301</span>
+<span class="normal">302</span>
+<span class="normal">303</span>
+<span class="normal">304</span>
+<span class="normal">305</span>
+<span class="normal">306</span>
+<span class="normal">307</span>
+<span class="normal">308</span>
+<span class="normal">309</span>
+<span class="normal">310</span>
+<span class="normal">311</span>
+<span class="normal">312</span>
+<span class="normal">313</span>
+<span class="normal">314</span>
+<span class="normal">315</span>
+<span class="normal">316</span>
+<span class="normal">317</span>
+<span class="normal">318</span>
+<span class="normal">319</span>
+<span class="normal">320</span>
+<span class="normal">321</span>
+<span class="normal">322</span>
+<span class="normal">323</span>
+<span class="normal">324</span>
+<span class="normal">325</span>
+<span class="normal">326</span>
+<span class="normal">327</span>
+<span class="normal">328</span>
+<span class="normal">329</span>
+<span class="normal">330</span>
+<span class="normal">331</span>
+<span class="normal">332</span>
+<span class="normal">333</span>
+<span class="normal">334</span>
+<span class="normal">335</span>
+<span class="normal">336</span>
+<span class="normal">337</span>
+<span class="normal">338</span>
+<span class="normal">339</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">Datalake</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Clase para representar operaciones de Datalake.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">datalake_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">tenant_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">account_key</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">fsspec_cache</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Clase para interactuar con Azure Dalake.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            datalake_name: nombre de la cuenta de Azure Datalake Gen2.</span>
+<span class="sd">            tenant_id: Identificador del tenant, es valor es proporcionado</span>
+<span class="sd">                por arquitectura de datos, debe conservarse para un</span>
+<span class="sd">                correcto funcionamiento.</span>
+<span class="sd">            account_key: key de la cuenta. Por defecto es None y es ignorado.</span>
+<span class="sd">            fsspec_cache: indica si se va usar la funcionalidad de cache de fsspec.</span>
+<span class="sd">                **NOTA**: se recomienda usar `fsspec_cache=False` cuando se encuentran en ambientes</span>
+<span class="sd">                serverless, donde no se tiene control escricto de la `vida` de la instancias, de esta manera</span>
+<span class="sd">                la libreria siempre verifica la información con Azure y no reusar instancias en cache que pueden</span>
+<span class="sd">                tener valores desactualizados.</span>
+
+<span class="sd">                Para ver los efectos, ver los siguientes issues:</span>
+<span class="sd">                - https://github.com/fsspec/adlfs/issues/391</span>
+<span class="sd">                - https://github.com/Azure/azure-sdk-for-python/issues/28312</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">datalake_name</span> <span class="o">=</span> <span class="n">datalake_name</span>
+
+        <span class="k">if</span> <span class="n">account_key</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">tenant_id</span> <span class="o">=</span> <span class="n">tenant_id</span>
+            <span class="n">credential</span> <span class="o">=</span> <span class="n">exp</span><span class="o">.</span><span class="n">AioCredentialWrapper</span><span class="p">(</span><span class="n">InteractiveBrowserCredential</span><span class="p">(</span><span class="n">tenant_id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">tenant_id</span><span class="p">))</span>
+            <span class="c1"># TODO: verificar https://github.com/fsspec/adlfs/issues/270</span>
+            <span class="c1"># para ver como evoluciona y evitar este condicional.</span>
+            <span class="k">if</span> <span class="n">platform</span><span class="o">.</span><span class="n">system</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">!=</span> <span class="s1">&#39;windows&#39;</span><span class="p">:</span>
+                <span class="n">storage_options</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;account_name&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">datalake_name</span><span class="p">,</span> <span class="s1">&#39;anon&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">}</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">storage_options</span> <span class="o">=</span> <span class="p">{</span>
+                    <span class="s1">&#39;account_name&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">datalake_name</span><span class="p">,</span>
+                    <span class="s1">&#39;anon&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+                    <span class="s1">&#39;credential&#39;</span><span class="p">:</span> <span class="n">credential</span><span class="p">,</span>
+                <span class="p">}</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">storage_options</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;account_name&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">datalake_name</span><span class="p">,</span> <span class="s1">&#39;account_key&#39;</span><span class="p">:</span> <span class="n">account_key</span><span class="p">}</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">fs</span> <span class="o">=</span> <span class="n">AzureBlobFileSystem</span><span class="p">(</span><span class="n">account_name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">datalake_name</span><span class="p">,</span> <span class="n">account_key</span><span class="o">=</span><span class="n">account_key</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">fsspec_cache</span><span class="p">:</span>
+            <span class="n">storage_options</span><span class="p">[</span><span class="s2">&quot;default_cache_type&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="n">storage_options</span><span class="p">[</span><span class="s2">&quot;default_fill_cache&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="n">storage_options</span><span class="p">[</span><span class="s2">&quot;skip_instance_cache&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">storage_options</span> <span class="o">=</span> <span class="n">storage_options</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">from_account_key</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">datalake_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">account_key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">fsspec_cache</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Opcion de inicializar con account key.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">datalake_name</span><span class="o">=</span><span class="n">datalake_name</span><span class="p">,</span> <span class="n">account_key</span><span class="o">=</span><span class="n">account_key</span><span class="p">,</span> <span class="n">tenant_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">fsspec_cache</span><span class="o">=</span><span class="n">fsspec_cache</span><span class="p">)</span>
+
+    <span class="nd">@raiseArchivoNoEncontrado</span>
+    <span class="k">def</span> <span class="nf">read_csv</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ruta</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]],</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Leer un archivo CSV desde la cuenta de datalake.</span>
+
+<span class="sd">        Esta función hace una envoltura de [pd.read_csv].</span>
+<span class="sd">        usar la documentación de la función para determinar parametros adicionales.</span>
+
+<span class="sd">        [pd.read_csv]: https://pandas.pydata.org/docs/reference/api/pandas.read_csv.html</span>
+
+<span class="sd">        Args:</span>
+
+<span class="sd">            ruta: Ruta a leeder el archivo, debe contener una referencia a un archivo</span>
+<span class="sd">                `.csv` o `.txt`. Recordar que la ruta debe contener esta estructura:</span>
+<span class="sd">                `{NOMBRE_CONTENEDOR}/{RUTA}/{nombre o patron}.csv`.</span>
+<span class="sd">                NUEVO en version 0.5:</span>
+<span class="sd">                Tambien acepta una lista de archivos terminados en csv. ejemplo:</span>
+<span class="sd">                ```</span>
+<span class="sd">                [{NOMBRE_CONTENEDOR}/{RUTA}/{nombre o patron}.csv,</span>
+<span class="sd">                {NOMBRE_CONTENEDOR}/{RUTA2}/{nombre o patron}.csv]</span>
+<span class="sd">                ```</span>
+
+<span class="sd">            **kwargs: argumentos a pasar a pd.read_csv. El unico argumento que es ignorado</span>
+<span class="sd">                es storage_options.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Dataframe con la informacion del la ruta.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="s1">&#39;storage_options&#39;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;storage_options&#39;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">ruta</span><span class="p">)</span> <span class="o">==</span> <span class="nb">str</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_verificar_extension</span><span class="p">(</span><span class="n">ruta</span><span class="p">,</span> <span class="s1">&#39;.csv&#39;</span><span class="p">,</span> <span class="s1">&#39;.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;.tsv&#39;</span><span class="p">)</span>
+            <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;az://</span><span class="si">{</span><span class="n">ruta</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">storage_options</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">storage_options</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_verificar_extension</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="s1">&#39;.csv&#39;</span><span class="p">,</span> <span class="s1">&#39;.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;.tsv&#39;</span><span class="p">)</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">ruta</span><span class="p">]</span>
+            <span class="n">rutas</span> <span class="o">=</span> <span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;az://</span><span class="si">{</span><span class="n">r</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">storage_options</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">storage_options</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">ruta</span><span class="p">]</span>
+            <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">rutas</span><span class="p">,</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">df</span>
+
+    <span class="nd">@raiseArchivoNoEncontrado</span>
+    <span class="k">def</span> <span class="nf">read_excel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ruta</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">experimental</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Leer un archivo Excel desde la cuenta de datalake.</span>
+
+<span class="sd">        Esta función hace una envoltura de [pd.read_excel].</span>
+<span class="sd">        Por favor usar la documentación de la función para determinar parametros adicionales.</span>
+
+<span class="sd">        [[pd.read_excel]]:(https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.read_excel.html)</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            ruta: Ruta a leeder el archivo, debe contener una referencia a un archivo</span>
+<span class="sd">                `.xlsx` o `.xls`. Recordar que la ruta debe contener esta estructura:</span>
+<span class="sd">                `{NOMBRE_CONTENEDOR}/{RUTA}/{nombre o patron}.xlsx`.</span>
+<span class="sd">            force_client: Bandera para forzar el uso del cliente. Es flag todavia es experimental</span>
+<span class="sd">                Y en futuras versiones se va ha eliminar. Solo funciona con un solo archivo de excel.</span>
+<span class="sd">            **kwargs: argumentos a pasar a pd.read_excel.</span>
+
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Dataframe con la informacion del la ruta.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="s1">&#39;storage_options&#39;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;storage_options&#39;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="s1">&#39;engine&#39;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;engine&#39;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_verificar_extension</span><span class="p">(</span><span class="n">ruta</span><span class="p">,</span> <span class="s1">&#39;.xlsx&#39;</span><span class="p">,</span> <span class="s1">&#39;.xls&#39;</span><span class="p">)</span>
+
+        <span class="c1"># TODO: esto es algo temporal y se debe analizar si se puede remover. Esta bandera fue necesario debido a:</span>
+        <span class="c1"># 1. Si no se usa el cliente para descargar el excel cuando se modifica el archivo de</span>
+        <span class="c1"># excel y no se ha reiniciado</span>
+        <span class="c1"># el runtime se provoca el error: `BadZipFile(&quot;File is not a zip file&quot;)`.</span>
+        <span class="c1"># 2. Se debe analizar como integrar en windows donde se usa credenciales asociadas al Active directory.</span>
+        <span class="k">if</span> <span class="n">experimental</span><span class="p">:</span>
+            <span class="n">df</span> <span class="o">=</span> <span class="n">exp</span><span class="o">.</span><span class="n">read_excel_with_client</span><span class="p">(</span><span class="n">ruta</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">datalake_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">storage_options</span><span class="p">[</span><span class="s1">&#39;account_key&#39;</span><span class="p">],</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">df</span>
+        <span class="c1">###############</span>
+
+        <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_excel</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;az://</span><span class="si">{</span><span class="n">ruta</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">engine</span><span class="o">=</span><span class="s1">&#39;openpyxl&#39;</span><span class="p">,</span> <span class="n">storage_options</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">storage_options</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">df</span>
+
+    <span class="nd">@raiseArchivoNoEncontrado</span>
+    <span class="k">def</span> <span class="nf">read_json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ruta</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Leer un archivo Json desde la cuenta de datalake.</span>
+
+<span class="sd">        Esta función hace una envoltura de [pd.read_json].</span>
+<span class="sd">        Por favor usar la documentación de la función para determinar parametros adicionales.</span>
+
+<span class="sd">        [[pd.read_json]]:(https://pandas.pydata.org/docs/reference/api/pandas.read_json.html)</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            ruta: Ruta a leeder el archivo, debe contener una referencia a un archivo</span>
+<span class="sd">                `.json` . Recordar que la ruta debe contener esta estructura:</span>
+<span class="sd">                `{NOMBRE_CONTENEDOR}/{RUTA}/{nombre o patron}.json`.</span>
+<span class="sd">            **kwargs: argumentos a pasar a pd.read_json.</span>
+
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Dataframe con la informacion del la ruta.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="s1">&#39;storage_options&#39;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;storage_options&#39;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_verificar_extension</span><span class="p">(</span><span class="n">ruta</span><span class="p">,</span> <span class="s1">&#39;.json&#39;</span><span class="p">)</span>
+
+        <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_json</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;az://</span><span class="si">{</span><span class="n">ruta</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">storage_options</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">storage_options</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">df</span>
+
+    <span class="nd">@raiseArchivoNoEncontrado</span>
+    <span class="k">def</span> <span class="nf">read_parquet</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ruta</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Leer un archivo parquet desde la cuenta de datalake.</span>
+
+<span class="sd">        Esta función hace una envoltura de [pd.read_parquet].</span>
+<span class="sd">        Por favor usar la documentación de la función para determinar parametros adicionales.</span>
+
+<span class="sd">        [[pd.read_parquet]]:(https://pandas.pydata.org/pandas-docs/version/1.5/reference/api/pandas.read_parquet.html)</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            ruta: Ruta a leeder el archivo, debe contener una referencia a un archivo</span>
+<span class="sd">                `.json` . Recordar que la ruta debe contener esta estructura:</span>
+<span class="sd">                `{NOMBRE_CONTENEDOR}/{RUTA}/{nombre o patron}.json`.</span>
+<span class="sd">            **kwargs: argumentos a pasar a pd.read_parquet.</span>
+
+
+<span class="sd">        Returns:</span>
+<span class="sd">            dataframe con la ruta</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="s1">&#39;storage_options&#39;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;storage_options&#39;</span><span class="p">)</span>
+        <span class="c1"># TODO: quizas se util verificar que la carpeta contiene json.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_es_carpeta</span><span class="p">(</span><span class="n">ruta</span><span class="p">)</span>
+
+        <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_parquet</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;az://</span><span class="si">{</span><span class="n">ruta</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">storage_options</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">storage_options</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">df</span>
+
+    <span class="k">def</span> <span class="nf">read_csv_with_partition</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">ruta</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">partition_cols</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">partition_exclusion</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">partition_inclusion</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">last_modified_last_level</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Any</span><span class="p">],</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Leer un archivo CSV desde la cuenta de datalake con particiones Hive.</span>
+
+<span class="sd">        Una partición tipo Hive son archivos almacenados de la forma</span>
+<span class="sd">        /ruta/to/archivo/particion_1=1/particion2=2/archivo_con_info.extension.</span>
+
+<span class="sd">        **IMPORTANTE**: por el momento el funcionamiento de esta función es solo soportada</span>
+<span class="sd">        si el objeto fue creado mediante `from_account_key`.</span>
+
+<span class="sd">        Esta función hace una envoltura de `read_csv` que asu vez usa [pd.read_csv].</span>
+<span class="sd">        usar la documentación de la función para determinar parametros adicionales.</span>
+
+<span class="sd">        [pd.read_csv]: https://pandas.pydata.org/docs/reference/api/pandas.read_csv.html</span>
+
+<span class="sd">        Args:</span>
+
+<span class="sd">            ruta: Ruta a leeder el archivo, esta ruta debe contener archivos guardados siguiendo</span>
+<span class="sd">            la convección de la partición Hive. Ejemplo si la estructura de los archivos es:</span>
+
+<span class="sd">            - contenedor/ruta/al/archivo/year=2022/month=10/load_date=2022-01-01/archivo.csv</span>
+<span class="sd">            - contenedor/ruta/al/archivo/year=2022/month=10/load_date=2022-01-02/archivo.csv</span>
+<span class="sd">            - contenedor/ruta/al/archivo/year=2022/month=11/load_date=2022-01-01/archivo.csv</span>
+
+<span class="sd">            `ruta` debe ser `contenedor/ruta/al/archivo/`.</span>
+
+<span class="sd">            partition_cols: Definir que particionews incluir, se asume que se sabe a priori la</span>
+<span class="sd">                estructura. Si se pasa `None`, se activa el descubrimiento automatico de las particiones.</span>
+<span class="sd">            partition_exclusion: Definir que particiones excluir, es más util cuando no se ha definido</span>
+<span class="sd">                `partition_cols=None`.</span>
+<span class="sd">            partition_inclusion: Definir la particiones a incluir, es más util cuando no se ha definido</span>
+<span class="sd">                `partition_cols=None`.</span>
+<span class="sd">            last_modified_last_level: Define si el ultimo nivel no se tiene en cuenta para particiones y</span>
+<span class="sd">                se carga el archivo que fue modificado de manera más reciente.</span>
+<span class="sd">            **kwargs: argumentos a pasar a pd.read_csv. El unico argumento que es ignorado</span>
+<span class="sd">                es storage_options.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Dataframe con la informacion del la ruta.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">ruta</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;ruta debe finalizar en /&quot;</span><span class="p">)</span>
+
+        <span class="n">particiones</span> <span class="o">=</span> <span class="n">HivePartitiion</span><span class="p">(</span>
+            <span class="n">ruta</span><span class="o">=</span><span class="n">ruta</span><span class="p">,</span>
+            <span class="n">partition_cols</span><span class="o">=</span><span class="n">partition_cols</span><span class="p">,</span>
+            <span class="n">partition_exclusion</span><span class="o">=</span><span class="n">partition_exclusion</span><span class="p">,</span>
+            <span class="n">partition_inclusion</span><span class="o">=</span><span class="n">partition_inclusion</span><span class="p">,</span>
+            <span class="n">last_modified_last_level</span><span class="o">=</span><span class="n">last_modified_last_level</span><span class="p">,</span>
+            <span class="n">fs</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">fs</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">list_of_files</span> <span class="o">=</span> <span class="n">particiones</span><span class="o">.</span><span class="n">get_partition_list</span><span class="p">()</span>
+        <span class="n">list_of_dfs</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">path_</span><span class="p">,</span> <span class="n">particion</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">list_of_files</span><span class="p">,</span> <span class="n">particiones</span><span class="o">.</span><span class="n">get_partition_files</span><span class="p">()):</span>
+            <span class="n">particiones_cols</span> <span class="o">=</span> <span class="n">particion</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">path_</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="o">**</span><span class="n">particiones_cols</span><span class="p">)</span>
+            <span class="n">list_of_dfs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">list_of_dfs</span><span class="p">,</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">write_csv</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">ruta</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Escribir al archivo.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_verificar_extension</span><span class="p">(</span><span class="n">ruta</span><span class="p">,</span> <span class="s1">&#39;.csv&#39;</span><span class="p">,</span> <span class="s1">&#39;.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;.tsv&#39;</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="n">ExtensionIncorrecta</span><span class="p">(</span><span class="n">ruta</span><span class="p">)</span>
+
+        <span class="n">sep</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;sep&#39;</span><span class="p">,</span> <span class="s1">&#39;,&#39;</span><span class="p">)</span>
+        <span class="n">df_to_write</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_limpiar_df_cols_str</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">sep</span><span class="p">)</span>
+        <span class="n">df_to_write</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;az://</span><span class="si">{</span><span class="n">ruta</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">storage_options</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">storage_options</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">write_excel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">ruta</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Escribir al archivo al datalake.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_verificar_extension</span><span class="p">(</span><span class="n">ruta</span><span class="p">,</span> <span class="s1">&#39;.xlsx&#39;</span><span class="p">,</span> <span class="s1">&#39;.xls&#39;</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="n">ExtensionIncorrecta</span><span class="p">(</span><span class="n">ruta</span><span class="p">)</span>
+        <span class="n">df</span><span class="o">.</span><span class="n">to_excel</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;az://</span><span class="si">{</span><span class="n">ruta</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">storage_options</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">storage_options</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">write_json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">ruta</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Escribir al archivo al datalake.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_verificar_extension</span><span class="p">(</span><span class="n">ruta</span><span class="p">,</span> <span class="s1">&#39;.json&#39;</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="n">ExtensionIncorrecta</span><span class="p">(</span><span class="n">ruta</span><span class="p">)</span>
+        <span class="n">df</span><span class="o">.</span><span class="n">to_json</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;az://</span><span class="si">{</span><span class="n">ruta</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">storage_options</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">storage_options</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">write_parquet</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">ruta</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Escribir al archivo al datalake.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_es_carpeta</span><span class="p">(</span><span class="n">ruta</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="n">ExtensionIncorrecta</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">ruta</span><span class="si">}</span><span class="s2"> la ruta debe ser una carpeta para archivos parquet&quot;</span><span class="p">)</span>
+        <span class="n">df</span><span class="o">.</span><span class="n">to_parquet</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;az://</span><span class="si">{</span><span class="n">ruta</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">storage_options</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">storage_options</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">generar_url_con_sas_token</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">duration</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">unit</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;day&quot;</span><span class="p">,</span> <span class="s2">&quot;hour&quot;</span><span class="p">,</span> <span class="s2">&quot;minute&quot;</span><span class="p">,</span> <span class="s1">&#39;second&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;hour&quot;</span><span class="p">,</span> <span class="n">ip</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Genera un link sas.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">create_url_sas_token</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">fs</span><span class="p">,</span> <span class="n">duration</span><span class="p">,</span> <span class="n">unit</span><span class="p">,</span> <span class="n">ip</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_verificar_extension</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ruta</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">*</span><span class="n">extensiones</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Metodo para verificar extensiones.&quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">ext</span> <span class="ow">in</span> <span class="n">extensiones</span><span class="p">:</span>
+            <span class="n">verificar</span> <span class="o">=</span> <span class="n">ruta</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="n">ext</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">verificar</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">raise</span> <span class="n">ExtensionIncorrecta</span><span class="p">(</span><span class="n">ruta</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_es_carpeta</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ruta</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Metodo para verificar si es una carpeta.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">ruta</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">raise</span> <span class="n">ExtensionIncorrecta</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">ruta</span><span class="si">}</span><span class="s2"> No termina en /&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_limpiar_df_cols_str</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">sep</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;,&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Limpia las columnas string del dataframe.&quot;&quot;&quot;</span>
+        <span class="n">types</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">dtypes</span>
+        <span class="n">string_columns</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">types</span><span class="p">[</span><span class="n">types</span> <span class="o">==</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="nb">object</span><span class="p">()])</span><span class="o">.</span><span class="n">dtype</span><span class="p">]</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
+        <span class="n">esc_sep</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">escape</span><span class="p">(</span><span class="n">sep</span><span class="p">)</span>
+        <span class="n">df_res</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">df_res</span><span class="p">[</span><span class="n">string_columns</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">df</span><span class="p">[</span><span class="n">string_columns</span><span class="p">]</span>
+            <span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">esc_sep</span><span class="p">,</span> <span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="n">regex</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\r</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="n">regex</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="n">regex</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">df_res</span>
+</code></pre></div></td></tr></table></div>
+        </details>
 
   
 
@@ -709,6 +1398,103 @@ tener valores desactualizados.</p>
     </tbody>
   </table>
 
+      <details class="quote">
+        <summary>Source code in <code>azure_datalake_utils/azure_datalake_utils.py</code></summary>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span>
+<span class="normal">28</span>
+<span class="normal">29</span>
+<span class="normal">30</span>
+<span class="normal">31</span>
+<span class="normal">32</span>
+<span class="normal">33</span>
+<span class="normal">34</span>
+<span class="normal">35</span>
+<span class="normal">36</span>
+<span class="normal">37</span>
+<span class="normal">38</span>
+<span class="normal">39</span>
+<span class="normal">40</span>
+<span class="normal">41</span>
+<span class="normal">42</span>
+<span class="normal">43</span>
+<span class="normal">44</span>
+<span class="normal">45</span>
+<span class="normal">46</span>
+<span class="normal">47</span>
+<span class="normal">48</span>
+<span class="normal">49</span>
+<span class="normal">50</span>
+<span class="normal">51</span>
+<span class="normal">52</span>
+<span class="normal">53</span>
+<span class="normal">54</span>
+<span class="normal">55</span>
+<span class="normal">56</span>
+<span class="normal">57</span>
+<span class="normal">58</span>
+<span class="normal">59</span>
+<span class="normal">60</span>
+<span class="normal">61</span>
+<span class="normal">62</span>
+<span class="normal">63</span>
+<span class="normal">64</span>
+<span class="normal">65</span>
+<span class="normal">66</span>
+<span class="normal">67</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+    <span class="bp">self</span><span class="p">,</span> <span class="n">datalake_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">tenant_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">account_key</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">fsspec_cache</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Clase para interactuar con Azure Dalake.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        datalake_name: nombre de la cuenta de Azure Datalake Gen2.</span>
+<span class="sd">        tenant_id: Identificador del tenant, es valor es proporcionado</span>
+<span class="sd">            por arquitectura de datos, debe conservarse para un</span>
+<span class="sd">            correcto funcionamiento.</span>
+<span class="sd">        account_key: key de la cuenta. Por defecto es None y es ignorado.</span>
+<span class="sd">        fsspec_cache: indica si se va usar la funcionalidad de cache de fsspec.</span>
+<span class="sd">            **NOTA**: se recomienda usar `fsspec_cache=False` cuando se encuentran en ambientes</span>
+<span class="sd">            serverless, donde no se tiene control escricto de la `vida` de la instancias, de esta manera</span>
+<span class="sd">            la libreria siempre verifica la información con Azure y no reusar instancias en cache que pueden</span>
+<span class="sd">            tener valores desactualizados.</span>
+
+<span class="sd">            Para ver los efectos, ver los siguientes issues:</span>
+<span class="sd">            - https://github.com/fsspec/adlfs/issues/391</span>
+<span class="sd">            - https://github.com/Azure/azure-sdk-for-python/issues/28312</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">datalake_name</span> <span class="o">=</span> <span class="n">datalake_name</span>
+
+    <span class="k">if</span> <span class="n">account_key</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tenant_id</span> <span class="o">=</span> <span class="n">tenant_id</span>
+        <span class="n">credential</span> <span class="o">=</span> <span class="n">exp</span><span class="o">.</span><span class="n">AioCredentialWrapper</span><span class="p">(</span><span class="n">InteractiveBrowserCredential</span><span class="p">(</span><span class="n">tenant_id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">tenant_id</span><span class="p">))</span>
+        <span class="c1"># TODO: verificar https://github.com/fsspec/adlfs/issues/270</span>
+        <span class="c1"># para ver como evoluciona y evitar este condicional.</span>
+        <span class="k">if</span> <span class="n">platform</span><span class="o">.</span><span class="n">system</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">!=</span> <span class="s1">&#39;windows&#39;</span><span class="p">:</span>
+            <span class="n">storage_options</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;account_name&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">datalake_name</span><span class="p">,</span> <span class="s1">&#39;anon&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">}</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">storage_options</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s1">&#39;account_name&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">datalake_name</span><span class="p">,</span>
+                <span class="s1">&#39;anon&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+                <span class="s1">&#39;credential&#39;</span><span class="p">:</span> <span class="n">credential</span><span class="p">,</span>
+            <span class="p">}</span>
+
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">storage_options</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;account_name&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">datalake_name</span><span class="p">,</span> <span class="s1">&#39;account_key&#39;</span><span class="p">:</span> <span class="n">account_key</span><span class="p">}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fs</span> <span class="o">=</span> <span class="n">AzureBlobFileSystem</span><span class="p">(</span><span class="n">account_name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">datalake_name</span><span class="p">,</span> <span class="n">account_key</span><span class="o">=</span><span class="n">account_key</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">fsspec_cache</span><span class="p">:</span>
+        <span class="n">storage_options</span><span class="p">[</span><span class="s2">&quot;default_cache_type&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">storage_options</span><span class="p">[</span><span class="s2">&quot;default_fill_cache&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="n">storage_options</span><span class="p">[</span><span class="s2">&quot;skip_instance_cache&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="bp">self</span><span class="o">.</span><span class="n">storage_options</span> <span class="o">=</span> <span class="n">storage_options</span>
+</code></pre></div></td></tr></table></div>
+      </details>
   </div>
 
 </div>
@@ -731,6 +1517,48 @@ tener valores desactualizados.</p>
   
       <p>Opcion de inicializar con account key.</p>
 
+      <details class="quote">
+        <summary>Source code in <code>azure_datalake_utils/azure_datalake_utils.py</code></summary>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">69</span>
+<span class="normal">70</span>
+<span class="normal">71</span>
+<span class="normal">72</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
+<span class="k">def</span> <span class="nf">from_account_key</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">datalake_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">account_key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">fsspec_cache</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Opcion de inicializar con account key.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">datalake_name</span><span class="o">=</span><span class="n">datalake_name</span><span class="p">,</span> <span class="n">account_key</span><span class="o">=</span><span class="n">account_key</span><span class="p">,</span> <span class="n">tenant_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">fsspec_cache</span><span class="o">=</span><span class="n">fsspec_cache</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+      </details>
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="azure_datalake_utils.azure_datalake_utils.Datalake.generar_url_con_sas_token" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">generar_url_con_sas_token</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">duration</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="s1">&#39;hour&#39;</span><span class="p">,</span> <span class="n">ip</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+<a href="#azure_datalake_utils.azure_datalake_utils.Datalake.generar_url_con_sas_token" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Genera un link sas.</p>
+
+      <details class="quote">
+        <summary>Source code in <code>azure_datalake_utils/azure_datalake_utils.py</code></summary>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">307</span>
+<span class="normal">308</span>
+<span class="normal">309</span>
+<span class="normal">310</span>
+<span class="normal">311</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">generar_url_con_sas_token</span><span class="p">(</span>
+    <span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">duration</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">unit</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;day&quot;</span><span class="p">,</span> <span class="s2">&quot;hour&quot;</span><span class="p">,</span> <span class="s2">&quot;minute&quot;</span><span class="p">,</span> <span class="s1">&#39;second&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;hour&quot;</span><span class="p">,</span> <span class="n">ip</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Genera un link sas.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">create_url_sas_token</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">fs</span><span class="p">,</span> <span class="n">duration</span><span class="p">,</span> <span class="n">unit</span><span class="p">,</span> <span class="n">ip</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+      </details>
   </div>
 
 </div>
@@ -811,6 +1639,87 @@ es storage_options.</p></td>
     </tbody>
   </table>
 
+      <details class="quote">
+        <summary>Source code in <code>azure_datalake_utils/azure_datalake_utils.py</code></summary>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 74</span>
+<span class="normal"> 75</span>
+<span class="normal"> 76</span>
+<span class="normal"> 77</span>
+<span class="normal"> 78</span>
+<span class="normal"> 79</span>
+<span class="normal"> 80</span>
+<span class="normal"> 81</span>
+<span class="normal"> 82</span>
+<span class="normal"> 83</span>
+<span class="normal"> 84</span>
+<span class="normal"> 85</span>
+<span class="normal"> 86</span>
+<span class="normal"> 87</span>
+<span class="normal"> 88</span>
+<span class="normal"> 89</span>
+<span class="normal"> 90</span>
+<span class="normal"> 91</span>
+<span class="normal"> 92</span>
+<span class="normal"> 93</span>
+<span class="normal"> 94</span>
+<span class="normal"> 95</span>
+<span class="normal"> 96</span>
+<span class="normal"> 97</span>
+<span class="normal"> 98</span>
+<span class="normal"> 99</span>
+<span class="normal">100</span>
+<span class="normal">101</span>
+<span class="normal">102</span>
+<span class="normal">103</span>
+<span class="normal">104</span>
+<span class="normal">105</span>
+<span class="normal">106</span>
+<span class="normal">107</span>
+<span class="normal">108</span>
+<span class="normal">109</span>
+<span class="normal">110</span>
+<span class="normal">111</span>
+<span class="normal">112</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@raiseArchivoNoEncontrado</span>
+<span class="k">def</span> <span class="nf">read_csv</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ruta</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]],</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Leer un archivo CSV desde la cuenta de datalake.</span>
+
+<span class="sd">    Esta función hace una envoltura de [pd.read_csv].</span>
+<span class="sd">    usar la documentación de la función para determinar parametros adicionales.</span>
+
+<span class="sd">    [pd.read_csv]: https://pandas.pydata.org/docs/reference/api/pandas.read_csv.html</span>
+
+<span class="sd">    Args:</span>
+
+<span class="sd">        ruta: Ruta a leeder el archivo, debe contener una referencia a un archivo</span>
+<span class="sd">            `.csv` o `.txt`. Recordar que la ruta debe contener esta estructura:</span>
+<span class="sd">            `{NOMBRE_CONTENEDOR}/{RUTA}/{nombre o patron}.csv`.</span>
+<span class="sd">            NUEVO en version 0.5:</span>
+<span class="sd">            Tambien acepta una lista de archivos terminados en csv. ejemplo:</span>
+<span class="sd">            ```</span>
+<span class="sd">            [{NOMBRE_CONTENEDOR}/{RUTA}/{nombre o patron}.csv,</span>
+<span class="sd">            {NOMBRE_CONTENEDOR}/{RUTA2}/{nombre o patron}.csv]</span>
+<span class="sd">            ```</span>
+
+<span class="sd">        **kwargs: argumentos a pasar a pd.read_csv. El unico argumento que es ignorado</span>
+<span class="sd">            es storage_options.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Dataframe con la informacion del la ruta.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="s1">&#39;storage_options&#39;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+        <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;storage_options&#39;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">ruta</span><span class="p">)</span> <span class="o">==</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_verificar_extension</span><span class="p">(</span><span class="n">ruta</span><span class="p">,</span> <span class="s1">&#39;.csv&#39;</span><span class="p">,</span> <span class="s1">&#39;.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;.tsv&#39;</span><span class="p">)</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;az://</span><span class="si">{</span><span class="n">ruta</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">storage_options</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">storage_options</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_verificar_extension</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="s1">&#39;.csv&#39;</span><span class="p">,</span> <span class="s1">&#39;.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;.tsv&#39;</span><span class="p">)</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">ruta</span><span class="p">]</span>
+        <span class="n">rutas</span> <span class="o">=</span> <span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;az://</span><span class="si">{</span><span class="n">r</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">storage_options</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">storage_options</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">ruta</span><span class="p">]</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">rutas</span><span class="p">,</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">df</span>
+</code></pre></div></td></tr></table></div>
+      </details>
   </div>
 
 </div>
@@ -942,6 +1851,141 @@ es storage_options.</p></td>
     </tbody>
   </table>
 
+      <details class="quote">
+        <summary>Source code in <code>azure_datalake_utils/azure_datalake_utils.py</code></summary>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">213</span>
+<span class="normal">214</span>
+<span class="normal">215</span>
+<span class="normal">216</span>
+<span class="normal">217</span>
+<span class="normal">218</span>
+<span class="normal">219</span>
+<span class="normal">220</span>
+<span class="normal">221</span>
+<span class="normal">222</span>
+<span class="normal">223</span>
+<span class="normal">224</span>
+<span class="normal">225</span>
+<span class="normal">226</span>
+<span class="normal">227</span>
+<span class="normal">228</span>
+<span class="normal">229</span>
+<span class="normal">230</span>
+<span class="normal">231</span>
+<span class="normal">232</span>
+<span class="normal">233</span>
+<span class="normal">234</span>
+<span class="normal">235</span>
+<span class="normal">236</span>
+<span class="normal">237</span>
+<span class="normal">238</span>
+<span class="normal">239</span>
+<span class="normal">240</span>
+<span class="normal">241</span>
+<span class="normal">242</span>
+<span class="normal">243</span>
+<span class="normal">244</span>
+<span class="normal">245</span>
+<span class="normal">246</span>
+<span class="normal">247</span>
+<span class="normal">248</span>
+<span class="normal">249</span>
+<span class="normal">250</span>
+<span class="normal">251</span>
+<span class="normal">252</span>
+<span class="normal">253</span>
+<span class="normal">254</span>
+<span class="normal">255</span>
+<span class="normal">256</span>
+<span class="normal">257</span>
+<span class="normal">258</span>
+<span class="normal">259</span>
+<span class="normal">260</span>
+<span class="normal">261</span>
+<span class="normal">262</span>
+<span class="normal">263</span>
+<span class="normal">264</span>
+<span class="normal">265</span>
+<span class="normal">266</span>
+<span class="normal">267</span>
+<span class="normal">268</span>
+<span class="normal">269</span>
+<span class="normal">270</span>
+<span class="normal">271</span>
+<span class="normal">272</span>
+<span class="normal">273</span>
+<span class="normal">274</span>
+<span class="normal">275</span>
+<span class="normal">276</span>
+<span class="normal">277</span>
+<span class="normal">278</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">read_csv_with_partition</span><span class="p">(</span>
+    <span class="bp">self</span><span class="p">,</span>
+    <span class="n">ruta</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">partition_cols</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">partition_exclusion</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">partition_inclusion</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">last_modified_last_level</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Any</span><span class="p">],</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Leer un archivo CSV desde la cuenta de datalake con particiones Hive.</span>
+
+<span class="sd">    Una partición tipo Hive son archivos almacenados de la forma</span>
+<span class="sd">    /ruta/to/archivo/particion_1=1/particion2=2/archivo_con_info.extension.</span>
+
+<span class="sd">    **IMPORTANTE**: por el momento el funcionamiento de esta función es solo soportada</span>
+<span class="sd">    si el objeto fue creado mediante `from_account_key`.</span>
+
+<span class="sd">    Esta función hace una envoltura de `read_csv` que asu vez usa [pd.read_csv].</span>
+<span class="sd">    usar la documentación de la función para determinar parametros adicionales.</span>
+
+<span class="sd">    [pd.read_csv]: https://pandas.pydata.org/docs/reference/api/pandas.read_csv.html</span>
+
+<span class="sd">    Args:</span>
+
+<span class="sd">        ruta: Ruta a leeder el archivo, esta ruta debe contener archivos guardados siguiendo</span>
+<span class="sd">        la convección de la partición Hive. Ejemplo si la estructura de los archivos es:</span>
+
+<span class="sd">        - contenedor/ruta/al/archivo/year=2022/month=10/load_date=2022-01-01/archivo.csv</span>
+<span class="sd">        - contenedor/ruta/al/archivo/year=2022/month=10/load_date=2022-01-02/archivo.csv</span>
+<span class="sd">        - contenedor/ruta/al/archivo/year=2022/month=11/load_date=2022-01-01/archivo.csv</span>
+
+<span class="sd">        `ruta` debe ser `contenedor/ruta/al/archivo/`.</span>
+
+<span class="sd">        partition_cols: Definir que particionews incluir, se asume que se sabe a priori la</span>
+<span class="sd">            estructura. Si se pasa `None`, se activa el descubrimiento automatico de las particiones.</span>
+<span class="sd">        partition_exclusion: Definir que particiones excluir, es más util cuando no se ha definido</span>
+<span class="sd">            `partition_cols=None`.</span>
+<span class="sd">        partition_inclusion: Definir la particiones a incluir, es más util cuando no se ha definido</span>
+<span class="sd">            `partition_cols=None`.</span>
+<span class="sd">        last_modified_last_level: Define si el ultimo nivel no se tiene en cuenta para particiones y</span>
+<span class="sd">            se carga el archivo que fue modificado de manera más reciente.</span>
+<span class="sd">        **kwargs: argumentos a pasar a pd.read_csv. El unico argumento que es ignorado</span>
+<span class="sd">            es storage_options.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Dataframe con la informacion del la ruta.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">ruta</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;ruta debe finalizar en /&quot;</span><span class="p">)</span>
+
+    <span class="n">particiones</span> <span class="o">=</span> <span class="n">HivePartitiion</span><span class="p">(</span>
+        <span class="n">ruta</span><span class="o">=</span><span class="n">ruta</span><span class="p">,</span>
+        <span class="n">partition_cols</span><span class="o">=</span><span class="n">partition_cols</span><span class="p">,</span>
+        <span class="n">partition_exclusion</span><span class="o">=</span><span class="n">partition_exclusion</span><span class="p">,</span>
+        <span class="n">partition_inclusion</span><span class="o">=</span><span class="n">partition_inclusion</span><span class="p">,</span>
+        <span class="n">last_modified_last_level</span><span class="o">=</span><span class="n">last_modified_last_level</span><span class="p">,</span>
+        <span class="n">fs</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">fs</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">list_of_files</span> <span class="o">=</span> <span class="n">particiones</span><span class="o">.</span><span class="n">get_partition_list</span><span class="p">()</span>
+    <span class="n">list_of_dfs</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">path_</span><span class="p">,</span> <span class="n">particion</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">list_of_files</span><span class="p">,</span> <span class="n">particiones</span><span class="o">.</span><span class="n">get_partition_files</span><span class="p">()):</span>
+        <span class="n">particiones_cols</span> <span class="o">=</span> <span class="n">particion</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">path_</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="o">**</span><span class="n">particiones_cols</span><span class="p">)</span>
+        <span class="n">list_of_dfs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">list_of_dfs</span><span class="p">,</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+      </details>
   </div>
 
 </div>
@@ -1027,6 +2071,93 @@ Y en futuras versiones se va ha eliminar. Solo funciona con un solo archivo de e
     </tbody>
   </table>
 
+      <details class="quote">
+        <summary>Source code in <code>azure_datalake_utils/azure_datalake_utils.py</code></summary>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">114</span>
+<span class="normal">115</span>
+<span class="normal">116</span>
+<span class="normal">117</span>
+<span class="normal">118</span>
+<span class="normal">119</span>
+<span class="normal">120</span>
+<span class="normal">121</span>
+<span class="normal">122</span>
+<span class="normal">123</span>
+<span class="normal">124</span>
+<span class="normal">125</span>
+<span class="normal">126</span>
+<span class="normal">127</span>
+<span class="normal">128</span>
+<span class="normal">129</span>
+<span class="normal">130</span>
+<span class="normal">131</span>
+<span class="normal">132</span>
+<span class="normal">133</span>
+<span class="normal">134</span>
+<span class="normal">135</span>
+<span class="normal">136</span>
+<span class="normal">137</span>
+<span class="normal">138</span>
+<span class="normal">139</span>
+<span class="normal">140</span>
+<span class="normal">141</span>
+<span class="normal">142</span>
+<span class="normal">143</span>
+<span class="normal">144</span>
+<span class="normal">145</span>
+<span class="normal">146</span>
+<span class="normal">147</span>
+<span class="normal">148</span>
+<span class="normal">149</span>
+<span class="normal">150</span>
+<span class="normal">151</span>
+<span class="normal">152</span>
+<span class="normal">153</span>
+<span class="normal">154</span>
+<span class="normal">155</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@raiseArchivoNoEncontrado</span>
+<span class="k">def</span> <span class="nf">read_excel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ruta</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">experimental</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Leer un archivo Excel desde la cuenta de datalake.</span>
+
+<span class="sd">    Esta función hace una envoltura de [pd.read_excel].</span>
+<span class="sd">    Por favor usar la documentación de la función para determinar parametros adicionales.</span>
+
+<span class="sd">    [[pd.read_excel]]:(https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.read_excel.html)</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        ruta: Ruta a leeder el archivo, debe contener una referencia a un archivo</span>
+<span class="sd">            `.xlsx` o `.xls`. Recordar que la ruta debe contener esta estructura:</span>
+<span class="sd">            `{NOMBRE_CONTENEDOR}/{RUTA}/{nombre o patron}.xlsx`.</span>
+<span class="sd">        force_client: Bandera para forzar el uso del cliente. Es flag todavia es experimental</span>
+<span class="sd">            Y en futuras versiones se va ha eliminar. Solo funciona con un solo archivo de excel.</span>
+<span class="sd">        **kwargs: argumentos a pasar a pd.read_excel.</span>
+
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Dataframe con la informacion del la ruta.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="s1">&#39;storage_options&#39;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+        <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;storage_options&#39;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="s1">&#39;engine&#39;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+        <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;engine&#39;</span><span class="p">)</span>
+
+    <span class="bp">self</span><span class="o">.</span><span class="n">_verificar_extension</span><span class="p">(</span><span class="n">ruta</span><span class="p">,</span> <span class="s1">&#39;.xlsx&#39;</span><span class="p">,</span> <span class="s1">&#39;.xls&#39;</span><span class="p">)</span>
+
+    <span class="c1"># TODO: esto es algo temporal y se debe analizar si se puede remover. Esta bandera fue necesario debido a:</span>
+    <span class="c1"># 1. Si no se usa el cliente para descargar el excel cuando se modifica el archivo de</span>
+    <span class="c1"># excel y no se ha reiniciado</span>
+    <span class="c1"># el runtime se provoca el error: `BadZipFile(&quot;File is not a zip file&quot;)`.</span>
+    <span class="c1"># 2. Se debe analizar como integrar en windows donde se usa credenciales asociadas al Active directory.</span>
+    <span class="k">if</span> <span class="n">experimental</span><span class="p">:</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">exp</span><span class="o">.</span><span class="n">read_excel_with_client</span><span class="p">(</span><span class="n">ruta</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">datalake_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">storage_options</span><span class="p">[</span><span class="s1">&#39;account_key&#39;</span><span class="p">],</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">df</span>
+    <span class="c1">###############</span>
+
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_excel</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;az://</span><span class="si">{</span><span class="n">ruta</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">engine</span><span class="o">=</span><span class="s1">&#39;openpyxl&#39;</span><span class="p">,</span> <span class="n">storage_options</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">storage_options</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">df</span>
+</code></pre></div></td></tr></table></div>
+      </details>
   </div>
 
 </div>
@@ -1102,6 +2233,195 @@ Por favor usar la documentación de la función para determinar parametros adici
     </tbody>
   </table>
 
+      <details class="quote">
+        <summary>Source code in <code>azure_datalake_utils/azure_datalake_utils.py</code></summary>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">157</span>
+<span class="normal">158</span>
+<span class="normal">159</span>
+<span class="normal">160</span>
+<span class="normal">161</span>
+<span class="normal">162</span>
+<span class="normal">163</span>
+<span class="normal">164</span>
+<span class="normal">165</span>
+<span class="normal">166</span>
+<span class="normal">167</span>
+<span class="normal">168</span>
+<span class="normal">169</span>
+<span class="normal">170</span>
+<span class="normal">171</span>
+<span class="normal">172</span>
+<span class="normal">173</span>
+<span class="normal">174</span>
+<span class="normal">175</span>
+<span class="normal">176</span>
+<span class="normal">177</span>
+<span class="normal">178</span>
+<span class="normal">179</span>
+<span class="normal">180</span>
+<span class="normal">181</span>
+<span class="normal">182</span>
+<span class="normal">183</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@raiseArchivoNoEncontrado</span>
+<span class="k">def</span> <span class="nf">read_json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ruta</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Leer un archivo Json desde la cuenta de datalake.</span>
+
+<span class="sd">    Esta función hace una envoltura de [pd.read_json].</span>
+<span class="sd">    Por favor usar la documentación de la función para determinar parametros adicionales.</span>
+
+<span class="sd">    [[pd.read_json]]:(https://pandas.pydata.org/docs/reference/api/pandas.read_json.html)</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        ruta: Ruta a leeder el archivo, debe contener una referencia a un archivo</span>
+<span class="sd">            `.json` . Recordar que la ruta debe contener esta estructura:</span>
+<span class="sd">            `{NOMBRE_CONTENEDOR}/{RUTA}/{nombre o patron}.json`.</span>
+<span class="sd">        **kwargs: argumentos a pasar a pd.read_json.</span>
+
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Dataframe con la informacion del la ruta.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="s1">&#39;storage_options&#39;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+        <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;storage_options&#39;</span><span class="p">)</span>
+
+    <span class="bp">self</span><span class="o">.</span><span class="n">_verificar_extension</span><span class="p">(</span><span class="n">ruta</span><span class="p">,</span> <span class="s1">&#39;.json&#39;</span><span class="p">)</span>
+
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_json</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;az://</span><span class="si">{</span><span class="n">ruta</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">storage_options</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">storage_options</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">df</span>
+</code></pre></div></td></tr></table></div>
+      </details>
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="azure_datalake_utils.azure_datalake_utils.Datalake.read_parquet" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">read_parquet</span><span class="p">(</span><span class="n">ruta</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></code>
+
+<a href="#azure_datalake_utils.azure_datalake_utils.Datalake.read_parquet" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Leer un archivo parquet desde la cuenta de datalake.</p>
+<p>Esta función hace una envoltura de [pd.read_parquet].
+Por favor usar la documentación de la función para determinar parametros adicionales.</p>
+<p>[[pd.read_parquet]]:(https://pandas.pydata.org/pandas-docs/version/1.5/reference/api/pandas.read_parquet.html)</p>
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>ruta</code></td>
+          <td>
+                <code>str</code>
+          </td>
+          <td><p>Ruta a leeder el archivo, debe contener una referencia a un archivo
+<code>.json</code> . Recordar que la ruta debe contener esta estructura:
+<code>{NOMBRE_CONTENEDOR}/{RUTA}/{nombre o patron}.json</code>.</p></td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+        <tr>
+          <td><code>**kwargs</code></td>
+          <td>
+                <code><span title="typing.Optional">Optional</span>[<span title="typing.Any">Any</span>]</code>
+          </td>
+          <td><p>argumentos a pasar a pd.read_parquet.</p></td>
+          <td>
+                <code>{}</code>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  <p><strong>Returns:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td>
+                <code><span title="pandas">pd</span>.<span title="pandas.DataFrame">DataFrame</span></code>
+          </td>
+          <td><p>dataframe con la ruta</p></td>
+        </tr>
+    </tbody>
+  </table>
+
+      <details class="quote">
+        <summary>Source code in <code>azure_datalake_utils/azure_datalake_utils.py</code></summary>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">185</span>
+<span class="normal">186</span>
+<span class="normal">187</span>
+<span class="normal">188</span>
+<span class="normal">189</span>
+<span class="normal">190</span>
+<span class="normal">191</span>
+<span class="normal">192</span>
+<span class="normal">193</span>
+<span class="normal">194</span>
+<span class="normal">195</span>
+<span class="normal">196</span>
+<span class="normal">197</span>
+<span class="normal">198</span>
+<span class="normal">199</span>
+<span class="normal">200</span>
+<span class="normal">201</span>
+<span class="normal">202</span>
+<span class="normal">203</span>
+<span class="normal">204</span>
+<span class="normal">205</span>
+<span class="normal">206</span>
+<span class="normal">207</span>
+<span class="normal">208</span>
+<span class="normal">209</span>
+<span class="normal">210</span>
+<span class="normal">211</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@raiseArchivoNoEncontrado</span>
+<span class="k">def</span> <span class="nf">read_parquet</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ruta</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Leer un archivo parquet desde la cuenta de datalake.</span>
+
+<span class="sd">    Esta función hace una envoltura de [pd.read_parquet].</span>
+<span class="sd">    Por favor usar la documentación de la función para determinar parametros adicionales.</span>
+
+<span class="sd">    [[pd.read_parquet]]:(https://pandas.pydata.org/pandas-docs/version/1.5/reference/api/pandas.read_parquet.html)</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        ruta: Ruta a leeder el archivo, debe contener una referencia a un archivo</span>
+<span class="sd">            `.json` . Recordar que la ruta debe contener esta estructura:</span>
+<span class="sd">            `{NOMBRE_CONTENEDOR}/{RUTA}/{nombre o patron}.json`.</span>
+<span class="sd">        **kwargs: argumentos a pasar a pd.read_parquet.</span>
+
+
+<span class="sd">    Returns:</span>
+<span class="sd">        dataframe con la ruta</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="s1">&#39;storage_options&#39;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+        <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;storage_options&#39;</span><span class="p">)</span>
+    <span class="c1"># TODO: quizas se util verificar que la carpeta contiene json.</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_es_carpeta</span><span class="p">(</span><span class="n">ruta</span><span class="p">)</span>
+
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_parquet</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;az://</span><span class="si">{</span><span class="n">ruta</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">storage_options</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">storage_options</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">df</span>
+</code></pre></div></td></tr></table></div>
+      </details>
   </div>
 
 </div>
@@ -1120,6 +2440,25 @@ Por favor usar la documentación de la función para determinar parametros adici
   
       <p>Escribir al archivo.</p>
 
+      <details class="quote">
+        <summary>Source code in <code>azure_datalake_utils/azure_datalake_utils.py</code></summary>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">280</span>
+<span class="normal">281</span>
+<span class="normal">282</span>
+<span class="normal">283</span>
+<span class="normal">284</span>
+<span class="normal">285</span>
+<span class="normal">286</span>
+<span class="normal">287</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">write_csv</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">ruta</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Escribir al archivo.&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_verificar_extension</span><span class="p">(</span><span class="n">ruta</span><span class="p">,</span> <span class="s1">&#39;.csv&#39;</span><span class="p">,</span> <span class="s1">&#39;.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;.tsv&#39;</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="n">ExtensionIncorrecta</span><span class="p">(</span><span class="n">ruta</span><span class="p">)</span>
+
+    <span class="n">sep</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;sep&#39;</span><span class="p">,</span> <span class="s1">&#39;,&#39;</span><span class="p">)</span>
+    <span class="n">df_to_write</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_limpiar_df_cols_str</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">sep</span><span class="p">)</span>
+    <span class="n">df_to_write</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;az://</span><span class="si">{</span><span class="n">ruta</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">storage_options</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">storage_options</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+      </details>
   </div>
 
 </div>
@@ -1138,6 +2477,19 @@ Por favor usar la documentación de la función para determinar parametros adici
   
       <p>Escribir al archivo al datalake.</p>
 
+      <details class="quote">
+        <summary>Source code in <code>azure_datalake_utils/azure_datalake_utils.py</code></summary>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">289</span>
+<span class="normal">290</span>
+<span class="normal">291</span>
+<span class="normal">292</span>
+<span class="normal">293</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">write_excel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">ruta</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Escribir al archivo al datalake.&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_verificar_extension</span><span class="p">(</span><span class="n">ruta</span><span class="p">,</span> <span class="s1">&#39;.xlsx&#39;</span><span class="p">,</span> <span class="s1">&#39;.xls&#39;</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="n">ExtensionIncorrecta</span><span class="p">(</span><span class="n">ruta</span><span class="p">)</span>
+    <span class="n">df</span><span class="o">.</span><span class="n">to_excel</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;az://</span><span class="si">{</span><span class="n">ruta</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">storage_options</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">storage_options</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+      </details>
   </div>
 
 </div>
@@ -1156,6 +2508,50 @@ Por favor usar la documentación de la función para determinar parametros adici
   
       <p>Escribir al archivo al datalake.</p>
 
+      <details class="quote">
+        <summary>Source code in <code>azure_datalake_utils/azure_datalake_utils.py</code></summary>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">295</span>
+<span class="normal">296</span>
+<span class="normal">297</span>
+<span class="normal">298</span>
+<span class="normal">299</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">write_json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">ruta</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Escribir al archivo al datalake.&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_verificar_extension</span><span class="p">(</span><span class="n">ruta</span><span class="p">,</span> <span class="s1">&#39;.json&#39;</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="n">ExtensionIncorrecta</span><span class="p">(</span><span class="n">ruta</span><span class="p">)</span>
+    <span class="n">df</span><span class="o">.</span><span class="n">to_json</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;az://</span><span class="si">{</span><span class="n">ruta</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">storage_options</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">storage_options</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+      </details>
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="azure_datalake_utils.azure_datalake_utils.Datalake.write_parquet" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">write_parquet</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">ruta</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></code>
+
+<a href="#azure_datalake_utils.azure_datalake_utils.Datalake.write_parquet" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Escribir al archivo al datalake.</p>
+
+      <details class="quote">
+        <summary>Source code in <code>azure_datalake_utils/azure_datalake_utils.py</code></summary>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">301</span>
+<span class="normal">302</span>
+<span class="normal">303</span>
+<span class="normal">304</span>
+<span class="normal">305</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">write_parquet</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">ruta</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Escribir al archivo al datalake.&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_es_carpeta</span><span class="p">(</span><span class="n">ruta</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="n">ExtensionIncorrecta</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">ruta</span><span class="si">}</span><span class="s2"> la ruta debe ser una carpeta para archivos parquet&quot;</span><span class="p">)</span>
+    <span class="n">df</span><span class="o">.</span><span class="n">to_parquet</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;az://</span><span class="si">{</span><span class="n">ruta</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">storage_options</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">storage_options</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+      </details>
   </div>
 
 </div>

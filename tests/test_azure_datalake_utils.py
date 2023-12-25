@@ -211,3 +211,19 @@ def test_read_csv_with_partition_should_return_df_read_from_partitions(
 
     assert read_mock.call_count == 2
     assert df['part'].to_list() == ['1', '1', '1', '2', '2', '2']
+
+
+@patch("azure_datalake_utils.azure_datalake_utils.pd.read_parquet")
+def test_read_parquet_should_return_dataframe(read_mock: Mock, dl_account: Datalake, test_df: pd.DataFrame):
+    """Test read_parquet."""
+    read_mock.return_value = test_df
+    df = dl_account.read_parquet("path/to/file/")
+    read_mock.assert_called_once()
+    pd.testing.assert_frame_equal(df, test_df)
+
+
+@patch("azure_datalake_utils.azure_datalake_utils.pd.read_csv", autospec=True)
+def test_read_parquet_should_raise_extension_incorrecta(read_mock: Mock, dl_account: Datalake):
+    """Test para verificar que la expecion es levantanda."""
+    with pytest.raises(ExtensionIncorrecta):
+        dl_account.read_parquet("path/to/file/arhivo.parquet")

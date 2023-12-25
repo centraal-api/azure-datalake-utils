@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.5.8 - 2023-12-25
+
+### Added
+
+- Lectura y escritura de archivos `parquet`.
+- Funcionalidad para crear url con sas token
+- Actualizacion de algunas versiones de libreria
+
+
 ## 0.5.7 - 2023-06-01
 
 ### Fixed

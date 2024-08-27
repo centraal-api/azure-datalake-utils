@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.5.10 - 2024-08-26
+
+### fixed
+
+- Tests de read_parquet
+
+
+
 ## 0.5.9 - 2024-08-26
 
 ### Changed

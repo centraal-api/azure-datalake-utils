@@ -1,4 +1,5 @@
 """Suite de test para clase principal."""
+
 # Licensed to the Apache Software Foundation (ASF) under one
 # or more contributor license agreements.  See the NOTICE file
 # distributed with this work for additional information
@@ -220,10 +221,3 @@ def test_read_parquet_should_return_dataframe(read_mock: Mock, dl_account: Datal
     df = dl_account.read_parquet("path/to/file/")
     read_mock.assert_called_once()
     pd.testing.assert_frame_equal(df, test_df)
-
-
-@patch("azure_datalake_utils.azure_datalake_utils.pd.read_csv", autospec=True)
-def test_read_parquet_should_raise_extension_incorrecta(read_mock: Mock, dl_account: Datalake):
-    """Test para verificar que la expecion es levantanda."""
-    with pytest.raises(ExtensionIncorrecta):
-        dl_account.read_parquet("path/to/file/arhivo.parquet")

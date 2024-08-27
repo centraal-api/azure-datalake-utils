@@ -1,4 +1,5 @@
 """Main module."""
+
 import platform
 import re
 from typing import Any, Dict, List, Optional, Union
@@ -203,9 +204,6 @@ class Datalake(object):
         """
         if 'storage_options' in kwargs:
             kwargs.pop('storage_options')
-        # TODO: quizas se util verificar que la carpeta contiene json.
-        self._es_carpeta(ruta)
-
         df = pd.read_parquet(f"az://{ruta}", storage_options=self.storage_options, **kwargs)
 
         return df
@@ -300,8 +298,6 @@ class Datalake(object):
 
     def write_parquet(self, df: pd.DataFrame, ruta, **kwargs: Optional[Any]) -> None:
         """Escribir al archivo al datalake."""
-        if not self._es_carpeta(ruta):
-            raise ExtensionIncorrecta(f"{ruta} la ruta debe ser una carpeta para archivos parquet")
         df.to_parquet(f"az://{ruta}", storage_options=self.storage_options, **kwargs)
 
     def generar_url_con_sas_token(

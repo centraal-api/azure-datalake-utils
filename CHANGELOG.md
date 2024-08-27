@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.5.9 - 2024-08-26
+
+### Changed
+
+- Lectura y escritura de archivos `parquet`, no forzan que sea una carpeta.
+
+
+
 ## 0.5.8 - 2023-12-25
 
 ### Added
